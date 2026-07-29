@@ -35,6 +35,80 @@ enum MCPTools {
             ],
         ],
         [
+            "name": "compare_to_design",
+            "description": """
+                Checks the screen currently running in the simulator against a design and returns the \
+                differences as numbers: position, size and wording per element, plus anything the design \
+                specifies that is not on screen.
+
+                PrismKit does not talk to Figma, Pencil or any other tool — you do. Read the node with \
+                whichever design MCP you have connected, then translate it into the `design` argument. \
+                That is why any design source works without PrismKit knowing about it.
+
+                Two things decide whether the result is trustworthy. First, set `match` on every node you \
+                can: it pairs the node with a `.measure()` group or an accessibilityIdentifier instead of \
+                guessing. Without it the tool falls back to identical text, then to geometric overlap, and \
+                marks those findings as warnings with `matchedBy` so you can tell them apart. Second, node \
+                frames must be relative to the design frame's top-left, in design points — the tool scales \
+                them onto the device by width and reports the factor it used.
+
+                A partial design is fine and expected: describe the components that matter. Elements on \
+                screen that no node claims are listed separately, not reported as defects.
+                """,
+            "inputSchema": [
+                "type": "object",
+                "properties": [
+                    "design": [
+                        "type": "object",
+                        "description": "The design to check against.",
+                        "properties": [
+                            "source": ["type": "string", "description": "Where it came from: 'figma', 'pencil', … Free-form, carried into the report."],
+                            "reference": ["type": "string", "description": "Node URL or id, so a finding can be traced back to the original."],
+                            "frame": [
+                                "type": "object",
+                                "description": "The design frame's own size in design points. Its width sets the scale onto the device.",
+                                "properties": [
+                                    "width": ["type": "number"],
+                                    "height": ["type": "number"],
+                                ],
+                                "required": ["width", "height"],
+                            ],
+                            "nodes": [
+                                "type": "array",
+                                "description": "The elements to check. Only id and frame are required per node.",
+                                "items": [
+                                    "type": "object",
+                                    "properties": [
+                                        "id": ["type": "string", "description": "Stable id in the source document."],
+                                        "name": ["type": "string", "description": "Readable name; also used for pairing when it matches a .measure() group or an accessibilityIdentifier."],
+                                        "match": ["type": "string", "description": "Explicit pairing: the measurement id, .measure() group, or accessibilityIdentifier this node is. Set it whenever you can."],
+                                        "frame": [
+                                            "type": "object",
+                                            "description": "Relative to the design frame's top-left, in design points.",
+                                            "properties": [
+                                                "x": ["type": "number"],
+                                                "y": ["type": "number"],
+                                                "width": ["type": "number"],
+                                                "height": ["type": "number"],
+                                            ],
+                                            "required": ["x", "y", "width", "height"],
+                                        ],
+                                        "text": ["type": "string", "description": "The copy this node renders, if any."],
+                                    ],
+                                    "required": ["id", "frame"],
+                                ],
+                            ],
+                        ],
+                        "required": ["frame", "nodes"],
+                    ],
+                    "tolerance": ["type": "number", "description": "Differences at or below this many points are not reported (default 1). Scaling introduces sub-point error, so 0 reports noise."],
+                    "compare_text": ["type": "boolean", "description": "Whether wording is compared (default true). Turn it off against real data, where the design says '$0.00' and the app correctly says '$1,234.56'."],
+                    "minimum_overlap": ["type": "number", "description": "How much two frames must overlap (0–1) for the geometric fallback to pair them (default 0.5). Below it the node is reported missing, naming the closest rejected element."],
+                ],
+                "required": ["design"],
+            ],
+        ],
+        [
             "name": "list_simulators",
             "description": "Lists booted iOS simulators (name, UDID, runtime) available for launching and screenshotting.",
             "inputSchema": ["type": "object", "properties": [String: Any]()],
@@ -79,6 +153,36 @@ enum MCPTools {
                 tolerance: CGFloat(tolerance)
             )
             return text(encodable(report))
+        case "compare_to_design":
+            guard let snapshot else { return noSnapshot(listenFailure) }
+            guard let raw = arguments["design"] else {
+                return error("Missing \"design\". Pass the design as { \"frame\": {\"width\": …, \"height\": …}, \"nodes\": [{ \"id\": …, \"frame\": {\"x\": …, \"y\": …, \"width\": …, \"height\": …} }] }.")
+            }
+            let spec: DesignSpec
+            do {
+                let data = try JSONSerialization.data(withJSONObject: raw)
+                spec = try JSONDecoder().decode(DesignSpec.self, from: data)
+            } catch {
+                return self.error("Could not read \"design\": \(error.localizedDescription). Node frames must be relative to the design frame's top-left, and each node needs an id and a frame.")
+            }
+            guard !spec.nodes.isEmpty else {
+                return error("\"design\" has no nodes to check.")
+            }
+            var options = DesignComparisonOptions.default
+            if let tolerance = (arguments["tolerance"] as? NSNumber)?.doubleValue {
+                options.tolerance = CGFloat(tolerance)
+            }
+            if let comparesText = arguments["compare_text"] as? Bool {
+                options.comparesText = comparesText
+            }
+            if let minimumOverlap = (arguments["minimum_overlap"] as? NSNumber)?.doubleValue {
+                options.minimumOverlap = CGFloat(minimumOverlap)
+            }
+            return text(
+                encodable(
+                    DesignComparator.compare(design: spec, snapshot: snapshot, options: options)
+                )
+            )
         case "list_simulators":
             return text(listSimulators())
         case "capture_screenshot":
