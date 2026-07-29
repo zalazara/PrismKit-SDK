@@ -14,7 +14,7 @@ Existing tools compare *images* and tell you something changed. PrismKit measure
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/zalazara/PrismKit.git", from: "1.0.0")
+    .package(url: "https://github.com/zalazara/PrismKit-SDK.git", from: "0.1.0")
 ]
 ```
 
