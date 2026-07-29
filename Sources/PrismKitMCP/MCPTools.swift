@@ -35,6 +35,32 @@ enum MCPTools {
             ],
         ],
         [
+            "name": "attach_design",
+            "description": """
+                Keeps a design attached to the session, so `compare_to_design` can be called repeatedly \
+                without resending it while you navigate and fix things.
+
+                The attachment is also what the Prism Inspector app reads: attach here and the person at \
+                the Mac sees the same design drawn over the live screen, with the differences marked. The \
+                server and the app cannot run at once (both use port 9294), so this is how the two halves \
+                of the workflow meet.
+
+                Takes the same `design` shape as `compare_to_design`.
+                """,
+            "inputSchema": [
+                "type": "object",
+                "properties": [
+                    "design": ["type": "object", "description": "The design to attach; same shape as compare_to_design's design argument."],
+                ],
+                "required": ["design"],
+            ],
+        ],
+        [
+            "name": "detach_design",
+            "description": "Forgets the attached design. The companion stops drawing it too.",
+            "inputSchema": ["type": "object", "properties": [String: Any]()],
+        ],
+        [
             "name": "compare_to_design",
             "description": """
                 Checks the screen currently running in the simulator against a design and returns the \
@@ -153,17 +179,47 @@ enum MCPTools {
                 tolerance: CGFloat(tolerance)
             )
             return text(encodable(report))
+        case "attach_design":
+            guard let raw = arguments["design"] else {
+                return error("Missing \"design\".")
+            }
+            do {
+                let spec = try decodeSpec(raw)
+                guard !spec.nodes.isEmpty else { return error("\"design\" has no nodes.") }
+                let attachment = AttachedDesignStore.Attachment(
+                    design: spec,
+                    attachedAt: Date().timeIntervalSince1970
+                )
+                guard AttachedDesignStore.save(attachment) else {
+                    return error("Could not write the attachment to \(AttachedDesignStore.url.path).")
+                }
+                return text(
+                    json([
+                        "attached": true,
+                        "nodes": spec.nodes.count,
+                        "source": spec.source ?? "",
+                        "note": "Prism Inspector will draw this over the live screen when it is running.",
+                    ])
+                )
+            } catch {
+                return self.error(specError(error))
+            }
+        case "detach_design":
+            AttachedDesignStore.clear()
+            return text(json(["attached": false]))
         case "compare_to_design":
             guard let snapshot else { return noSnapshot(listenFailure) }
-            guard let raw = arguments["design"] else {
-                return error("Missing \"design\". Pass the design as { \"frame\": {\"width\": …, \"height\": …}, \"nodes\": [{ \"id\": …, \"frame\": {\"x\": …, \"y\": …, \"width\": …, \"height\": …} }] }.")
-            }
             let spec: DesignSpec
-            do {
-                let data = try JSONSerialization.data(withJSONObject: raw)
-                spec = try JSONDecoder().decode(DesignSpec.self, from: data)
-            } catch {
-                return self.error("Could not read \"design\": \(error.localizedDescription). Node frames must be relative to the design frame's top-left, and each node needs an id and a frame.")
+            if let raw = arguments["design"] {
+                do {
+                    spec = try decodeSpec(raw)
+                } catch {
+                    return self.error(specError(error))
+                }
+            } else if let attached = AttachedDesignStore.load()?.design {
+                spec = attached
+            } else {
+                return error("No design given and none attached. Pass \"design\", or call attach_design first.")
             }
             guard !spec.nodes.isEmpty else {
                 return error("\"design\" has no nodes to check.")
@@ -190,6 +246,17 @@ enum MCPTools {
         default:
             return error("Unknown tool: \(name)")
         }
+    }
+
+    // MARK: - Design specs
+
+    private static func decodeSpec(_ raw: Any) throws -> DesignSpec {
+        let data = try JSONSerialization.data(withJSONObject: raw)
+        return try JSONDecoder().decode(DesignSpec.self, from: data)
+    }
+
+    private static func specError(_ error: Error) -> String {
+        "Could not read \"design\": \(error.localizedDescription). Each node needs an id and a frame, and node frames must be relative to the design frame's top-left."
     }
 
     // MARK: - Payloads

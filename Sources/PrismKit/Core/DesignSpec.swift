@@ -68,6 +68,10 @@ public struct DesignRect: Codable, Equatable, Sendable {
         self.height = height
     }
 
+    public init(_ rect: CGRect) {
+        self.init(x: rect.minX, y: rect.minY, width: rect.width, height: rect.height)
+    }
+
     public var cgRect: CGRect {
         CGRect(x: x, y: y, width: width, height: height)
     }

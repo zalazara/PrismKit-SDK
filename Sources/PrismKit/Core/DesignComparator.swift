@@ -77,6 +77,10 @@ public struct DesignFinding: Codable, Equatable, Sendable {
     public let delta: CGFloat?
     public let matchedBy: MatchBasis
     public let message: String
+    /// Where the design puts this node, in screen points. Present so a tool
+    /// can draw the intended position — for a missing element that ghost is
+    /// the whole story.
+    public let expectedFrame: DesignRect?
 }
 
 /// A design node paired with the element it was matched to.
@@ -86,6 +90,10 @@ public struct DesignMatch: Codable, Equatable, Sendable {
     public let matchedBy: DesignFinding.MatchBasis
     /// Intersection-over-union of the two frames, for geometric pairs.
     public let overlap: CGFloat?
+    /// Both frames in screen points, so a canvas can draw the design's
+    /// intent next to what actually rendered without recomputing the scale.
+    public let expectedFrame: DesignRect
+    public let actualFrame: DesignRect
 }
 
 /// The result of checking a screen against a design.
@@ -144,7 +152,8 @@ public enum DesignComparator {
                             candidates: candidates,
                             claimed: Set(pairing.byNodeID.values.map(\.index)),
                             factor: factor
-                        )
+                        ),
+                        factor: factor
                     )
                 )
                 continue
@@ -171,7 +180,9 @@ public enum DesignComparator {
                     designNode: node.label,
                     elementID: candidates[match.index].id,
                     matchedBy: match.basis,
-                    overlap: match.overlap
+                    overlap: match.overlap,
+                    expectedFrame: DesignRect(expectedFrame(node, factor: factor)),
+                    actualFrame: DesignRect(candidates[match.index].frame)
                 )
             },
             findings: sorted(findings),
@@ -384,7 +395,8 @@ public enum DesignComparator {
                     actualText: nil,
                     delta: rounded(delta),
                     matchedBy: basis,
-                    message: "\(node.label): \(property) is \(format(actualValue)) pt, design says \(format(expectedValue)) pt (\(signed(delta)) pt)."
+                    message: "\(node.label): \(property) is \(format(actualValue)) pt, design says \(format(expectedValue)) pt (\(signed(delta)) pt).",
+                    expectedFrame: DesignRect(expected)
                 )
             )
         }
@@ -406,7 +418,8 @@ public enum DesignComparator {
                     actualText: actualText,
                     delta: nil,
                     matchedBy: basis,
-                    message: "\(node.label): reads \"\(actualText)\", design says \"\(expectedText)\"."
+                    message: "\(node.label): reads \"\(actualText)\", design says \"\(expectedText)\".",
+                    expectedFrame: DesignRect(expected)
                 )
             )
         }
@@ -435,7 +448,8 @@ public enum DesignComparator {
 
     private static func missing(
         _ node: DesignNode,
-        nearest: (id: String, overlap: CGFloat)?
+        nearest: (id: String, overlap: CGFloat)?,
+        factor: CGFloat
     ) -> DesignFinding {
         var message = "\(node.label) is in the design but nothing on screen matched it."
         if let nearest {
@@ -454,7 +468,8 @@ public enum DesignComparator {
             actualText: nil,
             delta: nil,
             matchedBy: .unmatched,
-            message: message
+            message: message,
+            expectedFrame: DesignRect(expectedFrame(node, factor: factor))
         )
     }
 
