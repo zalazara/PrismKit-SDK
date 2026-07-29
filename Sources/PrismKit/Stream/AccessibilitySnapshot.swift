@@ -82,7 +82,10 @@ public struct AccessibilityTreeNode: Codable, Equatable, Sendable {
     }
 }
 
-#if canImport(UIKit)
+// The collector reads accessibility labels and values, which include text the
+// user typed into fields, so it is debug-only. The types above stay compiled
+// everywhere: the companion and the MCP server decode them.
+#if DEBUG && canImport(UIKit)
 /// Walks the app's own accessibility tree — the same public protocol
 /// VoiceOver uses — collecting the elements in approximate reading order,
 /// plus the container hierarchy they live in (for the Xcode-style tree).

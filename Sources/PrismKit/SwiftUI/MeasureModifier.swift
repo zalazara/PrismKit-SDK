@@ -16,6 +16,10 @@ extension View {
     ///     .measure("primaryButton", role: .container)
     /// ```
     ///
+    /// Debug builds only. In a release build this modifier compiles down to
+    /// the view itself — it never reports, and never applies a size override.
+    /// See ``PrismKit/isEnabled``.
+    ///
     /// - Parameters:
     ///   - group: The logical component identifier this measurement belongs to.
     ///   - role: The semantic role of the measured area. Defaults to `.container`.
@@ -25,9 +29,15 @@ extension View {
         role: MeasurementRole = .container,
         metadata: [String: String] = [:]
     ) -> some View {
+        #if DEBUG
         modifier(MeasureModifier(group: group, role: role, metadata: metadata))
+        #else
+        self
+        #endif
     }
 }
+
+#if DEBUG
 
 private struct MeasureModifier: ViewModifier {
     @Environment(\.measureScopeIsEnabled) private var isEnabled
@@ -83,3 +93,5 @@ private struct MeasureModifier: ViewModifier {
         }
     }
 }
+
+#endif

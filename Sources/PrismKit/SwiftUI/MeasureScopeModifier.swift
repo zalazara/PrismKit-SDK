@@ -38,7 +38,9 @@ extension View {
     /// the simulator's loopback interface. Without a companion listening this
     /// is a silent no-op.
     ///
-    /// Intended for debug builds and SwiftUI previews only.
+    /// Debug builds only. In a release build this modifier compiles down to
+    /// the view itself: nothing is collected, no accessibility walk runs, and
+    /// no socket is opened. See ``PrismKit/isEnabled``.
     ///
     /// - Parameters:
     ///   - enabled: Whether measurement collection and the overlay are active.
@@ -57,6 +59,7 @@ extension View {
         toolbar: MeasureToolbarVisibility = .automatic,
         streaming: Bool = true
     ) -> some View {
+        #if DEBUG
         modifier(
             MeasureScopeModifier(
                 isEnabled: enabled,
@@ -66,8 +69,13 @@ extension View {
                 isStreamingEnabled: streaming
             )
         )
+        #else
+        self
+        #endif
     }
 }
+
+#if DEBUG
 
 /// Caches the accessibility tree between streams: the walk touches every view
 /// on screen, so doing it per layout change (60/s during a scroll) burns CPU
@@ -290,3 +298,5 @@ private struct MeasureScopeModifier: ViewModifier {
         .padding(12)
     }
 }
+
+#endif

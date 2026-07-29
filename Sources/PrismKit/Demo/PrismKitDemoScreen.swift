@@ -1,5 +1,9 @@
 import SwiftUI
 
+// Sample UI: useful while developing against PrismKit, dead weight in a
+// shipping binary.
+#if DEBUG
+
 /// A demo screen proving the measurement workflow end to end: a title, a card,
 /// a button, a list row, and nested padding — all instrumented, with bounds,
 /// size labels, internal padding, grid, safe area, and token validation.
@@ -128,3 +132,5 @@ struct PrismKitDemoScreen_Previews: PreviewProvider {
         .previewDisplayName("Bounds and padding only")
     }
 }
+
+#endif

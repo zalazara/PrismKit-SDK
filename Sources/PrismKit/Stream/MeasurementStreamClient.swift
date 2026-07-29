@@ -1,13 +1,21 @@
 import Combine
 import Foundation
+#if DEBUG
 import Network
+#endif
 
 /// Observable companion-connection state, driving the in-app toolbar's
 /// `.automatic` visibility: the toolbar shows on device (no companion) and
 /// steps aside while a companion is receiving.
+///
+/// In release builds nothing ever connects, so this stays `false`.
 public final class StreamClientState: ObservableObject {
     @Published public fileprivate(set) var isCompanionConnected = false
 }
+
+// Everything below opens a socket and transmits what is on screen, so it is
+// debug-only: release builds carry no networking code at all.
+#if DEBUG
 
 /// Streams measurement snapshots to a PrismKit companion listening on the
 /// host's loopback interface (the iOS Simulator shares it with the Mac).
@@ -176,3 +184,5 @@ final class MeasurementStreamClient {
         }
     }
 }
+
+#endif
