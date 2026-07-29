@@ -35,6 +35,40 @@ enum MCPTools {
             ],
         ],
         [
+            "name": "get_design_tokens",
+            "description": """
+                The spacing scale every judgement in this server uses — off-token paddings and gaps in \
+                get_measurements and check_alignment are measured against it. Also reports where it came \
+                from: a .prismkit.json in the project, this Mac's settings, or PrismKit's built-in scale. \
+                Check this before trusting an off-token warning: the built-in scale is a guess at a design \
+                system, not the team's.
+                """,
+            "inputSchema": ["type": "object", "properties": [String: Any]()],
+        ],
+        [
+            "name": "set_design_tokens",
+            "description": """
+                Sets the spacing scale used to judge paddings and gaps.
+
+                Pass `project_path` to write a `.prismkit.json` there: committed alongside the code, it \
+                makes the whole team, this server, the Prism Inspector app, and CI judge spacing by the \
+                same numbers. Without it the scale is saved for this Mac only.
+                """,
+            "inputSchema": [
+                "type": "object",
+                "properties": [
+                    "spacing_tokens": [
+                        "type": "array",
+                        "items": ["type": "number"],
+                        "description": "Valid spacing values in points, e.g. [4, 8, 12, 16, 24, 32].",
+                    ],
+                    "grid_size": ["type": "number", "description": "Alignment grid cell size in points (default 8)."],
+                    "project_path": ["type": "string", "description": "Directory to write .prismkit.json into, so the scale is versioned with the code."],
+                ],
+                "required": ["spacing_tokens"],
+            ],
+        ],
+        [
             "name": "attach_design",
             "description": """
                 Keeps a design attached to the session, so `compare_to_design` can be called repeatedly \
@@ -160,7 +194,7 @@ enum MCPTools {
         switch name {
         case "get_measurements":
             guard let snapshot else { return noSnapshot(listenFailure) }
-            return text(json(measurementsPayload(snapshot)))
+            return text(json(measurementsPayload(snapshot, tokens: resolvedTokens().tokens)))
         case "measure_distance":
             guard let snapshot else { return noSnapshot(listenFailure) }
             let elements = snapshot.allMeasurements
@@ -174,11 +208,53 @@ enum MCPTools {
         case "check_alignment":
             guard let snapshot else { return noSnapshot(listenFailure) }
             let tolerance = (arguments["tolerance"] as? NSNumber)?.doubleValue ?? 2
+            let resolved = resolvedTokens()
             let report = AlignmentChecker.report(
                 measurements: snapshot.measurements,
+                configuration: resolved.tokens.applied(to: .default),
                 tolerance: CGFloat(tolerance)
             )
             return text(encodable(report))
+        case "get_design_tokens":
+            let resolved = resolvedTokens()
+            return text(
+                json([
+                    "spacingTokens": resolved.tokens.spacingTokens.map { Double($0) },
+                    "gridSize": Double(resolved.tokens.gridSize),
+                    "source": resolved.origin.describedForTooling,
+                    "isTeamScale": resolved.origin != .builtIn,
+                ])
+            )
+        case "set_design_tokens":
+            guard let raw = arguments["spacing_tokens"] as? [Any] else {
+                return error("Missing \"spacing_tokens\". Pass the scale in points, e.g. [4, 8, 12, 16, 24, 32].")
+            }
+            let values = raw.compactMap { ($0 as? NSNumber)?.doubleValue }.filter { $0 > 0 }
+            guard !values.isEmpty else {
+                return error("\"spacing_tokens\" has no positive numbers in it.")
+            }
+            var tokens = DesignTokens(spacingTokens: values.map { CGFloat($0) })
+            if let gridSize = (arguments["grid_size"] as? NSNumber)?.doubleValue, gridSize > 0 {
+                tokens.gridSize = CGFloat(gridSize)
+            }
+            var payload: [String: Any] = [
+                "spacingTokens": tokens.spacingTokens.map { Double($0) },
+                "gridSize": Double(tokens.gridSize),
+            ]
+            if let projectPath = arguments["project_path"] as? String, !projectPath.isEmpty {
+                guard let url = DesignTokensStore.writeProjectFile(tokens, in: projectPath) else {
+                    return error("Could not write \(DesignTokensStore.projectFileName) into \(projectPath).")
+                }
+                payload["writtenTo"] = url.path
+                payload["note"] = "Commit this file so the team, the app and CI share the scale."
+            } else {
+                guard DesignTokensStore.saveForMachine(tokens) else {
+                    return error("Could not save the tokens for this Mac.")
+                }
+                payload["writtenTo"] = DesignTokensStore.machineURL.path
+                payload["note"] = "Saved for this Mac only. Pass project_path to version it with the code."
+            }
+            return text(json(payload))
         case "attach_design":
             guard let raw = arguments["design"] else {
                 return error("Missing \"design\".")
@@ -248,6 +324,14 @@ enum MCPTools {
         }
     }
 
+    // MARK: - Design tokens
+
+    /// The scale every judgement in this server uses. Resolved per call so a
+    /// token file edited mid-session takes effect without a restart.
+    private static func resolvedTokens() -> DesignTokensStore.Resolved {
+        DesignTokensStore.resolve(projectDirectory: FileManager.default.currentDirectoryPath)
+    }
+
     // MARK: - Design specs
 
     private static func decodeSpec(_ raw: Any) throws -> DesignSpec {
@@ -261,7 +345,10 @@ enum MCPTools {
 
     // MARK: - Payloads
 
-    private static func measurementsPayload(_ snapshot: MeasurementSnapshot) -> [String: Any] {
+    private static func measurementsPayload(
+        _ snapshot: MeasurementSnapshot,
+        tokens: DesignTokens
+    ) -> [String: Any] {
         let groups = MeasurementGroup.groups(from: snapshot.measurements).map { group -> [String: Any] in
             var payload: [String: Any] = ["name": group.name]
             if let container = group.container {
@@ -269,10 +356,10 @@ enum MCPTools {
             }
             if let padding = group.contentPadding?.rounded() {
                 payload["internalPadding"] = [
-                    "top": paddingEdge(padding.top),
-                    "leading": paddingEdge(padding.leading),
-                    "bottom": paddingEdge(padding.bottom),
-                    "trailing": paddingEdge(padding.trailing),
+                    "top": paddingEdge(padding.top, tokens: tokens),
+                    "leading": paddingEdge(padding.leading, tokens: tokens),
+                    "bottom": paddingEdge(padding.bottom, tokens: tokens),
+                    "trailing": paddingEdge(padding.trailing, tokens: tokens),
                 ]
             }
             return payload
@@ -308,8 +395,8 @@ enum MCPTools {
         ]
     }
 
-    private static func paddingEdge(_ value: CGFloat) -> [String: Any] {
-        let validation = SpacingTokenValidator.validate(value, tokens: MeasureConfiguration.default.spacingTokens)
+    private static func paddingEdge(_ value: CGFloat, tokens: DesignTokens) -> [String: Any] {
+        let validation = SpacingTokenValidator.validate(value, tokens: tokens.spacingTokens)
         var payload: [String: Any] = ["points": Int(value), "isToken": validation.isValid]
         if let nearest = validation.nearestToken, !validation.isValid {
             payload["nearestToken"] = Int(nearest)
