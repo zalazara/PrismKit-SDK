@@ -1,17 +1,3 @@
-PrismKit — licensing scope
-==========================
-
-The MIT license below covers the Swift package in this repository: the
-`PrismKit` library (`Sources/PrismKit`), the `prismkit-mcp` server
-(`Sources/PrismKitMCP`), the tests (`Tests`), and the example app
-(`Example`). These are the parts you embed in your own app or run in your
-own toolchain, so they are permissively licensed.
-
-The macOS companion application under `Companion/` is NOT covered by this
-license. It is proprietary software — see `Companion/LICENSE`.
-
--------------------------------------------------------------------------
-
 MIT License
 
 Copyright (c) 2026 Alejandro Zalazar
