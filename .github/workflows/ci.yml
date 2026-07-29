@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Select Xcode
+        run: sudo xcode-select -switch /Applications/Xcode.app
+
+      - name: Test (debug)
+        run: swift test
+
+      # Not thoroughness for its own sake. ReleaseSafetyTests asserts that
+      # measureScope and measure compile down to nothing and that no socket
+      # code ships — a property that can only be checked by building the way
+      # a customer's release build does. Running only the debug suite would
+      # leave the one guarantee this package makes about privacy unverified.
+      - name: Test (release)
+        run: swift test -c release
+
+      - name: Build the MCP server
+        run: swift build -c release --product prismkit-mcp
