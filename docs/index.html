@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prism Inspector — measure SwiftUI layout while it runs</title>
+<meta name="description" content="A macOS app that inspects and measures a running SwiftUI app in the iOS Simulator: select elements, measure the space between them, and catch spacing that is off your design system.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📐</text></svg>">
+<style>
+  :root {
+    --bg: #0d1117;
+    --panel: #161b22;
+    --line: #262d36;
+    --ink: #e6edf3;
+    --muted: #9aa7b4;
+    --accent: #4a9eff;
+    --accent-ink: #ffffff;
+    --warn: #ff6b6b;
+    --radius: 12px;
+    --max: 1080px;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #ffffff;
+      --panel: #f6f8fa;
+      --line: #d9e0e8;
+      --ink: #10151c;
+      --muted: #5b6874;
+      --accent: #0a66d0;
+      --warn: #c02c2c;
+    }
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 24px; }
+  a { color: var(--accent); }
+
+  /* ---------------------------------------------------------- header --- */
+  header {
+    border-bottom: 1px solid var(--line);
+    position: sticky; top: 0;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: saturate(150%) blur(12px);
+    z-index: 10;
+  }
+  header .wrap {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px; height: 58px;
+  }
+  .brand { font-weight: 650; letter-spacing: -0.01em; }
+  .brand span { color: var(--muted); font-weight: 400; }
+  header nav { display: flex; gap: 20px; font-size: 14px; }
+  header nav a { color: var(--muted); text-decoration: none; }
+  header nav a:hover { color: var(--ink); }
+
+  /* ------------------------------------------------------------ hero --- */
+  .hero { padding: 72px 0 40px; text-align: center; }
+  h1 {
+    font-size: clamp(34px, 6vw, 54px);
+    line-height: 1.08; letter-spacing: -0.03em;
+    margin: 0 0 18px; font-weight: 680;
+  }
+  .lede {
+    font-size: clamp(17px, 2.2vw, 20px);
+    color: var(--muted); max-width: 660px; margin: 0 auto 32px;
+  }
+  .cta { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 12px 22px; border-radius: 10px;
+    font-size: 15px; font-weight: 560; text-decoration: none;
+    border: 1px solid transparent; white-space: nowrap;
+  }
+  .btn-primary { background: var(--accent); color: var(--accent-ink); }
+  .btn-primary:hover { filter: brightness(1.08); }
+  .btn-secondary { border-color: var(--line); color: var(--ink); }
+  .btn-secondary:hover { background: var(--panel); }
+  .btn[aria-disabled="true"] { opacity: 0.55; pointer-events: none; }
+  .req { margin-top: 16px; font-size: 13.5px; color: var(--muted); }
+
+  /* ------------------------------------------------------------ shot --- */
+  figure { margin: 44px 0 0; }
+  figure img {
+    width: 100%; height: auto; display: block;
+    border: 1px solid var(--line); border-radius: var(--radius);
+    box-shadow: 0 24px 60px rgba(0,0,0,.36);
+  }
+  @media (prefers-color-scheme: light) {
+    figure img { box-shadow: 0 18px 44px rgba(16,21,28,.14); }
+  }
+  figcaption {
+    margin-top: 14px; font-size: 13.5px; color: var(--muted); text-align: center;
+  }
+  figcaption b { color: var(--warn); font-weight: 600; }
+
+  /* -------------------------------------------------------- sections --- */
+  section { padding: 68px 0; border-top: 1px solid var(--line); margin-top: 68px; }
+  section:first-of-type { border-top: 0; }
+  h2 {
+    font-size: clamp(22px, 3vw, 28px); letter-spacing: -0.02em;
+    margin: 0 0 10px; font-weight: 640;
+  }
+  .sub { color: var(--muted); margin: 0 0 34px; max-width: 620px; }
+
+  .grid { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+  .card {
+    background: var(--panel); border: 1px solid var(--line);
+    border-radius: var(--radius); padding: 22px;
+  }
+  .card h3 { margin: 0 0 8px; font-size: 16px; font-weight: 600; }
+  .card p { margin: 0; color: var(--muted); font-size: 14.5px; }
+
+  pre {
+    background: var(--panel); border: 1px solid var(--line);
+    border-radius: var(--radius); padding: 18px 20px;
+    overflow-x: auto; font-size: 13.5px; line-height: 1.55;
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  }
+  code { font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace; font-size: 0.92em; }
+  p code, li code { background: var(--panel); border: 1px solid var(--line); border-radius: 5px; padding: 1px 5px; }
+
+  ul.plain { margin: 0; padding-left: 20px; color: var(--muted); }
+  ul.plain li { margin-bottom: 8px; }
+
+  footer {
+    border-top: 1px solid var(--line); margin-top: 68px;
+    padding: 34px 0 56px; color: var(--muted); font-size: 13.5px;
+  }
+  footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  footer a { color: var(--muted); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="brand">Prism Inspector <span>· PrismKit</span></div>
+    <nav>
+      <a href="#features">Features</a>
+      <a href="#sdk">SDK</a>
+      <a href="#agents">AI agents</a>
+      <a href="https://github.com/zalazara/PrismKit-SDK">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="hero">
+    <h1>Measure SwiftUI layout while it runs.</h1>
+    <p class="lede">
+      Prism Inspector reads a running app in the iOS Simulator and lets you work on it
+      the way you work in a design tool: click an element to inspect it, ⌥-click a second
+      one to measure the space between them, and see immediately when that space is not
+      on your design system's scale.
+    </p>
+    <div class="cta">
+      <!-- Filled in from latest.json so the page can never advertise a build
+           that was never published. -->
+      <a class="btn btn-primary" id="download"
+         href="https://github.com/zalazara/PrismKit-SDK/releases"
+         aria-disabled="true">Checking for the latest build…</a>
+      <a class="btn btn-secondary" href="#sdk">Add the SDK</a>
+    </div>
+    <p class="req" id="req">macOS 13 or later · Free · Signed with Developer ID and notarized by Apple</p>
+  </div>
+
+  <figure>
+    <img src="screenshot.png" width="1800" height="1132"
+         alt="Prism Inspector showing an iOS Simulator screen. Two product rows are selected and the 42-point gap between them is flagged in red, with the inspector reporting 42→40.">
+    <figcaption>
+      Two rows selected, the gap measured at 42 pt — and flagged <b>42→40</b>,
+      because 42 is not on this project's spacing scale.
+    </figcaption>
+  </figure>
+
+  <section id="features">
+    <h2>What it does</h2>
+    <p class="sub">
+      Everything works against the live simulator, so what you measure is what the app
+      actually rendered — not a guess from a screenshot.
+    </p>
+    <div class="grid">
+      <div class="card">
+        <h3>Measure like Figma</h3>
+        <p>Click to select, ⌥-click to measure. Per-axis gaps between two elements, or the four
+        insets when one contains the other. Distances in points, never pixels counted by eye.</p>
+      </div>
+      <div class="card">
+        <h3>Design-system checks</h3>
+        <p>Paddings and gaps are flagged when they fall off your spacing scale, with the nearest
+        token as the hint. The scale lives in a <code>.prismkit.json</code> you commit, so the
+        app, the MCP server and your team all judge by the same numbers.</p>
+      </div>
+      <div class="card">
+        <h3>No instrumentation required</h3>
+        <p>Point it at a running app and inspect the view tree straight away. Adding the SDK is
+        optional — it upgrades the readings from class names to the semantic component names
+        you chose.</p>
+      </div>
+      <div class="card">
+        <h3>Compare against a design</h3>
+        <p>Attach a design spec and get a per-node report: what moved, what is the wrong size,
+        what is missing. Or put a mockup beside the app, overlay it, or wipe between the two.</p>
+      </div>
+      <div class="card">
+        <h3>Accessibility reader</h3>
+        <p>Play back what VoiceOver would announce, in order, with each element highlighted as it
+        is read — so an unlabelled button is something you hear, not something you audit for.</p>
+      </div>
+      <div class="card">
+        <h3>Rulers, guides, export</h3>
+        <p>Drag out guides, toggle grid and safe-area layers, export the canvas exactly as you
+        see it, or save a session and review it later with no simulator running.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="sdk">
+    <h2>The SDK is optional — and open</h2>
+    <p class="sub">
+      PrismKit is the Swift package you add to your app when you want measurements named after
+      your components instead of after UIKit's internals.
+    </p>
+
+<pre><code>dependencies: [
+    .package(url: "https://github.com/zalazara/PrismKit-SDK.git", from: "0.2.0")
+]</code></pre>
+
+<pre><code>ProductRow(item: item)
+    .measure("productRow", role: .container)</code></pre>
+
+    <ul class="plain">
+      <li>MIT licensed, and the source is right here in this repository.</li>
+      <li>Compiled out of release builds: the measurement code, the accessibility walk and the
+      network client all sit behind <code>#if DEBUG</code>, so nothing ships to the App Store and
+      no user data ever leaves a device.</li>
+      <li>Works in Xcode previews as well as in the simulator.</li>
+    </ul>
+  </section>
+
+  <section id="agents">
+    <h2>Built for AI agents too</h2>
+    <p class="sub">
+      Prism Inspector ships an MCP server inside the app bundle, so an agent can read the same
+      measurements you see and report what does not match the design.
+    </p>
+    <ul class="plain">
+      <li><code>get_measurements</code>, <code>measure_distance</code>, <code>check_alignment</code>
+      — the numbers, straight from the running screen.</li>
+      <li><code>attach_design</code>, <code>compare_to_design</code> — hand it a design and get the
+      differences back as structured findings rather than prose.</li>
+      <li><code>get_design_tokens</code>, <code>set_design_tokens</code> — the same spacing scale the
+      app judges by.</li>
+      <li><code>list_simulators</code>, <code>capture_screenshot</code> — for driving the simulator.</li>
+    </ul>
+    <p class="sub" style="margin-top:24px">
+      The app's Settings ▸ AI agents pane shows the exact JSON to paste into your MCP client,
+      with the bundled server's path already filled in.
+    </p>
+  </section>
+
+</div>
+
+<footer>
+  <div class="wrap">
+    <div>© 2026 Alejandro Zalazar · SDK under the MIT license</div>
+    <div>
+      <a href="https://github.com/zalazara/PrismKit-SDK">Source</a> ·
+      <a href="https://github.com/zalazara/PrismKit-SDK/releases">Releases</a> ·
+      <a href="appcast.xml">Update feed</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// The download button is filled in from the file the release workflow writes,
+// so there is exactly one source of truth for "what is the current version".
+// Hard-coding it here would drift the first time a release goes out.
+(function () {
+  var link = document.getElementById('download');
+  var req = document.getElementById('req');
+
+  fetch('latest.json', { cache: 'no-cache' })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (data) {
+      if (!data || !data.version || !data.dmg) {
+        link.textContent = 'No public build yet';
+        link.href = 'https://github.com/zalazara/PrismKit-SDK/releases';
+        link.removeAttribute('aria-disabled');
+        req.textContent = 'The first release is not out yet. Watch the repository to hear about it.';
+        return;
+      }
+      link.textContent = 'Download ' + data.version + ' for macOS';
+      link.href = data.dmg;
+      link.removeAttribute('aria-disabled');
+    })
+    .catch(function () {
+      // Offline, or the file is missing: the Releases page still works.
+      link.textContent = 'Download for macOS';
+      link.removeAttribute('aria-disabled');
+    });
+})();
+</script>
+
+</body>
+</html>

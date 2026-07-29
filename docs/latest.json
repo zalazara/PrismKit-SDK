@@ -1,0 +1,6 @@
+{
+  "version": null,
+  "dmg": null,
+  "released": null,
+  "_comment": "Written by the release workflow. `version: null` means nothing has been published yet, and the download button on the landing page says so instead of pointing at a URL that 404s."
+}

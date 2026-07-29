@@ -2,7 +2,7 @@
 
 SwiftUI layout measurement for design QA — and for AI agents that check a screen against a design.
 
-PrismKit makes SwiftUI layout measurable at runtime: component bounds, sizes, internal padding, external spacing, safe-area guides, grid alignment, and design-system spacing-token validation. It ships with an MCP server, so an agent can read those same measurements and report what does not match the design.
+PrismKit makes SwiftUI layout measurable at runtime: component bounds, sizes, internal padding, external spacing, safe-area guides, grid alignment, and design-system spacing-token validation. Its companion app, [Prism Inspector](https://zalazara.github.io/PrismKit-SDK/), reads those measurements on a Mac and exposes them over MCP, so an agent can report what does not match the design.
 
 ## The problem
 
@@ -96,9 +96,9 @@ exactly why it is readable.
 
 ## Prism Inspector — the macOS companion
 
-Measurements can stream to **Prism Inspector**, a free macOS app that inspects them without any overlay covering the simulator: a view tree, a Figma-style canvas with click-to-select and distance measuring, an inspector, saved sessions, and a design check that draws where each element should be against where it rendered.
+Measurements can stream to **[Prism Inspector](https://zalazara.github.io/PrismKit-SDK/)**, a free macOS app that inspects them without any overlay covering the simulator: a view tree, a Figma-style canvas with click-to-select and distance measuring, an inspector, saved sessions, and a design check that draws where each element should be against where it rendered.
 
-It also ships an MCP server, so an AI agent can read the same measurements and report what does not match a design — reading the node from whichever design tool it has connected, since the comparison takes a neutral description rather than talking to any one of them.
+The app bundles an MCP server, so an AI agent can read the same measurements and report what does not match a design — reading the node from whichever design tool it has connected, since the comparison takes a neutral description rather than talking to any one of them. The server and the comparison engine live with the app, not in this package: nothing here is macOS tooling, and everything here has to be readable by anyone deciding whether to embed it.
 
 Streaming is on by default in `measureScope` and is a silent no-op when nothing is listening, so leaving it enabled costs nothing. PrismKit works fully without the app.
 

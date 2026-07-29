@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  The Sparkle update feed for Prism Inspector.
+
+  Released copies of the app poll this exact URL forever, so it must keep
+  working even before the first release exists: an empty channel makes Sparkle
+  answer "you are up to date", whereas a 404 makes it show an error dialog.
+
+  The release workflow rewrites this file, signing each entry with the EdDSA
+  key. Do not edit it by hand — an unsigned or wrongly signed entry is refused
+  by every installed copy.
+-->
+<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle">
+  <channel>
+    <title>Prism Inspector</title>
+    <link>https://zalazara.github.io/PrismKit-SDK/appcast.xml</link>
+    <description>Updates for Prism Inspector, the macOS companion for PrismKit.</description>
+    <language>en</language>
+  </channel>
+</rss>
