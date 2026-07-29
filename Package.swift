@@ -9,17 +9,11 @@ let package = Package(
     ],
     products: [
         .library(name: "PrismKit", targets: ["PrismKit"]),
-        .executable(name: "prismkit-mcp", targets: ["PrismKitMCP"]),
     ],
     targets: [
         .target(
             name: "PrismKit",
             path: "Sources/PrismKit"
-        ),
-        .executableTarget(
-            name: "PrismKitMCP",
-            dependencies: ["PrismKit"],
-            path: "Sources/PrismKitMCP"
         ),
         .testTarget(
             name: "PrismKitTests",

@@ -14,7 +14,7 @@ Existing tools compare *images* and tell you something changed. PrismKit measure
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/zalazara/PrismKit-SDK.git", from: "0.1.0")
+    .package(url: "https://github.com/zalazara/PrismKit-SDK.git", from: "0.2.0")
 ]
 ```
 
@@ -83,76 +83,24 @@ Put these inside your design-system components rather than writing them per scre
 
 Padding and spacing are checked against `spacingTokens`: valid values render green, invalid ones red with the nearest token, e.g. `13→12`.
 
-## MCP server — checking screens with an agent
+## What this package is, and is not
 
-`prismkit-mcp` is a Model Context Protocol server (stdio). Point an agent at it and it can measure the running screen and check it against a design.
+PrismKit is the measurement layer: it collects what is on screen and, in debug
+builds, reports it. It draws no conclusions.
 
-```json
-{
-  "mcpServers": {
-    "prismkit": {
-      "command": "/path/to/PrismKit/.build/release/prismkit-mcp"
-    }
-  }
-}
-```
-
-Build it once with `swift build -c release`; `swift run` also works but re-resolves the package on every launch, which an agent experiences as a slow server.
-
-### Tools
-
-- **`get_measurements`** — every measured element with frames in scope and screen coordinates, roles, per-component padding with token validation, plus elements derived from the accessibility tree with zero instrumentation.
-- **`measure_distance`** — gaps and edge/center deltas between two elements.
-- **`check_alignment`** — which edges align exactly, near-miss alignments within a tolerance, and paddings or gaps that are not on the spacing scale.
-- **`compare_to_design`** — checks the running screen against a design and returns the differences as numbers: position, size and wording per element, plus anything the design specifies that is not on screen.
-- **`attach_design` / `detach_design`** — keeps a design attached so `compare_to_design` can be called repeatedly while you navigate and fix.
-- **`get_design_tokens` / `set_design_tokens`** — the spacing scale every off-token judgement uses, and where it came from.
-- **`list_simulators` / `capture_screenshot`** — simulator discovery and PNG captures.
-
-### Any design source, not just one
-
-PrismKit does not talk to Figma, Pencil, or any other design tool — the agent does. It reads the node with whichever design MCP it has connected and translates it into a neutral `DesignSpec`:
-
-```json
-{
-  "source": "figma",
-  "frame": { "width": 390, "height": 844 },
-  "nodes": [
-    {
-      "id": "1:235",
-      "name": "primaryButton",
-      "match": "buyButton",
-      "frame": { "x": 24, "y": 700, "width": 342, "height": 52 },
-      "text": "Buy now"
-    }
-  ]
-}
-```
-
-Adding a design source therefore needs no code here, and PrismKit never handles anyone's credentials.
-
-**Pairing decides whether the result is trustworthy**, so it is reported. Nodes are paired by explicit identifier first, then by identical copy, then by geometric overlap — and findings carry which of those was used. A geometric pair is reported as a warning, never as a certainty, because a wrong pair produces a confident, well-formatted, invented defect.
-
-### A team's spacing scale
-
-Commit a `.prismkit.json` next to your code and the server, the app and CI all judge spacing by the same numbers:
-
-```json
-{
-  "spacingTokens": [4, 8, 12, 16, 24, 32],
-  "gridSize": 8
-}
-```
-
-It is found by walking up from the working directory. Without one, judgements fall back to PrismKit's built-in scale — which is a guess at a design system, not yours, and `get_design_tokens` says so.
+Judging those measurements — auditing alignment, checking a screen against a
+design, deciding what counts as an off-token spacing — happens in the tooling
+that consumes them, not here. That tooling is closed source, which costs
+nothing in trust: it never runs inside your app. This package does, which is
+exactly why it is readable.
 
 ## Prism Inspector — the macOS companion
 
-Measurements can also stream to **Prism Inspector**, a macOS app that inspects them on the Mac without any overlay covering the simulator: a view tree, a Figma-style canvas with click-to-select and distance measuring, an inspector, saved sessions, and the design check drawn over the live screen.
+Measurements can stream to **Prism Inspector**, a free macOS app that inspects them without any overlay covering the simulator: a view tree, a Figma-style canvas with click-to-select and distance measuring, an inspector, saved sessions, and a design check that draws where each element should be against where it rendered.
 
-Streaming is on by default in `measureScope` and is a silent no-op when nothing is listening, so leaving it enabled costs nothing.
+It also ships an MCP server, so an AI agent can read the same measurements and report what does not match a design — reading the node from whichever design tool it has connected, since the comparison takes a neutral description rather than talking to any one of them.
 
-The companion is a separate, commercial product; PrismKit works fully without it.
+Streaming is on by default in `measureScope` and is a silent no-op when nothing is listening, so leaving it enabled costs nothing. PrismKit works fully without the app.
 
 ## Example app
 
