@@ -1,6 +1,14 @@
 import Combine
 import Foundation
+#if os(macOS)
 import Network
+#endif
+
+// The listening side of the protocol only ever runs on the Mac — the
+// companion and the MCP server. Compiling it for iOS linked a TCP listener
+// into every consumer app, which is dead code that still drags Network into
+// their App Store binary and invites questions from security review.
+#if os(macOS)
 
 /// Receives measurement snapshots from instrumented apps. Used by the
 /// PrismKit companion (or any custom tooling) on the Mac side.
@@ -128,3 +136,5 @@ public final class MeasurementStreamServer: ObservableObject {
         DispatchQueue.main.async { self.isReceiving = receiving }
     }
 }
+
+#endif
