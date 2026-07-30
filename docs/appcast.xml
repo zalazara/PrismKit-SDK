@@ -17,6 +17,24 @@
         <description>Updates for Prism Inspector, the macOS companion for PrismKit.</description>
         <language>en</language>
         <item>
+            <title>1.0.1</title>
+            <pubDate>Thu, 30 Jul 2026 02:59:57 +0000</pubDate>
+            <sparkle:version>29</sparkle:version>
+            <sparkle:shortVersionString>1.0.1</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
+            <description><![CDATA[<h3>Fixes</h3>
+<ul>
+  <li><strong>release:</strong> refuse to publish an unsigned or unreachable update (<code>f7d59f5</code>)</li>
+  <li><strong>release:</strong> build the embedded MCP server universal (<code>a29f09c</code>)</li>
+</ul>
+<h3>Other changes</h3>
+<ul>
+  <li>bring SPEC and TODO back in line with the product (<code>843b051</code>)</li>
+</ul>
+]]></description>
+            <enclosure url="https://github.com/zalazara/PrismKit-SDK/releases/download/app-v1.0.1/Prism-Inspector-1.0.1.zip" length="7991567" type="application/octet-stream" sparkle:edSignature="a+pNwcMlIHatYpF4Ztt0t24Xpr8fNcOKEGR2efN2JpnQ7i84zaiQcuIwTR6PkCmzSSOg0FGYG745aV/knRwcDA=="/>
+        </item>
+        <item>
             <title>1.0.0</title>
             <pubDate>Thu, 30 Jul 2026 00:42:13 +0000</pubDate>
             <sparkle:version>26</sparkle:version>
