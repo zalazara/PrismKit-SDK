@@ -1,5 +1,10 @@
 import SwiftUI
 
+// This app is built from `Example.pen`, and it deliberately drifts from it in
+// a handful of places so the design check has something true to find. Do not
+// "fix" a spacing value here because it looks off — check DESIGN-DEMO.md first,
+// which lists every intentional defect and the finding it should produce.
+
 // MARK: - Model
 
 struct Product: Identifiable, Hashable {
@@ -20,245 +25,268 @@ struct Product: Identifiable, Hashable {
         Product(slug: "camera", name: "Compact Camera", price: "$599", tagline: "28mm f/1.8, RAW", symbol: "camera", colors: [.gray, .black]),
         Product(slug: "lamp", name: "Desk Lamp", price: "$49", tagline: "Warm dimmable LED", symbol: "lamp.desk", colors: [.yellow, .orange]),
     ]
+
+    static func named(_ slug: String) -> Product {
+        all.first { $0.slug == slug } ?? all[0]
+    }
+
+    /// What the cart holds throughout the demo. The design's totals are built
+    /// from exactly these three.
+    static let cart: [Product] = [named("headphones"), named("sneakers"), named("lamp")]
+
+    /// "$249" → 249, so the totals are computed rather than restated.
+    var amount: Int { Int(price.dropFirst()) ?? 0 }
+}
+
+/// Where the shop can navigate. The whole flow lives in one stack so every
+/// pushed screen streams under the same measurement scope.
+enum ShopRoute: Hashable {
+    case product(Product)
+    case cart
+    case checkout
+    case confirmation
 }
 
 // MARK: - Home
 
-/// A brand badge backed by UIKit: UIImageView keeps the image's identity at
-/// runtime, so PrismKit can reveal the SF Symbol / asset name — SwiftUI's
-/// own Image draws layers that keep no name.
-private struct BrandBadge: UIViewRepresentable {
-    func makeUIView(context: Context) -> UIImageView {
-        let view = UIImageView(image: UIImage(systemName: "shippingbox.fill"))
-        view.contentMode = .scaleAspectFit
-        view.tintColor = .systemBlue
-        return view
-    }
-
-    func updateUIView(_ view: UIImageView, context: Context) {}
-}
-
 struct ShopHomeScreen: View {
+    private let featured = ["headphones", "sneakers", "watch"].map(Product.named)
+    private let popular = ["backpack", "camera", "lamp"].map(Product.named)
+
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 24) {
-                searchBar
-                featuredSection
-                popularSection
-                footer
+        ShopScreen(identifier: "screen-home") {
+            VStack(alignment: .leading, spacing: 0) {
+                Text(verbatim: "Shop")
+                    .font(Shop.TypeStyle.screenTitle)
+                    .foregroundColor(Shop.Palette.primaryText)
+                    .designNode("home-title")
+                    .padding(.horizontal, Shop.screenMargin)
+                    .padding(.top, Shop.Space.xxl)
+
+                searchField
+                    .padding(.horizontal, Shop.screenMargin)
+                    .padding(.top, Shop.Space.lg)
+
+                Text(verbatim: "Featured")
+                    .font(Shop.TypeStyle.sectionTitle)
+                    .foregroundColor(Shop.Palette.primaryText)
+                    .designNode("home-featured-title")
+                    .padding(.horizontal, Shop.screenMargin)
+                    .padding(.top, Shop.Space.xxl)
+
+                featuredRail
+                    .padding(.top, Shop.Space.md)
+
+                Text(verbatim: "Popular")
+                    .font(Shop.TypeStyle.sectionTitle)
+                    .foregroundColor(Shop.Palette.primaryText)
+                    .designNode("home-popular-title")
+                    .padding(.horizontal, Shop.screenMargin)
+                    .padding(.top, Shop.Space.xxl)
+
+                popularList
+                    .padding(.horizontal, Shop.screenMargin)
+                    .padding(.top, Shop.Space.md)
             }
-            .padding(.horizontal, 16)
-            .padding(.top, 8)
-            .padding(.bottom, 24)
         }
-        .navigationTitle("Shop")
     }
 
-    private var footer: some View {
-        HStack(spacing: 8) {
-            BrandBadge()
-                .frame(width: 22, height: 22)
-            Text("PrismKit Shop")
-                .font(.footnote)
-                .foregroundColor(.secondary)
-        }
-        .frame(maxWidth: .infinity)
-        .padding(.top, 8)
-    }
-
-    private var searchBar: some View {
-        HStack(spacing: 8) {
+    private var searchField: some View {
+        HStack(spacing: Shop.Space.sm) {
             Image(systemName: "magnifyingglass")
-            Text("Search products")
+                .font(.system(size: 16, weight: .regular))
+                .foregroundColor(Shop.Palette.secondaryText)
+                .frame(width: 20, height: 20)
+                .designNode("home-search-icon")
+            Text(verbatim: "Search products")
+                .font(Shop.TypeStyle.body)
+                .foregroundColor(Shop.Palette.secondaryText)
+                .designNode("home-search-placeholder")
             Spacer(minLength: 0)
         }
-        .foregroundColor(.secondary)
-        .padding(.horizontal, 12)
-        .padding(.vertical, 10)
-        .background(
-            RoundedRectangle(cornerRadius: 10)
-                .fill(Color(.secondarySystemBackground))
-        )
+        .padding(.horizontal, Shop.Space.md)
+        .frame(height: 36)
+        .background(Shop.Palette.cardWhite)
+        .clipShape(RoundedRectangle(cornerRadius: Shop.Radius.pill, style: .continuous))
+        .accessibilityElement(children: .contain)
+        .designNode("home-search")
     }
 
-    private var featuredSection: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Text("Featured")
-                .font(.title3.bold())
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 12) {
-                    ForEach(Product.all.prefix(4)) { product in
-                        NavigationLink(value: product) {
-                            ProductCard(product: product)
-                        }
-                        .buttonStyle(.plain)
-                    }
-                }
-            }
-        }
-    }
-
-    private var popularSection: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            HStack {
-                Text("Popular")
-                    .font(.title3.bold())
-                Spacer()
-                Text("See all")
-                    .font(.subheadline)
-                    .foregroundColor(.blue)
-            }
-            VStack(spacing: 8) {
-                ForEach(Product.all) { product in
-                    NavigationLink(value: product) {
-                        ProductRow(product: product)
+    private var featuredRail: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(alignment: .top, spacing: Shop.Space.md) {
+                ForEach(featured) { product in
+                    NavigationLink(value: ShopRoute.product(product)) {
+                        FeaturedCard(product: product)
                     }
                     .buttonStyle(.plain)
                 }
             }
+            .designNode("home-featured-rail")
+            .padding(.horizontal, Shop.screenMargin)
         }
+        .accessibilityElement(children: .contain)
+    }
+
+    private var popularList: some View {
+        VStack(spacing: Shop.Space.md) {
+            ForEach(popular) { product in
+                NavigationLink(value: ShopRoute.product(product)) {
+                    PopularRow(product: product)
+                }
+                .buttonStyle(.plain)
+            }
+        }
+        .accessibilityElement(children: .contain)
+        .designNode("home-popular-list")
     }
 }
 
-// MARK: - Components
-
-struct ProductCard: View {
+private struct FeaturedCard: View {
     let product: Product
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            RoundedRectangle(cornerRadius: 10)
-                .fill(LinearGradient(colors: product.colors, startPoint: .topLeading, endPoint: .bottomTrailing))
-                .frame(width: 148, height: 108)
-                .overlay(
-                    Image(systemName: product.symbol)
-                        .font(.system(size: 40))
-                        .foregroundColor(.white.opacity(0.9))
-                )
-            VStack(alignment: .leading, spacing: 2) {
+        VStack(alignment: .leading, spacing: Shop.Space.sm) {
+            ProductThumbnail(
+                product: product,
+                size: CGSize(width: 124, height: 108),
+                glyphSize: 48,
+                identifier: "home-featured-\(product.slug)-image"
+            )
+            VStack(alignment: .leading, spacing: Shop.Space.xs) {
                 Text(product.name)
-                    .font(.subheadline.weight(.medium))
+                    .font(Shop.TypeStyle.body)
+                    .foregroundColor(Shop.Palette.primaryText)
                     .lineLimit(1)
+                    .designNode("home-featured-\(product.slug)-name")
                 Text(product.price)
-                    .font(.caption)
-                    .foregroundColor(.secondary)
+                    .font(Shop.TypeStyle.price)
+                    .foregroundColor(Shop.Palette.primaryText)
+                    .designNode("home-featured-\(product.slug)-price")
             }
+            .frame(width: 124, alignment: .leading)
+            .accessibilityElement(children: .contain)
+            .designNode("home-featured-\(product.slug)-text")
         }
-        .padding(10)
-        .background(
-            RoundedRectangle(cornerRadius: 12)
-                .fill(Color(.secondarySystemBackground))
-        )
+        .padding(Shop.Space.md)
+        .background(Shop.Palette.cardWhite)
+        .clipShape(RoundedRectangle(cornerRadius: Shop.Radius.card, style: .continuous))
+        .accessibilityElement(children: .contain)
+        .designNode("home-featured-\(product.slug)")
     }
 }
 
-struct ProductRow: View {
+private struct PopularRow: View {
     let product: Product
 
     var body: some View {
-        HStack(spacing: 12) {
-            RoundedRectangle(cornerRadius: 8)
-                .fill(LinearGradient(colors: product.colors, startPoint: .topLeading, endPoint: .bottomTrailing))
-                .frame(width: 48, height: 48)
-                .overlay(
-                    Image(systemName: product.symbol)
-                        .foregroundColor(.white.opacity(0.9))
-                )
-            VStack(alignment: .leading, spacing: 2) {
+        HStack(spacing: Shop.Space.md) {
+            ProductThumbnail(
+                product: product,
+                size: CGSize(width: 56, height: 56),
+                glyphSize: 28,
+                identifier: "home-popular-\(product.slug)-image"
+            )
+            VStack(alignment: .leading, spacing: Shop.Space.xs) {
                 Text(product.name)
-                    .font(.body.weight(.medium))
+                    .font(Shop.TypeStyle.body)
+                    .foregroundColor(Shop.Palette.primaryText)
+                    .designNode("home-popular-\(product.slug)-name")
                 Text(product.tagline)
-                    .font(.caption)
-                    .foregroundColor(.secondary)
-                    .lineLimit(1)
+                    .font(Shop.TypeStyle.pillCaption)
+                    .foregroundColor(Shop.Palette.secondaryText)
+                    .designNode("home-popular-\(product.slug)-tagline")
             }
-            Spacer(minLength: 8)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .accessibilityElement(children: .contain)
+            .designNode("home-popular-\(product.slug)-text")
             Text(product.price)
-                .font(.subheadline.weight(.semibold))
-            // .forward flips with the layout direction (RTL locales).
-            Image(systemName: "chevron.forward")
-                .font(.caption)
-                .foregroundColor(.secondary)
+                .font(Shop.TypeStyle.price)
+                .foregroundColor(Shop.Palette.primaryText)
+                .designNode("home-popular-\(product.slug)-price")
         }
-        .padding(12)
-        .background(
-            RoundedRectangle(cornerRadius: 12)
-                .fill(Color(.secondarySystemBackground))
-        )
+        .padding(Shop.Space.md)
+        .background(Shop.Palette.cardWhite)
+        .clipShape(RoundedRectangle(cornerRadius: Shop.Radius.card, style: .continuous))
+        .accessibilityElement(children: .contain)
+        .designNode("home-popular-\(product.slug)")
     }
 }
 
-// MARK: - Detail
+// MARK: - Product detail
 
 struct ProductDetailScreen: View {
     let product: Product
 
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 16) {
-                RoundedRectangle(cornerRadius: 16)
-                    .fill(LinearGradient(colors: product.colors, startPoint: .topLeading, endPoint: .bottomTrailing))
-                    .frame(height: 260)
-                    .overlay(
-                        Image(systemName: product.symbol)
-                            .font(.system(size: 96))
-                            .foregroundColor(.white.opacity(0.9))
-                    )
+        ShopScreen(identifier: "screen-product-detail", respectsTopSafeArea: false) {
+            VStack(alignment: .leading, spacing: 0) {
+                hero
 
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(product.name)
-                        .font(.title2.bold())
-                    Text(product.price)
-                        .font(.title3)
-                        .foregroundColor(.secondary)
+                Text(product.name)
+                    .font(Shop.TypeStyle.screenTitle)
+                    .foregroundColor(Shop.Palette.primaryText)
+                    .designNode("detail-name")
+                    .padding(.horizontal, Shop.screenMargin)
+                    .padding(.top, Shop.Space.xl)
+
+                Text(product.price)
+                    .font(Shop.TypeStyle.emphasizedRow)
+                    .foregroundColor(Shop.Palette.brandBlue)
+                    .designNode("detail-price")
+                    .padding(.horizontal, Shop.screenMargin)
+                    .padding(.top, Shop.Space.xs)
+
+                Text(product.tagline)
+                    .font(Shop.TypeStyle.body)
+                    .foregroundColor(Shop.Palette.secondaryText)
+                    .designNode("detail-tagline")
+                    .padding(.horizontal, Shop.screenMargin)
+                    .padding(.top, Shop.Space.sm)
+
+                specsCard
+                    .padding(.horizontal, Shop.screenMargin)
+                    .padding(.top, Shop.Space.xxl)
+
+                NavigationLink(value: ShopRoute.cart) {
+                    Text(verbatim: "Add to cart")
+                        .font(Shop.TypeStyle.emphasizedRow)
+                        .foregroundColor(.white)
+                        .designNode("detail-add-button-label")
+                        .frame(maxWidth: .infinity)
+                        .frame(height: Shop.buttonHeight)
+                        .background(Shop.Palette.brandBlue)
+                        .clipShape(RoundedRectangle(cornerRadius: Shop.Radius.button, style: .continuous))
                 }
-
-                Text("\(product.tagline). Designed for everyday use with premium materials and a two-year warranty. Free shipping and 30-day returns included.")
-                    .font(.body)
-                    .foregroundColor(.secondary)
-
-                VStack(spacing: 0) {
-                    specRow("Availability", "In stock")
-                    Divider()
-                    specRow("Shipping", "2–4 days")
-                    Divider()
-                    specRow("Warranty", "2 years")
-                }
-                .background(
-                    RoundedRectangle(cornerRadius: 12)
-                        .fill(Color(.secondarySystemBackground))
-                )
-
-                buyButton
+                .buttonStyle(.plain)
+                .designNode("detail-add-button")
+                .padding(.horizontal, Shop.screenMargin)
+                .padding(.top, Shop.Space.xxl)
             }
-            .padding(16)
         }
-        .navigationTitle(product.name)
-        .navigationBarTitleDisplayMode(.inline)
     }
 
-    // LocalizedStringKey so the labels resolve through Localizable.xcstrings.
-    private func specRow(_ title: LocalizedStringKey, _ value: LocalizedStringKey) -> some View {
-        HStack {
-            Text(title).foregroundColor(.secondary)
-            Spacer()
-            Text(value)
-        }
-        .font(.subheadline)
-        .padding(12)
+    private var hero: some View {
+        LinearGradient(colors: product.colors, startPoint: .topLeading, endPoint: .bottomTrailing)
+            .frame(height: 280)
+            .overlay(
+                Image(systemName: product.symbol)
+                    .font(.system(size: 58, weight: .medium))
+                    .foregroundColor(.white)
+                    .frame(width: 96, height: 96)
+                    .designNode("detail-hero-glyph")
+            )
+            .accessibilityElement(children: .contain)
+            .designNode("detail-hero")
     }
 
-    private var buyButton: some View {
-        Button {
-            // Demo only.
-        } label: {
-            Text("Add to cart — \(product.price)")
-                .font(.body.weight(.semibold))
-                .foregroundColor(.white)
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 14)
-                .background(Capsule().fill(Color.blue))
+    private var specsCard: some View {
+        ShopCard(horizontalPadding: Shop.Space.md, spacing: Shop.Space.md) {
+            ShopValueRow(label: "Battery", value: "40 hours", identifier: "detail-spec-battery")
+            ShopValueRow(label: "Weight", value: "268 g", identifier: "detail-spec-weight")
+            ShopValueRow(label: "Warranty", value: "2 years", identifier: "detail-spec-warranty")
         }
-        .buttonStyle(.plain)
+        .accessibilityElement(children: .contain)
+        .designNode("detail-specs-card")
     }
 }
