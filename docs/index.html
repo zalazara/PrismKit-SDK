@@ -25,6 +25,11 @@
   :root { color-scheme: dark; }
 
   * { box-sizing: border-box; }
+  /* A single element wider than the viewport widens the whole scroll canvas,
+     and every centred block then sits off to one side. The header's nav was
+     doing exactly that on a phone. This is the backstop; the header fixes the
+     cause below. */
+  html, body { max-width: 100%; overflow-x: hidden; }
   html { -webkit-text-size-adjust: 100%; }
   body {
     margin: 0;
@@ -46,19 +51,36 @@
   }
   header .wrap {
     display: flex; align-items: center; justify-content: space-between;
-    gap: 16px; height: 58px;
+    gap: 10px 16px; min-height: 58px; flex-wrap: wrap; padding-block: 9px;
   }
-  .brand { display: flex; align-items: center; gap: 9px; font-weight: 650; letter-spacing: -0.01em; }
-  .brand img { width: 26px; height: 26px; display: block; }
+  .brand {
+    display: flex; align-items: center; gap: 9px;
+    font-weight: 650; letter-spacing: -0.01em; white-space: nowrap;
+  }
+  .brand img { width: 26px; height: 26px; display: block; flex: none; }
   .brand span { color: var(--muted); font-weight: 400; }
   header nav { display: flex; gap: 20px; font-size: 14px; }
-  header nav a { color: var(--muted); text-decoration: none; }
+  header nav a { color: var(--muted); text-decoration: none; white-space: nowrap; }
   header nav a:hover { color: var(--ink); }
 
+  /* Narrow: the brand keeps the bar on its own, and the nav becomes a second
+     row that scrolls sideways rather than wrapping into ragged lines. */
+  @media (max-width: 640px) {
+    .wrap { padding: 0 18px; }
+    header { position: static; }
+    header .wrap { justify-content: center; padding-block: 10px; }
+    .brand span { display: none; }
+    header nav {
+      width: 100%; justify-content: center; gap: 16px;
+      overflow-x: auto; scrollbar-width: none; padding-bottom: 2px;
+    }
+    header nav::-webkit-scrollbar { display: none; }
+  }
+
   /* ------------------------------------------------------------ hero --- */
-  .hero { padding: 64px 0 40px; text-align: center; }
+  .hero { padding: clamp(36px, 7vw, 64px) 0 40px; text-align: center; }
   .hero .logo {
-    width: min(400px, 78vw); height: auto;
+    width: min(400px, 100%); height: auto;
     display: block; margin: 0 auto 26px;
   }
   h1 {
@@ -125,6 +147,56 @@
   ul.plain { margin: 0; padding-left: 20px; color: var(--muted); }
   ul.plain li { margin-bottom: 8px; }
 
+  /* ------------------------------------------------------- feature rows --- */
+  /* Each feature gets a real screenshot rather than a description of one:
+     what the tool looks like doing the thing is the claim. */
+  .feature {
+    display: grid; grid-template-columns: 1.25fr 1fr;
+    gap: 44px; align-items: center; margin-bottom: 34px;
+  }
+  .feature:nth-child(even) .shot { order: 2; }
+  .feature h3 { font-size: clamp(20px, 2.6vw, 26px); margin: 0 0 12px; letter-spacing: -0.02em; font-weight: 640; }
+  .feature p { color: var(--muted); margin: 0 0 12px; }
+  .feature p strong { color: var(--ink); font-weight: 600; }
+  .shot {
+    border-radius: 16px; padding: clamp(14px, 2.4vw, 30px);
+    display: flex; min-width: 0;
+  }
+  .shot img {
+    width: 100%; height: auto; display: block; border-radius: 7px;
+    box-shadow: 0 16px 40px rgba(0,0,0,.45);
+  }
+  .shot-a { background: linear-gradient(135deg, #2b1e63, #1b3a7a); }
+  .shot-b { background: linear-gradient(135deg, #123f57, #0f5c4a); }
+  .shot-c { background: linear-gradient(135deg, #4a2168, #7a2f52); }
+
+  @media (max-width: 860px) {
+    .feature { grid-template-columns: 1fr; gap: 22px; margin-bottom: 44px; }
+    .feature:nth-child(even) .shot { order: 0; }
+  }
+
+  /* ------------------------------------------------------------- steps --- */
+  ol.steps { counter-reset: step; list-style: none; margin: 0; padding: 0; }
+  ol.steps > li {
+    counter-increment: step; position: relative;
+    padding: 0 0 26px 46px; border-left: 1px solid var(--line); margin-left: 13px;
+  }
+  ol.steps > li:last-child { border-left-color: transparent; padding-bottom: 0; }
+  ol.steps > li::before {
+    content: counter(step); position: absolute; left: -13px; top: -3px;
+    width: 26px; height: 26px; border-radius: 50%;
+    background: var(--panel); border: 1px solid var(--line); color: var(--ink);
+    font-size: 12.5px; font-weight: 650;
+    display: flex; align-items: center; justify-content: center;
+  }
+  ol.steps h3 { margin: 0 0 6px; font-size: 16px; font-weight: 600; }
+  ol.steps p { margin: 0 0 10px; color: var(--muted); font-size: 14.5px; }
+  ol.steps pre { margin: 0 0 10px; }
+  .note {
+    border-left: 2px solid var(--accent); padding: 2px 0 2px 14px;
+    color: var(--muted); font-size: 14px; margin: 0 0 10px;
+  }
+
   footer {
     border-top: 1px solid var(--line); margin-top: 68px;
     padding: 34px 0 56px; color: var(--muted); font-size: 13.5px;
@@ -143,6 +215,7 @@
     </div>
     <nav>
       <a href="#features">Features</a>
+      <a href="#start">Get started</a>
       <a href="#sdk">SDK</a>
       <a href="#agents">AI agents</a>
       <a href="https://github.com/zalazara/PrismKit-SDK">GitHub</a>
@@ -186,43 +259,170 @@
   <section id="features">
     <h2>What it does</h2>
     <p class="sub">
-      Everything works against the live simulator, so what you measure is what the app
-      actually rendered — not a guess from a screenshot.
+      Everything below is a screenshot of the tool doing the thing, against a real app
+      running in the simulator — so what you measure is what the app actually rendered,
+      not a guess from a picture of it.
     </p>
-    <div class="grid">
-      <div class="card">
-        <h3>Measure like Figma</h3>
-        <p>Click to select, ⌥-click to measure. Per-axis gaps between two elements, or the four
-        insets when one contains the other. Distances in points, never pixels counted by eye.</p>
+
+    <div class="feature">
+      <div class="shot shot-a">
+        <img src="feature-measure.png" width="1000" height="1060"
+             alt="Two product rows selected in the canvas, with the 42-point gap between them marked in red and the combined size shown as 370 × 134.">
       </div>
+      <div>
+        <h3>Measure like a design tool</h3>
+        <p>Click an element to select it. <strong>⌥-click a second one</strong> to measure the
+        space between them — the gap per axis, or the four insets when one contains the other.</p>
+        <p>Distances come from the layout the app actually produced, in points. Nothing is
+        counted by eye off a screenshot.</p>
+      </div>
+    </div>
+
+    <div class="feature">
+      <div class="shot shot-b">
+        <img src="feature-design.png" width="1500" height="943"
+             alt="The design check panel reporting 5 of 6 nodes matched: one element the design expects but nothing on screen matched, and one 18 points too wide.">
+      </div>
+      <div>
+        <h3>Check the screen against the design</h3>
+        <p>Attach a design and get a per-node report: <strong>what moved, what is the wrong
+        size, what is missing.</strong> Expected positions are drawn straight onto the canvas,
+        beside where the element actually landed.</p>
+        <p>When something has no match, the nearest unclaimed element is offered with it —
+        because "it moved" and "it disappeared" look identical to a comparison that only
+        matches by position, and only one of them is the bug you are looking for.</p>
+      </div>
+    </div>
+
+    <div class="feature">
+      <div class="shot shot-c">
+        <img src="feature-a11y.png" width="1500" height="943"
+             alt="The accessibility reader playing through the screen: the fifth announcement is highlighted in the list and the product card it refers to is outlined on the canvas.">
+      </div>
+      <div>
+        <h3>Hear what VoiceOver hears</h3>
+        <p>Play the screen back <strong>in the order VoiceOver reads it</strong>, with each
+        element outlined on the canvas as its announcement is spoken and highlighted in the list.</p>
+        <p>An unlabelled button stops being something you audit for and becomes something you
+        notice: it is the one that says "Button" and nothing else. Trait words come from the
+        traits SwiftUI already set, so they are what a real user would hear — in the reading
+        language you pick, which is separate from the interface language.</p>
+      </div>
+    </div>
+
+    <div class="grid" style="margin-top:44px">
       <div class="card">
-        <h3>Design-system checks</h3>
-        <p>Paddings and gaps are flagged when they fall off your spacing scale, with the nearest
-        token as the hint. The scale lives in a <code>.prismkit.json</code> you commit, so the
-        app, the MCP server and your team all judge by the same numbers.</p>
+        <h3>Your spacing scale, not ours</h3>
+        <p>Paddings and gaps are flagged when they fall off your scale, with the nearest token as
+        the hint. It lives in a <code>.prismkit.json</code> you commit, so the app, the MCP server
+        and the whole team judge by the same numbers.</p>
       </div>
       <div class="card">
         <h3>No instrumentation required</h3>
-        <p>Point it at a running app and inspect the view tree straight away. Adding the SDK is
-        optional — it upgrades the readings from class names to the semantic component names
-        you chose.</p>
+        <p>Point it at a running app and inspect the view tree straight away. The SDK is optional
+        — it upgrades readings from UIKit's class names to the component names you chose.</p>
       </div>
       <div class="card">
-        <h3>Compare against a design</h3>
-        <p>Attach a design spec and get a per-node report: what moved, what is the wrong size,
-        what is missing. Or put a mockup beside the app, overlay it, or wipe between the two.</p>
+        <h3>Mockup side by side</h3>
+        <p>Put a design image beside the running app, overlay it with adjustable opacity, or wipe
+        between the two — with the guides mirrored across both.</p>
       </div>
       <div class="card">
-        <h3>Accessibility reader</h3>
-        <p>Play back what VoiceOver would announce, in order, with each element highlighted as it
-        is read — so an unlabelled button is something you hear, not something you audit for.</p>
+        <h3>Rulers, guides, overlays</h3>
+        <p>Drag out guides, toggle grid, safe-area, layout-column and concentric-corner layers.
+        All off by default, so the canvas starts clean.</p>
       </div>
       <div class="card">
-        <h3>Rulers, guides, export</h3>
-        <p>Drag out guides, toggle grid and safe-area layers, export the canvas exactly as you
-        see it, or save a session and review it later with no simulator running.</p>
+        <h3>Export and save sessions</h3>
+        <p>Export the canvas exactly as you see it at native device scale, or save a session and
+        review it later with the simulator closed.</p>
+      </div>
+      <div class="card">
+        <h3>Six languages</h3>
+        <p>English, Spanish, Portuguese, Chinese, French and German — interface, help and the
+        accessibility reader.</p>
       </div>
     </div>
+  </section>
+
+  <section id="start">
+    <h2>Get started</h2>
+    <p class="sub">
+      The first three steps are the whole tool. Everything after them is optional and can wait
+      until you want it.
+    </p>
+
+    <ol class="steps">
+      <li>
+        <h3>Install it</h3>
+        <p>Download the disk image, then <strong>drag Prism Inspector into Applications in the
+        Finder</strong> — dragging matters. An app copied any other way keeps the quarantine flag
+        macOS puts on downloads, and macOS then runs it from a random read-only folder, which
+        stops it updating itself later.</p>
+        <p>The first time you open it, macOS asks you to confirm because it came from the
+        internet. That prompt is normal: it also says Apple checked the app and found no malware,
+        which is what notarization means.</p>
+      </li>
+
+      <li>
+        <h3>Run your app in the simulator</h3>
+        <p>Any SwiftUI app, from Xcode or <code>simctl</code>. Nothing to add to your project and
+        nothing to configure.</p>
+      </li>
+
+      <li>
+        <h3>Open Prism Inspector</h3>
+        <p>It finds the running app and mirrors its screen. Click anything in the canvas or the
+        view tree to inspect it, ⌥-click a second element to measure between them, and press
+        <code>Esc</code> to deselect.</p>
+        <p class="note">Order does not matter. Start either one first — the app reconnects on its
+        own within a few seconds.</p>
+      </li>
+
+      <li>
+        <h3>Turn on accessibility reading <span style="color:var(--muted);font-weight:400">— optional</span></h3>
+        <p>iOS only builds the accessibility tree while the system accessibility flag is on, so
+        the reader has nothing to read until you enable it. The app has a button that does it for
+        the selected simulator; the app has to be relaunched afterwards.</p>
+        <p>Without it you still get geometry — sizes, spacing, the view tree — just not labels or
+        announcements.</p>
+      </li>
+
+      <li>
+        <h3>Name your components <span style="color:var(--muted);font-weight:400">— optional</span></h3>
+        <p>Add the package and mark the views you care about. Readings stop saying
+        <code>CGDrawingLayer</code> and start saying what you called them, and padding becomes
+        measurable as padding rather than as the gap between two boxes.</p>
+<pre><code>dependencies: [
+    .package(url: "https://github.com/zalazara/PrismKit-SDK.git", from: "0.2.0")
+]</code></pre>
+<pre><code>ProductRow(item: item)
+    .measure("productRow", role: .container)</code></pre>
+        <p class="note">All of it compiles out of release builds. Nothing ships to the App Store
+        and no user data leaves a device.</p>
+      </li>
+
+      <li>
+        <h3>Declare your spacing scale <span style="color:var(--muted);font-weight:400">— optional</span></h3>
+        <p>Drop a <code>.prismkit.json</code> in your project and point the app at that folder
+        once. From then on the app, the MCP server and anything an agent reports all flag spacing
+        against the same numbers instead of a built-in default that is not your design system.</p>
+<pre><code>{
+  "spacing": [4, 8, 12, 16, 24, 32, 40, 48, 64],
+  "grid": 8
+}</code></pre>
+        <p>Commit it, and the whole team judges spacing the same way.</p>
+      </li>
+
+      <li>
+        <h3>Connect an AI agent <span style="color:var(--muted);font-weight:400">— optional</span></h3>
+        <p>Open <strong>Settings ▸ AI agents</strong> and copy the JSON shown there into your MCP
+        client's configuration. The path is already filled in, because the server ships inside the
+        app — there is nothing to install or build.</p>
+        <p class="note">The app and the server both listen on port 9294, so only one runs at a
+        time. To use both at once, set <code>PRISMKIT_PORT</code> for the server.</p>
+      </li>
+    </ol>
   </section>
 
   <section id="sdk">
