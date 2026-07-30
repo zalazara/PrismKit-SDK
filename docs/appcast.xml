@@ -61,7 +61,7 @@
   <li>depend on the published SDK instead of a sibling checkout (<code>1fa5f8e</code>)</li>
 </ul>
 ]]></description>
-            <enclosure url="https://github.com/zalazara/PrismKit-SDK/releases/download/app-v1.0.0/Prism%20Inspector-1.0.0.zip" length="7697998" type="application/octet-stream"/>
+            <enclosure url="https://github.com/zalazara/PrismKit-SDK/releases/download/app-v1.0.0/Prism.Inspector-1.0.0.zip" length="7697998" sparkle:edSignature="y5Xgvy55nSSgpdN3NByURfk+96RsPMwBCCwxxNW8fW6c1TELDZF2XwDzHBeyi2vB0stVznv4OqfIe1BcicpuBQ==" type="application/octet-stream"/>
         </item>
     </channel>
 </rss>
