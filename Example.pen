@@ -1,0 +1,3116 @@
+{
+  "version": "2.14",
+  "children": [
+    {
+      "type": "frame",
+      "id": "hhg3v",
+      "x": 0,
+      "y": 0,
+      "name": "foundations",
+      "width": 640,
+      "fill": "$color-screen-bg",
+      "layout": "vertical",
+      "gap": 32,
+      "padding": 32,
+      "children": [
+        {
+          "type": "frame",
+          "id": "tt2qd",
+          "name": "foundations-spacing",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 16,
+          "children": [
+            {
+              "type": "text",
+              "id": "jvWVp",
+              "name": "foundations-spacing-title",
+              "fill": "$color-text-primary",
+              "content": "Spacing",
+              "lineHeight": 1.2941176470588236,
+              "fontFamily": "$font-family",
+              "fontSize": 17,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "GOkdx",
+              "name": "foundations-spacing-row",
+              "gap": 24,
+              "alignItems": "end",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "Z4lUKe",
+                  "name": "foundations-spacing-4",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "id": "oyiWa",
+                      "name": "foundations-spacing-4-swatch",
+                      "fill": "$color-brand-blue",
+                      "width": 4,
+                      "height": 32
+                    },
+                    {
+                      "type": "text",
+                      "id": "fWFCM",
+                      "name": "foundations-spacing-4-label",
+                      "fill": "$color-text-primary",
+                      "content": "4",
+                      "lineHeight": 1.2307692307692308,
+                      "fontFamily": "$font-family",
+                      "fontSize": 13
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "oGLj2",
+                  "name": "foundations-spacing-8",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "id": "Pi8PI",
+                      "name": "foundations-spacing-8-swatch",
+                      "fill": "$color-brand-blue",
+                      "width": 8,
+                      "height": 32
+                    },
+                    {
+                      "type": "text",
+                      "id": "Pqkna",
+                      "name": "foundations-spacing-8-label",
+                      "fill": "$color-text-primary",
+                      "content": "8",
+                      "lineHeight": 1.2307692307692308,
+                      "fontFamily": "$font-family",
+                      "fontSize": 13
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "jPpVy",
+                  "name": "foundations-spacing-12",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "id": "y3oEo7",
+                      "name": "foundations-spacing-12-swatch",
+                      "fill": "$color-brand-blue",
+                      "width": 12,
+                      "height": 32
+                    },
+                    {
+                      "type": "text",
+                      "id": "R1MxNj",
+                      "name": "foundations-spacing-12-label",
+                      "fill": "$color-text-primary",
+                      "content": "12",
+                      "lineHeight": 1.2307692307692308,
+                      "fontFamily": "$font-family",
+                      "fontSize": 13
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "s4kGi5",
+                  "name": "foundations-spacing-16",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "id": "JEX7G",
+                      "name": "foundations-spacing-16-swatch",
+                      "fill": "$color-brand-blue",
+                      "width": 16,
+                      "height": 32
+                    },
+                    {
+                      "type": "text",
+                      "id": "UIDKd",
+                      "name": "foundations-spacing-16-label",
+                      "fill": "$color-text-primary",
+                      "content": "16",
+                      "lineHeight": 1.2307692307692308,
+                      "fontFamily": "$font-family",
+                      "fontSize": 13
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Q90X8",
+                  "name": "foundations-spacing-20",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "id": "RLV1F",
+                      "name": "foundations-spacing-20-swatch",
+                      "fill": "$color-brand-blue",
+                      "width": 20,
+                      "height": 32
+                    },
+                    {
+                      "type": "text",
+                      "id": "T7m55j",
+                      "name": "foundations-spacing-20-label",
+                      "fill": "$color-text-primary",
+                      "content": "20",
+                      "lineHeight": 1.2307692307692308,
+                      "fontFamily": "$font-family",
+                      "fontSize": 13
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "PrMeu",
+                  "name": "foundations-spacing-24",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "id": "cycDC",
+                      "name": "foundations-spacing-24-swatch",
+                      "fill": "$color-brand-blue",
+                      "width": 24,
+                      "height": 32
+                    },
+                    {
+                      "type": "text",
+                      "id": "Olqn2",
+                      "name": "foundations-spacing-24-label",
+                      "fill": "$color-text-primary",
+                      "content": "24",
+                      "lineHeight": 1.2307692307692308,
+                      "fontFamily": "$font-family",
+                      "fontSize": 13
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "ggYu8",
+                  "name": "foundations-spacing-32",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "id": "anSWJ",
+                      "name": "foundations-spacing-32-swatch",
+                      "fill": "$color-brand-blue",
+                      "width": 32,
+                      "height": 32
+                    },
+                    {
+                      "type": "text",
+                      "id": "PD7Y5",
+                      "name": "foundations-spacing-32-label",
+                      "fill": "$color-text-primary",
+                      "content": "32",
+                      "lineHeight": 1.2307692307692308,
+                      "fontFamily": "$font-family",
+                      "fontSize": 13
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "tGQAa",
+          "name": "foundations-type",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 16,
+          "children": [
+            {
+              "type": "text",
+              "id": "sg6DQ",
+              "name": "foundations-type-title",
+              "fill": "$color-text-primary",
+              "content": "Type",
+              "lineHeight": 1.2941176470588236,
+              "fontFamily": "$font-family",
+              "fontSize": 17,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "BdQg2",
+              "name": "foundations-type-screen-title",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 4,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "Mmk0B",
+                  "name": "foundations-type-screen-title-label",
+                  "fill": "$color-text-secondary",
+                  "content": "screen title / 22 / semibold",
+                  "lineHeight": 1.2307692307692308,
+                  "fontFamily": "$font-family",
+                  "fontSize": 13
+                },
+                {
+                  "type": "text",
+                  "id": "g3a5WB",
+                  "name": "foundations-type-screen-title-sample",
+                  "fill": "$color-text-primary",
+                  "content": "The quick brown fox",
+                  "lineHeight": 1.2727272727272727,
+                  "fontFamily": "$font-family",
+                  "fontSize": 22,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "M5A24I",
+              "name": "foundations-type-section-title",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 4,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "Uxb91",
+                  "name": "foundations-type-section-title-label",
+                  "fill": "$color-text-secondary",
+                  "content": "section title / 17 / semibold",
+                  "lineHeight": 1.2307692307692308,
+                  "fontFamily": "$font-family",
+                  "fontSize": 13
+                },
+                {
+                  "type": "text",
+                  "id": "Xlnyg",
+                  "name": "foundations-type-section-title-sample",
+                  "fill": "$color-text-primary",
+                  "content": "The quick brown fox",
+                  "lineHeight": 1.2941176470588236,
+                  "fontFamily": "$font-family",
+                  "fontSize": 17,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "oVVKb",
+              "name": "foundations-type-emphasized-row",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 4,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "g22Hx",
+                  "name": "foundations-type-emphasized-row-label",
+                  "fill": "$color-text-secondary",
+                  "content": "emphasized row / 17 / semibold",
+                  "lineHeight": 1.2307692307692308,
+                  "fontFamily": "$font-family",
+                  "fontSize": 13
+                },
+                {
+                  "type": "text",
+                  "id": "UznRe",
+                  "name": "foundations-type-emphasized-row-sample",
+                  "fill": "$color-text-primary",
+                  "content": "The quick brown fox",
+                  "lineHeight": 1.2941176470588236,
+                  "fontFamily": "$font-family",
+                  "fontSize": 17,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "A7ouo",
+              "name": "foundations-type-body",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 4,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "y90O5w",
+                  "name": "foundations-type-body-label",
+                  "fill": "$color-text-secondary",
+                  "content": "body / 16 / regular",
+                  "lineHeight": 1.2307692307692308,
+                  "fontFamily": "$font-family",
+                  "fontSize": 13
+                },
+                {
+                  "type": "text",
+                  "id": "W8u27",
+                  "name": "foundations-type-body-sample",
+                  "fill": "$color-text-primary",
+                  "content": "The quick brown fox",
+                  "lineHeight": 1.25,
+                  "fontFamily": "$font-family",
+                  "fontSize": 16
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "eOkDz",
+              "name": "foundations-type-price",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 4,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "IFlyQ",
+                  "name": "foundations-type-price-label",
+                  "fill": "$color-text-secondary",
+                  "content": "price / 16 / medium",
+                  "lineHeight": 1.2307692307692308,
+                  "fontFamily": "$font-family",
+                  "fontSize": 13
+                },
+                {
+                  "type": "text",
+                  "id": "ncbDf",
+                  "name": "foundations-type-price-sample",
+                  "fill": "$color-text-primary",
+                  "content": "The quick brown fox",
+                  "lineHeight": 1.25,
+                  "fontFamily": "$font-family",
+                  "fontSize": 16,
+                  "fontWeight": "500"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "Ds6Ou",
+              "name": "foundations-type-pill-caption",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 4,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "dm4t0",
+                  "name": "foundations-type-pill-caption-label",
+                  "fill": "$color-text-secondary",
+                  "content": "pill caption / 13 / regular",
+                  "lineHeight": 1.2307692307692308,
+                  "fontFamily": "$font-family",
+                  "fontSize": 13
+                },
+                {
+                  "type": "text",
+                  "id": "ERVeX",
+                  "name": "foundations-type-pill-caption-sample",
+                  "fill": "$color-text-primary",
+                  "content": "The quick brown fox",
+                  "lineHeight": 1.2307692307692308,
+                  "fontFamily": "$font-family",
+                  "fontSize": 13
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "t9don",
+              "name": "foundations-type-legal",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 4,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "EawIp",
+                  "name": "foundations-type-legal-label",
+                  "fill": "$color-text-secondary",
+                  "content": "legal / 12 / regular",
+                  "lineHeight": 1.2307692307692308,
+                  "fontFamily": "$font-family",
+                  "fontSize": 13
+                },
+                {
+                  "type": "text",
+                  "id": "hGhv8",
+                  "name": "foundations-type-legal-sample",
+                  "fill": "$color-text-primary",
+                  "content": "The quick brown fox",
+                  "lineHeight": 1.3333333333333333,
+                  "fontFamily": "$font-family",
+                  "fontSize": 12
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "AAP0D",
+          "name": "foundations-color",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 16,
+          "children": [
+            {
+              "type": "text",
+              "id": "F4ovMS",
+              "name": "foundations-color-title",
+              "fill": "$color-text-primary",
+              "content": "Color",
+              "lineHeight": 1.2941176470588236,
+              "fontFamily": "$font-family",
+              "fontSize": 17,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "OTYXs",
+              "name": "foundations-color-row-1",
+              "gap": 16,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "KWUbQ",
+                  "name": "foundations-color-primary-text",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": 12,
+                      "id": "Cacnc",
+                      "name": "foundations-color-primary-text-swatch",
+                      "fill": "#1C1C1E",
+                      "width": 72,
+                      "height": 72,
+                      "stroke": "$color-divider",
+                      "strokeWidth": 1,
+                      "strokeAlignment": "inner"
+                    },
+                    {
+                      "type": "text",
+                      "id": "k0Etj",
+                      "name": "foundations-color-primary-text-label",
+                      "fill": "$color-text-primary",
+                      "content": "#1C1C1E",
+                      "lineHeight": 1.2307692307692308,
+                      "fontFamily": "$font-family",
+                      "fontSize": 13
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "YRcMP",
+                  "name": "foundations-color-secondary-text",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": 12,
+                      "id": "NocBE",
+                      "name": "foundations-color-secondary-text-swatch",
+                      "fill": "#8E8E93",
+                      "width": 72,
+                      "height": 72,
+                      "stroke": "$color-divider",
+                      "strokeWidth": 1,
+                      "strokeAlignment": "inner"
+                    },
+                    {
+                      "type": "text",
+                      "id": "C5d2Q",
+                      "name": "foundations-color-secondary-text-label",
+                      "fill": "$color-text-primary",
+                      "content": "#8E8E93",
+                      "lineHeight": 1.2307692307692308,
+                      "fontFamily": "$font-family",
+                      "fontSize": 13
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "zfw7f",
+                  "name": "foundations-color-brand-blue",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": 12,
+                      "id": "u3uVWv",
+                      "name": "foundations-color-brand-blue-swatch",
+                      "fill": "#0A84FF",
+                      "width": 72,
+                      "height": 72,
+                      "stroke": "$color-divider",
+                      "strokeWidth": 1,
+                      "strokeAlignment": "inner"
+                    },
+                    {
+                      "type": "text",
+                      "id": "oYvfc",
+                      "name": "foundations-color-brand-blue-label",
+                      "fill": "$color-text-primary",
+                      "content": "#0A84FF",
+                      "lineHeight": 1.2307692307692308,
+                      "fontFamily": "$font-family",
+                      "fontSize": 13
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "kXcFA",
+                  "name": "foundations-color-pill-green-bg",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": 12,
+                      "id": "LmFbV",
+                      "name": "foundations-color-pill-green-bg-swatch",
+                      "fill": "#E8F8EE",
+                      "width": 72,
+                      "height": 72,
+                      "stroke": "$color-divider",
+                      "strokeWidth": 1,
+                      "strokeAlignment": "inner"
+                    },
+                    {
+                      "type": "text",
+                      "id": "CBs46",
+                      "name": "foundations-color-pill-green-bg-label",
+                      "fill": "$color-text-primary",
+                      "content": "#E8F8EE",
+                      "lineHeight": 1.2307692307692308,
+                      "fontFamily": "$font-family",
+                      "fontSize": 13
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "s9bwga",
+              "name": "foundations-color-row-2",
+              "gap": 16,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "Ambwy",
+                  "name": "foundations-color-pill-green-text",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": 12,
+                      "id": "rOe1i",
+                      "name": "foundations-color-pill-green-text-swatch",
+                      "fill": "#1C7C4A",
+                      "width": 72,
+                      "height": 72,
+                      "stroke": "$color-divider",
+                      "strokeWidth": 1,
+                      "strokeAlignment": "inner"
+                    },
+                    {
+                      "type": "text",
+                      "id": "CHeEh",
+                      "name": "foundations-color-pill-green-text-label",
+                      "fill": "$color-text-primary",
+                      "content": "#1C7C4A",
+                      "lineHeight": 1.2307692307692308,
+                      "fontFamily": "$font-family",
+                      "fontSize": 13
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "L7y5d",
+                  "name": "foundations-color-divider",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": 12,
+                      "id": "DK4T6",
+                      "name": "foundations-color-divider-swatch",
+                      "fill": "#E5E5EA",
+                      "width": 72,
+                      "height": 72,
+                      "stroke": "$color-divider",
+                      "strokeWidth": 1,
+                      "strokeAlignment": "inner"
+                    },
+                    {
+                      "type": "text",
+                      "id": "STBBT",
+                      "name": "foundations-color-divider-label",
+                      "fill": "$color-text-primary",
+                      "content": "#E5E5EA",
+                      "lineHeight": 1.2307692307692308,
+                      "fontFamily": "$font-family",
+                      "fontSize": 13
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "UGkiw",
+                  "name": "foundations-color-card-white",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": 12,
+                      "id": "N4gEI",
+                      "name": "foundations-color-card-white-swatch",
+                      "fill": "#FFFFFF",
+                      "width": 72,
+                      "height": 72,
+                      "stroke": "$color-divider",
+                      "strokeWidth": 1,
+                      "strokeAlignment": "inner"
+                    },
+                    {
+                      "type": "text",
+                      "id": "Recv9",
+                      "name": "foundations-color-card-white-label",
+                      "fill": "$color-text-primary",
+                      "content": "#FFFFFF",
+                      "lineHeight": 1.2307692307692308,
+                      "fontFamily": "$font-family",
+                      "fontSize": 13
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "uYY8Y",
+                  "name": "foundations-color-screen-bg",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": 12,
+                      "id": "jVeOP",
+                      "name": "foundations-color-screen-bg-swatch",
+                      "fill": "#F2F2F7",
+                      "width": 72,
+                      "height": 72,
+                      "stroke": "$color-divider",
+                      "strokeWidth": 1,
+                      "strokeAlignment": "inner"
+                    },
+                    {
+                      "type": "text",
+                      "id": "jbOHw",
+                      "name": "foundations-color-screen-bg-label",
+                      "fill": "$color-text-primary",
+                      "content": "#F2F2F7",
+                      "lineHeight": 1.2307692307692308,
+                      "fontFamily": "$font-family",
+                      "fontSize": 13
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "g0lfY",
+          "name": "foundations-radius",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 16,
+          "children": [
+            {
+              "type": "text",
+              "id": "MI85Y",
+              "name": "foundations-radius-title",
+              "fill": "$color-text-primary",
+              "content": "Radius",
+              "lineHeight": 1.2941176470588236,
+              "fontFamily": "$font-family",
+              "fontSize": 17,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "MsYKv",
+              "name": "foundations-radius-row",
+              "gap": 16,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "u0Pea",
+                  "name": "foundations-radius-10",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": 10,
+                      "id": "i7jFb",
+                      "name": "foundations-radius-10-swatch",
+                      "fill": "$color-card-white",
+                      "width": 72,
+                      "height": 72,
+                      "stroke": "$color-divider",
+                      "strokeWidth": 1,
+                      "strokeAlignment": "inner"
+                    },
+                    {
+                      "type": "text",
+                      "id": "x6EoC",
+                      "name": "foundations-radius-10-label",
+                      "fill": "$color-text-primary",
+                      "content": "10 thumbnail",
+                      "lineHeight": 1.2307692307692308,
+                      "fontFamily": "$font-family",
+                      "fontSize": 13
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "b2x0o",
+                  "name": "foundations-radius-12",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": 12,
+                      "id": "NyZmJ",
+                      "name": "foundations-radius-12-swatch",
+                      "fill": "$color-card-white",
+                      "width": 72,
+                      "height": 72,
+                      "stroke": "$color-divider",
+                      "strokeWidth": 1,
+                      "strokeAlignment": "inner"
+                    },
+                    {
+                      "type": "text",
+                      "id": "rlAqH",
+                      "name": "foundations-radius-12-label",
+                      "fill": "$color-text-primary",
+                      "content": "12 pill",
+                      "lineHeight": 1.2307692307692308,
+                      "fontFamily": "$font-family",
+                      "fontSize": 13
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Vr2jA",
+                  "name": "foundations-radius-14",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": 14,
+                      "id": "CVVfE",
+                      "name": "foundations-radius-14-swatch",
+                      "fill": "$color-card-white",
+                      "width": 72,
+                      "height": 72,
+                      "stroke": "$color-divider",
+                      "strokeWidth": 1,
+                      "strokeAlignment": "inner"
+                    },
+                    {
+                      "type": "text",
+                      "id": "ITQX5",
+                      "name": "foundations-radius-14-label",
+                      "fill": "$color-text-primary",
+                      "content": "14 button",
+                      "lineHeight": 1.2307692307692308,
+                      "fontFamily": "$font-family",
+                      "fontSize": 13
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "uMkuJ",
+                  "name": "foundations-radius-16",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": 16,
+                      "id": "E79ny",
+                      "name": "foundations-radius-16-swatch",
+                      "fill": "$color-card-white",
+                      "width": 72,
+                      "height": 72,
+                      "stroke": "$color-divider",
+                      "strokeWidth": 1,
+                      "strokeAlignment": "inner"
+                    },
+                    {
+                      "type": "text",
+                      "id": "a7Xs3",
+                      "name": "foundations-radius-16-label",
+                      "fill": "$color-text-primary",
+                      "content": "16 card",
+                      "lineHeight": 1.2307692307692308,
+                      "fontFamily": "$font-family",
+                      "fontSize": 13
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "dBtsN",
+      "x": 720,
+      "y": 0,
+      "name": "screen-home",
+      "clip": true,
+      "width": 393,
+      "height": 852,
+      "fill": "$color-screen-bg",
+      "layout": "none",
+      "children": [
+        {
+          "type": "text",
+          "id": "n8PLr",
+          "x": 16,
+          "y": 24,
+          "name": "home-title",
+          "fill": "$color-text-primary",
+          "content": "Shop",
+          "lineHeight": 1.2727272727272727,
+          "fontFamily": "$font-family",
+          "fontSize": 22,
+          "fontWeight": "600"
+        },
+        {
+          "type": "frame",
+          "id": "JKaoG",
+          "x": 16,
+          "y": 68,
+          "name": "home-search",
+          "width": 361,
+          "height": 44,
+          "fill": "$color-card-white",
+          "cornerRadius": 12,
+          "gap": 8,
+          "padding": [
+            0,
+            12
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "ymQZE",
+              "name": "home-search-icon",
+              "width": 20,
+              "height": 20,
+              "icon": "search",
+              "library": "lucide",
+              "fill": "$color-text-secondary"
+            },
+            {
+              "type": "text",
+              "id": "Yo2vb",
+              "name": "home-search-placeholder",
+              "fill": "$color-text-secondary",
+              "content": "Search products",
+              "lineHeight": 1.25,
+              "fontFamily": "$font-family",
+              "fontSize": 16
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "e70jzo",
+          "x": 16,
+          "y": 136,
+          "name": "home-featured-title",
+          "fill": "$color-text-primary",
+          "content": "Featured",
+          "lineHeight": 1.2941176470588236,
+          "fontFamily": "$font-family",
+          "fontSize": 17,
+          "fontWeight": "600"
+        },
+        {
+          "type": "frame",
+          "id": "G3Me2w",
+          "x": 16,
+          "y": 170,
+          "name": "home-featured-rail",
+          "gap": 12,
+          "children": [
+            {
+              "type": "frame",
+              "id": "ru7er",
+              "name": "home-featured-headphones",
+              "width": 148,
+              "fill": "$color-card-white",
+              "cornerRadius": 16,
+              "layout": "vertical",
+              "gap": 8,
+              "padding": 12,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "BFRlS",
+                  "name": "home-featured-headphones-image",
+                  "clip": true,
+                  "width": 124,
+                  "height": 108,
+                  "fill": {
+                    "type": "gradient",
+                    "gradientType": "linear",
+                    "enabled": true,
+                    "rotation": 225,
+                    "size": {
+                      "height": 1
+                    },
+                    "colors": [
+                      {
+                        "color": "#0A84FF",
+                        "position": 0
+                      },
+                      {
+                        "color": "#5E5CE6",
+                        "position": 1
+                      }
+                    ]
+                  },
+                  "cornerRadius": 10,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "GrSz6",
+                      "name": "home-featured-headphones-image-glyph",
+                      "width": 48,
+                      "height": 48,
+                      "icon": "headphones",
+                      "library": "lucide",
+                      "fill": "#FFFFFF"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "f0xEkA",
+                  "name": "home-featured-headphones-text",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 4,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "p90NDQ",
+                      "name": "home-featured-headphones-name",
+                      "fill": "$color-text-primary",
+                      "content": "Studio Headphones",
+                      "lineHeight": 1.25,
+                      "fontFamily": "$font-family",
+                      "fontSize": 16
+                    },
+                    {
+                      "type": "text",
+                      "id": "Akph7",
+                      "name": "home-featured-headphones-price",
+                      "fill": "$color-text-primary",
+                      "content": "$249",
+                      "lineHeight": 1.25,
+                      "fontFamily": "$font-family",
+                      "fontSize": 16,
+                      "fontWeight": "500"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "Zzndy",
+              "name": "home-featured-sneakers",
+              "width": 148,
+              "fill": "$color-card-white",
+              "cornerRadius": 16,
+              "layout": "vertical",
+              "gap": 8,
+              "padding": 12,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "zuk80",
+                  "name": "home-featured-sneakers-image",
+                  "clip": true,
+                  "width": 124,
+                  "height": 108,
+                  "fill": {
+                    "type": "gradient",
+                    "gradientType": "linear",
+                    "enabled": true,
+                    "rotation": 225,
+                    "size": {
+                      "height": 1
+                    },
+                    "colors": [
+                      {
+                        "color": "#FF9F0A",
+                        "position": 0
+                      },
+                      {
+                        "color": "#FF375F",
+                        "position": 1
+                      }
+                    ]
+                  },
+                  "cornerRadius": 10,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "vR4Qx",
+                      "name": "home-featured-sneakers-image-glyph",
+                      "width": 48,
+                      "height": 48,
+                      "icon": "footprints",
+                      "library": "lucide",
+                      "fill": "#FFFFFF"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "CcS1p",
+                  "name": "home-featured-sneakers-text",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 4,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "htAZo",
+                      "name": "home-featured-sneakers-name",
+                      "fill": "$color-text-primary",
+                      "content": "Trail Sneakers",
+                      "lineHeight": 1.25,
+                      "fontFamily": "$font-family",
+                      "fontSize": 16
+                    },
+                    {
+                      "type": "text",
+                      "id": "mNDX3",
+                      "name": "home-featured-sneakers-price",
+                      "fill": "$color-text-primary",
+                      "content": "$129",
+                      "lineHeight": 1.25,
+                      "fontFamily": "$font-family",
+                      "fontSize": 16,
+                      "fontWeight": "500"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "fdDIV",
+              "name": "home-featured-watch",
+              "width": 148,
+              "fill": "$color-card-white",
+              "cornerRadius": 16,
+              "layout": "vertical",
+              "gap": 8,
+              "padding": 12,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "cLris",
+                  "name": "home-featured-watch-image",
+                  "clip": true,
+                  "width": 124,
+                  "height": 108,
+                  "fill": {
+                    "type": "gradient",
+                    "gradientType": "linear",
+                    "enabled": true,
+                    "rotation": 225,
+                    "size": {
+                      "height": 1
+                    },
+                    "colors": [
+                      {
+                        "color": "#30B0C7",
+                        "position": 0
+                      },
+                      {
+                        "color": "#34C759",
+                        "position": 1
+                      }
+                    ]
+                  },
+                  "cornerRadius": 10,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "bDDAX",
+                      "name": "home-featured-watch-image-glyph",
+                      "width": 48,
+                      "height": 48,
+                      "icon": "watch",
+                      "library": "lucide",
+                      "fill": "#FFFFFF"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Wpx37",
+                  "name": "home-featured-watch-text",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 4,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "O2FudA",
+                      "name": "home-featured-watch-name",
+                      "fill": "$color-text-primary",
+                      "content": "Field Watch",
+                      "lineHeight": 1.25,
+                      "fontFamily": "$font-family",
+                      "fontSize": 16
+                    },
+                    {
+                      "type": "text",
+                      "id": "g1vgYO",
+                      "name": "home-featured-watch-price",
+                      "fill": "$color-text-primary",
+                      "content": "$399",
+                      "lineHeight": 1.25,
+                      "fontFamily": "$font-family",
+                      "fontSize": 16,
+                      "fontWeight": "500"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "PIhOY",
+          "x": 16,
+          "y": 378,
+          "name": "home-popular-title",
+          "fill": "$color-text-primary",
+          "content": "Popular",
+          "lineHeight": 1.2941176470588236,
+          "fontFamily": "$font-family",
+          "fontSize": 17,
+          "fontWeight": "600"
+        },
+        {
+          "type": "frame",
+          "id": "gjVDx",
+          "x": 16,
+          "y": 412,
+          "name": "home-popular-list",
+          "width": 361,
+          "layout": "vertical",
+          "gap": 12,
+          "children": [
+            {
+              "type": "frame",
+              "id": "y6mZA",
+              "name": "home-popular-backpack",
+              "width": "fill_container",
+              "fill": "$color-card-white",
+              "cornerRadius": 16,
+              "gap": 12,
+              "padding": 12,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "xJpvw",
+                  "name": "home-popular-backpack-image",
+                  "clip": true,
+                  "width": 56,
+                  "height": 56,
+                  "fill": {
+                    "type": "gradient",
+                    "gradientType": "linear",
+                    "enabled": true,
+                    "rotation": 225,
+                    "size": {
+                      "height": 1
+                    },
+                    "colors": [
+                      {
+                        "color": "#AF52DE",
+                        "position": 0
+                      },
+                      {
+                        "color": "#0A84FF",
+                        "position": 1
+                      }
+                    ]
+                  },
+                  "cornerRadius": 10,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "NGOAz",
+                      "name": "home-popular-backpack-image-glyph",
+                      "width": 28,
+                      "height": 28,
+                      "icon": "backpack",
+                      "library": "lucide",
+                      "fill": "#FFFFFF"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "E09SfQ",
+                  "name": "home-popular-backpack-text",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 4,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "xSXmM",
+                      "name": "home-popular-backpack-name",
+                      "fill": "$color-text-primary",
+                      "content": "Commuter Backpack",
+                      "lineHeight": 1.25,
+                      "fontFamily": "$font-family",
+                      "fontSize": 16
+                    },
+                    {
+                      "type": "text",
+                      "id": "ZmZiB",
+                      "name": "home-popular-backpack-tagline",
+                      "fill": "$color-text-secondary",
+                      "content": "22L, laptop sleeve",
+                      "lineHeight": 1.2307692307692308,
+                      "fontFamily": "$font-family",
+                      "fontSize": 13
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "F30Nk",
+                  "name": "home-popular-backpack-price",
+                  "fill": "$color-text-primary",
+                  "content": "$89",
+                  "lineHeight": 1.25,
+                  "fontFamily": "$font-family",
+                  "fontSize": 16,
+                  "fontWeight": "500"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "xsw1E",
+              "name": "home-popular-camera",
+              "width": "fill_container",
+              "fill": "$color-card-white",
+              "cornerRadius": 16,
+              "gap": 12,
+              "padding": 12,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "G6mJrB",
+                  "name": "home-popular-camera-image",
+                  "clip": true,
+                  "width": 56,
+                  "height": 56,
+                  "fill": {
+                    "type": "gradient",
+                    "gradientType": "linear",
+                    "enabled": true,
+                    "rotation": 225,
+                    "size": {
+                      "height": 1
+                    },
+                    "colors": [
+                      {
+                        "color": "#8E8E93",
+                        "position": 0
+                      },
+                      {
+                        "color": "#1C1C1E",
+                        "position": 1
+                      }
+                    ]
+                  },
+                  "cornerRadius": 10,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "i0ZAEy",
+                      "name": "home-popular-camera-image-glyph",
+                      "width": 28,
+                      "height": 28,
+                      "icon": "camera",
+                      "library": "lucide",
+                      "fill": "#FFFFFF"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "D6PeKz",
+                  "name": "home-popular-camera-text",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 4,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "ihNe3",
+                      "name": "home-popular-camera-name",
+                      "fill": "$color-text-primary",
+                      "content": "Compact Camera",
+                      "lineHeight": 1.25,
+                      "fontFamily": "$font-family",
+                      "fontSize": 16
+                    },
+                    {
+                      "type": "text",
+                      "id": "GoNxx",
+                      "name": "home-popular-camera-tagline",
+                      "fill": "$color-text-secondary",
+                      "content": "28mm f/1.8, RAW",
+                      "lineHeight": 1.2307692307692308,
+                      "fontFamily": "$font-family",
+                      "fontSize": 13
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "q6bIq",
+                  "name": "home-popular-camera-price",
+                  "fill": "$color-text-primary",
+                  "content": "$599",
+                  "lineHeight": 1.25,
+                  "fontFamily": "$font-family",
+                  "fontSize": 16,
+                  "fontWeight": "500"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "MrUWq",
+              "name": "home-popular-lamp",
+              "width": "fill_container",
+              "fill": "$color-card-white",
+              "cornerRadius": 16,
+              "gap": 12,
+              "padding": 12,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "HTR4o",
+                  "name": "home-popular-lamp-image",
+                  "clip": true,
+                  "width": 56,
+                  "height": 56,
+                  "fill": {
+                    "type": "gradient",
+                    "gradientType": "linear",
+                    "enabled": true,
+                    "rotation": 225,
+                    "size": {
+                      "height": 1
+                    },
+                    "colors": [
+                      {
+                        "color": "#FFD60A",
+                        "position": 0
+                      },
+                      {
+                        "color": "#FF9F0A",
+                        "position": 1
+                      }
+                    ]
+                  },
+                  "cornerRadius": 10,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "f2slK",
+                      "name": "home-popular-lamp-image-glyph",
+                      "width": 28,
+                      "height": 28,
+                      "icon": "lamp-desk",
+                      "library": "lucide",
+                      "fill": "#FFFFFF"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "CMBuI",
+                  "name": "home-popular-lamp-text",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 4,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "N1gKMA",
+                      "name": "home-popular-lamp-name",
+                      "fill": "$color-text-primary",
+                      "content": "Desk Lamp",
+                      "lineHeight": 1.25,
+                      "fontFamily": "$font-family",
+                      "fontSize": 16
+                    },
+                    {
+                      "type": "text",
+                      "id": "LT7J9",
+                      "name": "home-popular-lamp-tagline",
+                      "fill": "$color-text-secondary",
+                      "content": "Warm dimmable LED",
+                      "lineHeight": 1.2307692307692308,
+                      "fontFamily": "$font-family",
+                      "fontSize": 13
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "Q7Y7O",
+                  "name": "home-popular-lamp-price",
+                  "fill": "$color-text-primary",
+                  "content": "$49",
+                  "lineHeight": 1.25,
+                  "fontFamily": "$font-family",
+                  "fontSize": 16,
+                  "fontWeight": "500"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "VylBq",
+      "x": 1193,
+      "y": 0,
+      "name": "screen-product-detail",
+      "clip": true,
+      "width": 393,
+      "height": 852,
+      "fill": "$color-screen-bg",
+      "layout": "none",
+      "children": [
+        {
+          "type": "frame",
+          "id": "vfsIQ",
+          "x": 0,
+          "y": 0,
+          "name": "detail-hero",
+          "clip": true,
+          "width": 393,
+          "height": 280,
+          "fill": {
+            "type": "gradient",
+            "gradientType": "linear",
+            "enabled": true,
+            "rotation": 225,
+            "size": {
+              "height": 1
+            },
+            "colors": [
+              {
+                "color": "#0A84FF",
+                "position": 0
+              },
+              {
+                "color": "#5E5CE6",
+                "position": 1
+              }
+            ]
+          },
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "XUat2",
+              "name": "detail-hero-glyph",
+              "width": 96,
+              "height": 96,
+              "icon": "headphones",
+              "library": "lucide",
+              "fill": "#FFFFFF"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "Z7pBu3",
+          "x": 16,
+          "y": 300,
+          "name": "detail-name",
+          "fill": "$color-text-primary",
+          "content": "Studio Headphones",
+          "lineHeight": 1.2727272727272727,
+          "fontFamily": "$font-family",
+          "fontSize": 22,
+          "fontWeight": "600"
+        },
+        {
+          "type": "text",
+          "id": "t6Jk7e",
+          "x": 16,
+          "y": 332,
+          "name": "detail-price",
+          "fill": "$color-brand-blue",
+          "content": "$249",
+          "lineHeight": 1.2941176470588236,
+          "fontFamily": "$font-family",
+          "fontSize": 17,
+          "fontWeight": "600"
+        },
+        {
+          "type": "text",
+          "id": "GW7hb",
+          "x": 16,
+          "y": 362,
+          "name": "detail-tagline",
+          "fill": "$color-text-secondary",
+          "content": "Noise cancelling, 40h battery",
+          "lineHeight": 1.25,
+          "fontFamily": "$font-family",
+          "fontSize": 16
+        },
+        {
+          "type": "frame",
+          "id": "DDnFL",
+          "x": 16,
+          "y": 406,
+          "name": "detail-specs-card",
+          "width": 361,
+          "fill": "$color-card-white",
+          "cornerRadius": 16,
+          "layout": "vertical",
+          "gap": 12,
+          "padding": [
+            16,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "XEaZg",
+              "name": "detail-spec-battery",
+              "width": "fill_container",
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "OVUTQ",
+                  "name": "detail-spec-battery-label",
+                  "fill": "$color-text-secondary",
+                  "content": "Battery",
+                  "lineHeight": 1.25,
+                  "fontFamily": "$font-family",
+                  "fontSize": 16
+                },
+                {
+                  "type": "text",
+                  "id": "xcmaA",
+                  "name": "detail-spec-battery-value",
+                  "fill": "$color-text-primary",
+                  "content": "40 hours",
+                  "lineHeight": 1.25,
+                  "fontFamily": "$font-family",
+                  "fontSize": 16,
+                  "fontWeight": "500"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "U2fXi",
+              "name": "detail-spec-weight",
+              "width": "fill_container",
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "SjtAx",
+                  "name": "detail-spec-weight-label",
+                  "fill": "$color-text-secondary",
+                  "content": "Weight",
+                  "lineHeight": 1.25,
+                  "fontFamily": "$font-family",
+                  "fontSize": 16
+                },
+                {
+                  "type": "text",
+                  "id": "WncoT",
+                  "name": "detail-spec-weight-value",
+                  "fill": "$color-text-primary",
+                  "content": "268 g",
+                  "lineHeight": 1.25,
+                  "fontFamily": "$font-family",
+                  "fontSize": 16,
+                  "fontWeight": "500"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "eTgFM",
+              "name": "detail-spec-warranty",
+              "width": "fill_container",
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "a9D46",
+                  "name": "detail-spec-warranty-label",
+                  "fill": "$color-text-secondary",
+                  "content": "Warranty",
+                  "lineHeight": 1.25,
+                  "fontFamily": "$font-family",
+                  "fontSize": 16
+                },
+                {
+                  "type": "text",
+                  "id": "ycts9",
+                  "name": "detail-spec-warranty-value",
+                  "fill": "$color-text-primary",
+                  "content": "2 years",
+                  "lineHeight": 1.25,
+                  "fontFamily": "$font-family",
+                  "fontSize": 16,
+                  "fontWeight": "500"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "GMFqL",
+          "x": 16,
+          "y": 546,
+          "name": "detail-add-button",
+          "width": 361,
+          "height": 52,
+          "fill": "$color-brand-blue",
+          "cornerRadius": 14,
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "b0AVUS",
+              "name": "detail-add-button-label",
+              "fill": "$color-card-white",
+              "content": "Add to cart",
+              "lineHeight": 1.2941176470588236,
+              "fontFamily": "$font-family",
+              "fontSize": 17,
+              "fontWeight": "600"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "ToLlP",
+          "x": 16,
+          "y": 610,
+          "name": "detail-shipping-note",
+          "fill": "$color-text-secondary",
+          "textGrowth": "fixed-width",
+          "width": 361,
+          "content": "Free shipping · 30-day returns",
+          "lineHeight": 1.3333333333333333,
+          "textAlign": "center",
+          "fontFamily": "$font-family",
+          "fontSize": 12
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "yxUO0",
+      "x": 1666,
+      "y": 0,
+      "name": "screen-cart",
+      "clip": true,
+      "width": 393,
+      "height": 852,
+      "fill": "$color-screen-bg",
+      "layout": "none",
+      "children": [
+        {
+          "type": "text",
+          "id": "xJ9ag",
+          "x": 16,
+          "y": 24,
+          "name": "cart-title",
+          "fill": "$color-text-primary",
+          "content": "Cart",
+          "lineHeight": 1.2727272727272727,
+          "fontFamily": "$font-family",
+          "fontSize": 22,
+          "fontWeight": "600"
+        },
+        {
+          "type": "frame",
+          "id": "c6e9JN",
+          "x": 16,
+          "y": 76,
+          "name": "cart-items-card",
+          "width": 361,
+          "fill": "$color-card-white",
+          "cornerRadius": 16,
+          "layout": "vertical",
+          "gap": 16,
+          "padding": [
+            16,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "DUwqE",
+              "name": "cart-item-headphones",
+              "width": "fill_container",
+              "gap": 12,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "YBdDO",
+                  "name": "cart-item-headphones-image",
+                  "clip": true,
+                  "width": 48,
+                  "height": 48,
+                  "fill": {
+                    "type": "gradient",
+                    "gradientType": "linear",
+                    "enabled": true,
+                    "rotation": 225,
+                    "size": {
+                      "height": 1
+                    },
+                    "colors": [
+                      {
+                        "color": "#0A84FF",
+                        "position": 0
+                      },
+                      {
+                        "color": "#5E5CE6",
+                        "position": 1
+                      }
+                    ]
+                  },
+                  "cornerRadius": 10,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "T4TSQ",
+                      "name": "cart-item-headphones-image-glyph",
+                      "width": 24,
+                      "height": 24,
+                      "icon": "headphones",
+                      "library": "lucide",
+                      "fill": "#FFFFFF"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "dCAKS",
+                  "name": "cart-item-headphones-text",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Zstsw",
+                      "name": "cart-item-headphones-name",
+                      "fill": "$color-text-primary",
+                      "content": "Studio Headphones",
+                      "lineHeight": 1.25,
+                      "fontFamily": "$font-family",
+                      "fontSize": 16
+                    },
+                    {
+                      "type": "frame",
+                      "id": "q7r3g",
+                      "name": "cart-item-headphones-stepper",
+                      "width": 96,
+                      "height": 32,
+                      "fill": "$color-screen-bg",
+                      "cornerRadius": 12,
+                      "padding": [
+                        0,
+                        12
+                      ],
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "u7hbKE",
+                          "name": "cart-item-headphones-stepper-minus",
+                          "fill": "$color-text-primary",
+                          "content": "−",
+                          "lineHeight": 1.2307692307692308,
+                          "fontFamily": "$font-family",
+                          "fontSize": 13
+                        },
+                        {
+                          "type": "text",
+                          "id": "W858Pl",
+                          "name": "cart-item-headphones-stepper-quantity",
+                          "fill": "$color-text-primary",
+                          "content": "1",
+                          "lineHeight": 1.2307692307692308,
+                          "fontFamily": "$font-family",
+                          "fontSize": 13
+                        },
+                        {
+                          "type": "text",
+                          "id": "FOHhP",
+                          "name": "cart-item-headphones-stepper-plus",
+                          "fill": "$color-text-primary",
+                          "content": "+",
+                          "lineHeight": 1.2307692307692308,
+                          "fontFamily": "$font-family",
+                          "fontSize": 13
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "eX9iL",
+                  "name": "cart-item-headphones-price",
+                  "fill": "$color-text-primary",
+                  "content": "$249",
+                  "lineHeight": 1.25,
+                  "fontFamily": "$font-family",
+                  "fontSize": 16,
+                  "fontWeight": "500"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "k9BEm",
+              "name": "cart-item-sneakers",
+              "width": "fill_container",
+              "gap": 12,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "a0Co9",
+                  "name": "cart-item-sneakers-image",
+                  "clip": true,
+                  "width": 48,
+                  "height": 48,
+                  "fill": {
+                    "type": "gradient",
+                    "gradientType": "linear",
+                    "enabled": true,
+                    "rotation": 225,
+                    "size": {
+                      "height": 1
+                    },
+                    "colors": [
+                      {
+                        "color": "#FF9F0A",
+                        "position": 0
+                      },
+                      {
+                        "color": "#FF375F",
+                        "position": 1
+                      }
+                    ]
+                  },
+                  "cornerRadius": 10,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "mFTTY",
+                      "name": "cart-item-sneakers-image-glyph",
+                      "width": 24,
+                      "height": 24,
+                      "icon": "footprints",
+                      "library": "lucide",
+                      "fill": "#FFFFFF"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "AZ7MS",
+                  "name": "cart-item-sneakers-text",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "S0qFv",
+                      "name": "cart-item-sneakers-name",
+                      "fill": "$color-text-primary",
+                      "content": "Trail Sneakers",
+                      "lineHeight": 1.25,
+                      "fontFamily": "$font-family",
+                      "fontSize": 16
+                    },
+                    {
+                      "type": "frame",
+                      "id": "JOlaQ",
+                      "name": "cart-item-sneakers-stepper",
+                      "width": 96,
+                      "height": 32,
+                      "fill": "$color-screen-bg",
+                      "cornerRadius": 12,
+                      "padding": [
+                        0,
+                        12
+                      ],
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "V8M3D1",
+                          "name": "cart-item-sneakers-stepper-minus",
+                          "fill": "$color-text-primary",
+                          "content": "−",
+                          "lineHeight": 1.2307692307692308,
+                          "fontFamily": "$font-family",
+                          "fontSize": 13
+                        },
+                        {
+                          "type": "text",
+                          "id": "p3Bzcj",
+                          "name": "cart-item-sneakers-stepper-quantity",
+                          "fill": "$color-text-primary",
+                          "content": "1",
+                          "lineHeight": 1.2307692307692308,
+                          "fontFamily": "$font-family",
+                          "fontSize": 13
+                        },
+                        {
+                          "type": "text",
+                          "id": "vzPNC",
+                          "name": "cart-item-sneakers-stepper-plus",
+                          "fill": "$color-text-primary",
+                          "content": "+",
+                          "lineHeight": 1.2307692307692308,
+                          "fontFamily": "$font-family",
+                          "fontSize": 13
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "iKfHC",
+                  "name": "cart-item-sneakers-price",
+                  "fill": "$color-text-primary",
+                  "content": "$129",
+                  "lineHeight": 1.25,
+                  "fontFamily": "$font-family",
+                  "fontSize": 16,
+                  "fontWeight": "500"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "AnNGc",
+              "name": "cart-item-lamp",
+              "width": "fill_container",
+              "gap": 12,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "Q9mfpg",
+                  "name": "cart-item-lamp-image",
+                  "clip": true,
+                  "width": 48,
+                  "height": 48,
+                  "fill": {
+                    "type": "gradient",
+                    "gradientType": "linear",
+                    "enabled": true,
+                    "rotation": 225,
+                    "size": {
+                      "height": 1
+                    },
+                    "colors": [
+                      {
+                        "color": "#FFD60A",
+                        "position": 0
+                      },
+                      {
+                        "color": "#FF9F0A",
+                        "position": 1
+                      }
+                    ]
+                  },
+                  "cornerRadius": 10,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "Ppo1K",
+                      "name": "cart-item-lamp-image-glyph",
+                      "width": 24,
+                      "height": 24,
+                      "icon": "lamp-desk",
+                      "library": "lucide",
+                      "fill": "#FFFFFF"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "raByS",
+                  "name": "cart-item-lamp-text",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "FF8NQ",
+                      "name": "cart-item-lamp-name",
+                      "fill": "$color-text-primary",
+                      "content": "Desk Lamp",
+                      "lineHeight": 1.25,
+                      "fontFamily": "$font-family",
+                      "fontSize": 16
+                    },
+                    {
+                      "type": "frame",
+                      "id": "RdAT5",
+                      "name": "cart-item-lamp-stepper",
+                      "width": 96,
+                      "height": 32,
+                      "fill": "$color-screen-bg",
+                      "cornerRadius": 12,
+                      "padding": [
+                        0,
+                        12
+                      ],
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "Y0Q0Kz",
+                          "name": "cart-item-lamp-stepper-minus",
+                          "fill": "$color-text-primary",
+                          "content": "−",
+                          "lineHeight": 1.2307692307692308,
+                          "fontFamily": "$font-family",
+                          "fontSize": 13
+                        },
+                        {
+                          "type": "text",
+                          "id": "qxDO3",
+                          "name": "cart-item-lamp-stepper-quantity",
+                          "fill": "$color-text-primary",
+                          "content": "1",
+                          "lineHeight": 1.2307692307692308,
+                          "fontFamily": "$font-family",
+                          "fontSize": 13
+                        },
+                        {
+                          "type": "text",
+                          "id": "HhQT8",
+                          "name": "cart-item-lamp-stepper-plus",
+                          "fill": "$color-text-primary",
+                          "content": "+",
+                          "lineHeight": 1.2307692307692308,
+                          "fontFamily": "$font-family",
+                          "fontSize": 13
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "u19Jeg",
+                  "name": "cart-item-lamp-price",
+                  "fill": "$color-text-primary",
+                  "content": "$49",
+                  "lineHeight": 1.25,
+                  "fontFamily": "$font-family",
+                  "fontSize": 16,
+                  "fontWeight": "500"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "bUR8e",
+          "x": 16,
+          "y": 336,
+          "name": "cart-subtotal-row",
+          "width": 361,
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "F1rEdg",
+              "name": "cart-subtotal-label",
+              "fill": "$color-text-secondary",
+              "content": "Subtotal",
+              "lineHeight": 1.25,
+              "fontFamily": "$font-family",
+              "fontSize": 16
+            },
+            {
+              "type": "text",
+              "id": "X5ynSA",
+              "name": "cart-subtotal-value",
+              "fill": "$color-text-primary",
+              "content": "$427",
+              "lineHeight": 1.2941176470588236,
+              "fontFamily": "$font-family",
+              "fontSize": 17,
+              "fontWeight": "600"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "Y3OaLu",
+          "x": 16,
+          "y": 382,
+          "name": "cart-checkout-button",
+          "width": 361,
+          "height": 52,
+          "fill": "$color-brand-blue",
+          "cornerRadius": 14,
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "u59GeU",
+              "name": "cart-checkout-button-label",
+              "fill": "$color-card-white",
+              "content": "Checkout",
+              "lineHeight": 1.2941176470588236,
+              "fontFamily": "$font-family",
+              "fontSize": 17,
+              "fontWeight": "600"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "A7FHJt",
+      "x": 2139,
+      "y": 0,
+      "name": "screen-checkout",
+      "clip": true,
+      "width": 393,
+      "height": 852,
+      "fill": "$color-screen-bg",
+      "layout": "none",
+      "children": [
+        {
+          "type": "text",
+          "id": "IGffp",
+          "x": 16,
+          "y": 24,
+          "name": "checkout-title",
+          "fill": "$color-text-primary",
+          "textGrowth": "fixed-width",
+          "width": 361,
+          "content": "Review order",
+          "lineHeight": 1.2727272727272727,
+          "textAlign": "center",
+          "fontFamily": "$font-family",
+          "fontSize": 22,
+          "fontWeight": "600"
+        },
+        {
+          "type": "frame",
+          "id": "yNPf6",
+          "x": 16,
+          "y": 76,
+          "name": "checkout-items-card",
+          "width": 361,
+          "fill": "$color-card-white",
+          "cornerRadius": 16,
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#00000014",
+            "offset": {
+              "x": 0,
+              "y": 4
+            },
+            "blur": 16
+          },
+          "layout": "vertical",
+          "gap": 16,
+          "padding": [
+            16,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "P7OE7",
+              "name": "checkout-item-headphones",
+              "width": "fill_container",
+              "gap": 12,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "f4KwVh",
+                  "name": "checkout-item-headphones-image",
+                  "clip": true,
+                  "width": 48,
+                  "height": 48,
+                  "fill": {
+                    "type": "gradient",
+                    "gradientType": "linear",
+                    "enabled": true,
+                    "rotation": 225,
+                    "size": {
+                      "height": 1
+                    },
+                    "colors": [
+                      {
+                        "color": "#0A84FF",
+                        "position": 0
+                      },
+                      {
+                        "color": "#5E5CE6",
+                        "position": 1
+                      }
+                    ]
+                  },
+                  "cornerRadius": 10,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "W8iAX",
+                      "name": "checkout-item-headphones-image-glyph",
+                      "width": 24,
+                      "height": 24,
+                      "icon": "headphones",
+                      "library": "lucide",
+                      "fill": "#FFFFFF"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "CzOhH",
+                  "name": "checkout-item-headphones-name",
+                  "fill": "$color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Studio Headphones",
+                  "lineHeight": 1.25,
+                  "fontFamily": "$font-family",
+                  "fontSize": 16
+                },
+                {
+                  "type": "text",
+                  "id": "PgeeZ",
+                  "name": "checkout-item-headphones-price",
+                  "fill": "$color-text-primary",
+                  "content": "$249",
+                  "lineHeight": 1.25,
+                  "fontFamily": "$font-family",
+                  "fontSize": 16,
+                  "fontWeight": "500"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "wj7VQ",
+              "name": "checkout-item-sneakers",
+              "width": "fill_container",
+              "gap": 12,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "GpW0V",
+                  "name": "checkout-item-sneakers-image",
+                  "clip": true,
+                  "width": 48,
+                  "height": 48,
+                  "fill": {
+                    "type": "gradient",
+                    "gradientType": "linear",
+                    "enabled": true,
+                    "rotation": 225,
+                    "size": {
+                      "height": 1
+                    },
+                    "colors": [
+                      {
+                        "color": "#FF9F0A",
+                        "position": 0
+                      },
+                      {
+                        "color": "#FF375F",
+                        "position": 1
+                      }
+                    ]
+                  },
+                  "cornerRadius": 10,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "u89qW",
+                      "name": "checkout-item-sneakers-image-glyph",
+                      "width": 24,
+                      "height": 24,
+                      "icon": "footprints",
+                      "library": "lucide",
+                      "fill": "#FFFFFF"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "r39E3",
+                  "name": "checkout-item-sneakers-name",
+                  "fill": "$color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Trail Sneakers",
+                  "lineHeight": 1.25,
+                  "fontFamily": "$font-family",
+                  "fontSize": 16
+                },
+                {
+                  "type": "text",
+                  "id": "zwUJY",
+                  "name": "checkout-item-sneakers-price",
+                  "fill": "$color-text-primary",
+                  "content": "$129",
+                  "lineHeight": 1.25,
+                  "fontFamily": "$font-family",
+                  "fontSize": 16,
+                  "fontWeight": "500"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "hSQPE",
+              "name": "checkout-item-lamp",
+              "width": "fill_container",
+              "gap": 12,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "QLkbC",
+                  "name": "checkout-item-lamp-image",
+                  "clip": true,
+                  "width": 48,
+                  "height": 48,
+                  "fill": {
+                    "type": "gradient",
+                    "gradientType": "linear",
+                    "enabled": true,
+                    "rotation": 225,
+                    "size": {
+                      "height": 1
+                    },
+                    "colors": [
+                      {
+                        "color": "#FFD60A",
+                        "position": 0
+                      },
+                      {
+                        "color": "#FF9F0A",
+                        "position": 1
+                      }
+                    ]
+                  },
+                  "cornerRadius": 10,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "TJzBx",
+                      "name": "checkout-item-lamp-image-glyph",
+                      "width": 24,
+                      "height": 24,
+                      "icon": "lamp-desk",
+                      "library": "lucide",
+                      "fill": "#FFFFFF"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "t8Id4",
+                  "name": "checkout-item-lamp-name",
+                  "fill": "$color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Desk Lamp",
+                  "lineHeight": 1.25,
+                  "fontFamily": "$font-family",
+                  "fontSize": 16
+                },
+                {
+                  "type": "text",
+                  "id": "cB5K0",
+                  "name": "checkout-item-lamp-price",
+                  "fill": "$color-text-primary",
+                  "content": "$49",
+                  "lineHeight": 1.25,
+                  "fontFamily": "$font-family",
+                  "fontSize": 16,
+                  "fontWeight": "500"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "D5J5u",
+          "x": 16,
+          "y": 296,
+          "name": "checkout-delivery-badge",
+          "fill": "$color-pill-green-bg",
+          "cornerRadius": 12,
+          "padding": [
+            4,
+            12
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "H5ZBKE",
+              "name": "checkout-delivery-badge-label",
+              "fill": "$color-pill-green-text",
+              "content": "Free shipping",
+              "lineHeight": 1.2307692307692308,
+              "fontFamily": "$font-family",
+              "fontSize": 13
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "ZmJx0",
+          "x": 132,
+          "y": 300,
+          "name": "checkout-delivery-estimate",
+          "fill": "$color-text-secondary",
+          "content": "Arrives Thu, Aug 6",
+          "lineHeight": 1.2307692307692308,
+          "fontFamily": "$font-family",
+          "fontSize": 13
+        },
+        {
+          "type": "text",
+          "id": "qMA6u",
+          "x": 16,
+          "y": 352,
+          "name": "checkout-summary-title",
+          "fill": "$color-text-primary",
+          "content": "Payment summary",
+          "lineHeight": 1.2941176470588236,
+          "fontFamily": "$font-family",
+          "fontSize": 17,
+          "fontWeight": "600"
+        },
+        {
+          "type": "frame",
+          "id": "b5HPhJ",
+          "x": 16,
+          "y": 390,
+          "name": "checkout-summary-card",
+          "width": 361,
+          "fill": "$color-card-white",
+          "cornerRadius": 16,
+          "layout": "vertical",
+          "gap": 12,
+          "padding": [
+            16,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "co2Ao",
+              "name": "checkout-summary-subtotal",
+              "width": "fill_container",
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "XtQvH",
+                  "name": "checkout-summary-subtotal-label",
+                  "fill": "$color-text-secondary",
+                  "content": "Subtotal",
+                  "lineHeight": 1.25,
+                  "fontFamily": "$font-family",
+                  "fontSize": 16
+                },
+                {
+                  "type": "text",
+                  "id": "LVDcZ",
+                  "name": "checkout-summary-subtotal-value",
+                  "fill": "$color-text-primary",
+                  "content": "$427",
+                  "lineHeight": 1.25,
+                  "fontFamily": "$font-family",
+                  "fontSize": 16,
+                  "fontWeight": "500"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "N2TEz",
+              "name": "checkout-summary-shipping",
+              "width": "fill_container",
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "oxBev",
+                  "name": "checkout-summary-shipping-label",
+                  "fill": "$color-text-secondary",
+                  "content": "Shipping",
+                  "lineHeight": 1.25,
+                  "fontFamily": "$font-family",
+                  "fontSize": 16
+                },
+                {
+                  "type": "text",
+                  "id": "nIuv7",
+                  "name": "checkout-summary-shipping-value",
+                  "fill": "$color-text-primary",
+                  "content": "Free",
+                  "lineHeight": 1.25,
+                  "fontFamily": "$font-family",
+                  "fontSize": 16,
+                  "fontWeight": "500"
+                }
+              ]
+            },
+            {
+              "type": "rectangle",
+              "id": "Jd8sR",
+              "name": "checkout-summary-divider",
+              "fill": "$color-divider",
+              "width": "fill_container",
+              "height": 1
+            },
+            {
+              "type": "frame",
+              "id": "J4iQx",
+              "name": "checkout-summary-total",
+              "width": "fill_container",
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "oA0yk",
+                  "name": "checkout-summary-total-label",
+                  "fill": "$color-text-primary",
+                  "content": "Total",
+                  "lineHeight": 1.2941176470588236,
+                  "fontFamily": "$font-family",
+                  "fontSize": 17,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "KiYSr",
+                  "name": "checkout-summary-total-value",
+                  "fill": "$color-text-primary",
+                  "content": "$427",
+                  "lineHeight": 1.2941176470588236,
+                  "fontFamily": "$font-family",
+                  "fontSize": 17,
+                  "fontWeight": "600"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "X5k5IZ",
+          "x": 16,
+          "y": 553,
+          "name": "checkout-place-order-button",
+          "width": 361,
+          "height": 52,
+          "fill": "$color-brand-blue",
+          "cornerRadius": 14,
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "x9ACY",
+              "name": "checkout-place-order-button-label",
+              "fill": "$color-card-white",
+              "content": "Place order",
+              "lineHeight": 1.2941176470588236,
+              "fontFamily": "$font-family",
+              "fontSize": 17,
+              "fontWeight": "600"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "RbCOF",
+          "x": 16,
+          "y": 617,
+          "name": "checkout-legal-caption",
+          "fill": "$color-text-secondary",
+          "textGrowth": "fixed-width",
+          "width": 361,
+          "content": "Taxes calculated at checkout. 30-day returns.",
+          "lineHeight": 1.3333333333333333,
+          "textAlign": "center",
+          "fontFamily": "$font-family",
+          "fontSize": 12
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "u6pKy",
+      "x": 2612,
+      "y": 0,
+      "name": "screen-confirmation",
+      "clip": true,
+      "width": 393,
+      "height": 852,
+      "fill": "$color-screen-bg",
+      "layout": "none",
+      "children": [
+        {
+          "type": "frame",
+          "id": "tnLtj",
+          "x": 160.5,
+          "y": 120,
+          "name": "confirmation-icon",
+          "width": 72,
+          "height": 72,
+          "fill": "$color-pill-green-bg",
+          "cornerRadius": 36,
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "H5gc3",
+              "name": "confirmation-icon-glyph",
+              "width": 36,
+              "height": 36,
+              "icon": "check",
+              "library": "lucide",
+              "fill": "$color-pill-green-text"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "pMDK5",
+          "x": 16,
+          "y": 216,
+          "name": "confirmation-title",
+          "fill": "$color-text-primary",
+          "textGrowth": "fixed-width",
+          "width": 361,
+          "content": "Order placed",
+          "lineHeight": 1.2727272727272727,
+          "textAlign": "center",
+          "fontFamily": "$font-family",
+          "fontSize": 22,
+          "fontWeight": "600"
+        },
+        {
+          "type": "text",
+          "id": "aceNY",
+          "x": 16,
+          "y": 252,
+          "name": "confirmation-subtitle",
+          "fill": "$color-text-secondary",
+          "textGrowth": "fixed-width",
+          "width": 361,
+          "content": "We sent a receipt to your email.",
+          "lineHeight": 1.25,
+          "textAlign": "center",
+          "fontFamily": "$font-family",
+          "fontSize": 16
+        },
+        {
+          "type": "frame",
+          "id": "oatvS",
+          "x": 16,
+          "y": 304,
+          "name": "confirmation-details-card",
+          "width": 361,
+          "fill": "$color-card-white",
+          "cornerRadius": 16,
+          "layout": "vertical",
+          "gap": 12,
+          "padding": [
+            16,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "qyXFz",
+              "name": "confirmation-order-number",
+              "width": "fill_container",
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "wNrP4",
+                  "name": "confirmation-order-number-label",
+                  "fill": "$color-text-secondary",
+                  "content": "Order",
+                  "lineHeight": 1.25,
+                  "fontFamily": "$font-family",
+                  "fontSize": 16
+                },
+                {
+                  "type": "text",
+                  "id": "N5BQir",
+                  "name": "confirmation-order-number-value",
+                  "fill": "$color-text-primary",
+                  "content": "#10482",
+                  "lineHeight": 1.25,
+                  "fontFamily": "$font-family",
+                  "fontSize": 16,
+                  "fontWeight": "500"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "Cszy7",
+              "name": "confirmation-total",
+              "width": "fill_container",
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "EzbKq",
+                  "name": "confirmation-total-label",
+                  "fill": "$color-text-secondary",
+                  "content": "Total",
+                  "lineHeight": 1.25,
+                  "fontFamily": "$font-family",
+                  "fontSize": 16
+                },
+                {
+                  "type": "text",
+                  "id": "Ase3d",
+                  "name": "confirmation-total-value",
+                  "fill": "$color-text-primary",
+                  "content": "$427",
+                  "lineHeight": 1.25,
+                  "fontFamily": "$font-family",
+                  "fontSize": 16,
+                  "fontWeight": "500"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "txueV",
+              "name": "confirmation-delivery",
+              "width": "fill_container",
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "yX5cq",
+                  "name": "confirmation-delivery-label",
+                  "fill": "$color-text-secondary",
+                  "content": "Delivery",
+                  "lineHeight": 1.25,
+                  "fontFamily": "$font-family",
+                  "fontSize": 16
+                },
+                {
+                  "type": "text",
+                  "id": "VfwSI",
+                  "name": "confirmation-delivery-value",
+                  "fill": "$color-text-primary",
+                  "content": "Thu, Aug 6",
+                  "lineHeight": 1.25,
+                  "fontFamily": "$font-family",
+                  "fontSize": 16,
+                  "fontWeight": "500"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "mLV2z",
+          "x": 16,
+          "y": 452,
+          "name": "confirmation-continue-button",
+          "width": 361,
+          "height": 52,
+          "fill": "$color-brand-blue",
+          "cornerRadius": 14,
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "fCIkL",
+              "name": "confirmation-continue-button-label",
+              "fill": "$color-card-white",
+              "content": "Continue shopping",
+              "lineHeight": 1.2941176470588236,
+              "fontFamily": "$font-family",
+              "fontSize": 17,
+              "fontWeight": "600"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variables": {
+    "font-family": {
+      "type": "string",
+      "value": "Inter"
+    },
+    "color-text-primary": {
+      "type": "color",
+      "value": "#1C1C1E"
+    },
+    "color-text-secondary": {
+      "type": "color",
+      "value": "#8E8E93"
+    },
+    "color-brand-blue": {
+      "type": "color",
+      "value": "#0A84FF"
+    },
+    "color-pill-green-bg": {
+      "type": "color",
+      "value": "#E8F8EE"
+    },
+    "color-pill-green-text": {
+      "type": "color",
+      "value": "#1C7C4A"
+    },
+    "color-divider": {
+      "type": "color",
+      "value": "#E5E5EA"
+    },
+    "color-card-white": {
+      "type": "color",
+      "value": "#FFFFFF"
+    },
+    "color-screen-bg": {
+      "type": "color",
+      "value": "#F2F2F7"
+    },
+    "space-4": {
+      "type": "number",
+      "value": 4
+    },
+    "space-8": {
+      "type": "number",
+      "value": 8
+    },
+    "space-12": {
+      "type": "number",
+      "value": 12
+    },
+    "space-16": {
+      "type": "number",
+      "value": 16
+    },
+    "space-20": {
+      "type": "number",
+      "value": 20
+    },
+    "space-24": {
+      "type": "number",
+      "value": 24
+    },
+    "space-32": {
+      "type": "number",
+      "value": 32
+    },
+    "radius-10": {
+      "type": "number",
+      "value": 10
+    },
+    "radius-12": {
+      "type": "number",
+      "value": 12
+    },
+    "radius-14": {
+      "type": "number",
+      "value": 14
+    },
+    "radius-16": {
+      "type": "number",
+      "value": 16
+    }
+  },
+  "fileToken": "d913b176-7f54-45ad-a80d-418678c82aca"
+}
