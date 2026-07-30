@@ -109,6 +109,14 @@ struct ShopHomeScreen: View {
                 .foregroundColor(Shop.Palette.secondaryText)
                 .designNode("home-search-placeholder")
             Spacer(minLength: 0)
+            Button(action: {}) {
+                Image(systemName: "xmark.circle.fill")
+                    .font(.system(size: 15))
+                    .foregroundColor(Shop.Palette.secondaryText)
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel(Text(verbatim: "Clear search"))
+            .designNode("home-search-clear")
         }
         .padding(.horizontal, Shop.Space.md)
         .frame(height: 36)

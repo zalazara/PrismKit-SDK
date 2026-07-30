@@ -65,6 +65,15 @@ struct CartScreen: View {
                 .font(Shop.TypeStyle.body)
                 .foregroundColor(Shop.Palette.secondaryText)
                 .designNode("cart-subtotal-label")
+            Button(action: {}) {
+                Image(systemName: "info.circle")
+                    .font(.system(size: 13))
+                    .foregroundColor(Shop.Palette.secondaryText)
+                    .frame(width: 22, height: 22)
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel(Text(verbatim: "Pricing details"))
+            .designNode("cart-subtotal-info")
             Spacer(minLength: 0)
             Text(subtotal)
                 .font(Shop.TypeStyle.emphasizedRow)
