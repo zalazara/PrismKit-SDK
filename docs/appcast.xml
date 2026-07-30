@@ -17,6 +17,20 @@
         <description>Updates for Prism Inspector, the macOS companion for PrismKit.</description>
         <language>en</language>
         <item>
+            <title>1.3.1</title>
+            <pubDate>Thu, 30 Jul 2026 21:21:29 +0000</pubDate>
+            <sparkle:version>49</sparkle:version>
+            <sparkle:shortVersionString>1.3.1</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
+            <description><![CDATA[<h3>Fixed</h3>
+<ul>
+  <li>Installing by dragging the app across now offers to eject the disk image and move it to the Trash when you next open it, the same as using the in-app move already did.</li>
+  <li>The Layers button now announces itself properly to VoiceOver, and has the tooltip the rest of the toolbar already had.</li>
+</ul>
+]]></description>
+            <enclosure url="https://github.com/zalazara/PrismKit-SDK/releases/download/app-v1.3.1/Prism-Inspector-1.3.1.zip" length="8199740" type="application/octet-stream" sparkle:edSignature="XQskNVh6WGbDwV6L9ZKenZGihtqcqT0kuagkhUf/3bTvurat+IkUVTAa9d5MpK89bDi64V7ntTgxu1SJumjTDg=="/>
+        </item>
+        <item>
             <title>1.3.0</title>
             <pubDate>Thu, 30 Jul 2026 17:26:13 -0300</pubDate>
             <sparkle:version>45</sparkle:version>
@@ -44,25 +58,6 @@
 </ul>
 ]]></description>
             <enclosure url="https://github.com/zalazara/PrismKit-SDK/releases/download/app-v1.2.1/Prism-Inspector-1.2.1.zip" length="8085503" type="application/octet-stream" sparkle:edSignature="F3gtczUOpk7slCbE7Xl/TMvaJRPOdMqb41LrrRj5WOeFUKHBQagn9soIJLTLF0mf/X5iiNIHPhKLa2ttak4JDw=="/>
-        </item>
-        <item>
-            <title>1.2.0</title>
-            <pubDate>Thu, 30 Jul 2026 18:21:10 +0000</pubDate>
-            <sparkle:version>39</sparkle:version>
-            <sparkle:shortVersionString>1.2.0</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
-            <description><![CDATA[<h3>New</h3>
-<ul>
-  <li><strong>A simulator that is not exposing its accessibility tree now says so.</strong> That flag being off is the single reason the view tree, the accessibility reader and design checks all come up empty at once, and the only way to fix it was a button buried in a collapsed section of the inspector. Prism Inspector now offers to switch the flag on and relaunch the app for you — and waits a few seconds before asking, so a screen that is merely still loading is never mistaken for a broken one.</li>
-  <li><strong>The view tree explains itself when it is empty.</strong> It used to render a blank list with no message and nothing to click, which looks identical to a bug in your app.</li>
-  <li><strong>A crash is no longer something only you know about.</strong> If Prism Inspector quits unexpectedly, the next launch shows you the report macOS saved — in full, so you can read it first — and offers to open a pre-filled bug report with it on your clipboard. Nothing is ever sent automatically: the app talks to your simulator and to its own update feed, and to nothing else.</li>
-</ul>
-<h3>Fixed</h3>
-<ul>
-  <li><strong>A design attached or detached by an agent now takes effect while the window is open.</strong> It was only read at launch, so a design an agent attached mid-session never appeared, and one it detached kept drawing itself over the canvas indefinitely.</li>
-</ul>
-]]></description>
-            <enclosure url="https://github.com/zalazara/PrismKit-SDK/releases/download/app-v1.2.0/Prism-Inspector-1.2.0.zip" length="8080608" type="application/octet-stream" sparkle:edSignature="7g1fZVW9PcQAOGN2nv9yWkAr/J4tGnDNc4ekyRNJQIOYtvINBfDVKeGyuaeCLCY68hQ5m47PBSe8wexmRcI1Dw=="/>
         </item>
     </channel>
 </rss>
