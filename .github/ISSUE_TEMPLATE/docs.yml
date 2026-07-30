@@ -1,0 +1,33 @@
+name: Documentation gap
+description: The docs are missing, wrong, or misleading about something.
+labels: ["documentation"]
+body:
+  - type: markdown
+    attributes:
+      value: >
+        Gaps in the docs are worth reporting as much as bugs in the app: if the
+        answer was hard to find, that is a defect in the docs.
+
+  - type: input
+    id: where
+    attributes:
+      label: Where
+      description: Link the section, or name it.
+      placeholder: "https://zalazara.github.io/PrismKit-SDK/guide.html#mcp"
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What is missing or wrong
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you were trying to find out
+      description: >
+        The question you arrived with. That is usually the thing the section
+        should have answered.

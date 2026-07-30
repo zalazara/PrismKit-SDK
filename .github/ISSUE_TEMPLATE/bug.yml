@@ -1,0 +1,103 @@
+name: Bug report
+description: Something behaves differently than it should.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time. The fields below are the ones that most often
+        decide whether a bug can be reproduced — a report without them usually
+        turns into a round of questions before anything can happen.
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Which part
+      options:
+        - Prism Inspector (the Mac app)
+        - PrismKit (the Swift package)
+        - MCP server / AI agent integration
+        - Website or documentation
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: >
+        For the app: Prism Inspector ▸ About. For the package: the version
+        resolved in Package.resolved.
+      placeholder: "1.0.0"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: chip
+    attributes:
+      label: Mac
+      description: >
+        Asked because the app ships universal and some faults only appear on one
+        architecture.
+      options:
+        - Apple silicon
+        - Intel
+    validations:
+      required: true
+
+  - type: input
+    id: macos
+    attributes:
+      label: macOS version
+      placeholder: "14.5"
+    validations:
+      required: true
+
+  - type: input
+    id: simulator
+    attributes:
+      label: Simulator and runtime
+      description: Only if the bug involves a running app.
+      placeholder: "iPhone 16 Pro, iOS 18.2"
+
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you saw, and what you expected instead.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Boot a simulator and run …
+        2. Open Prism Inspector
+        3. Click …
+    validations:
+      required: true
+
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Screenshot or session
+      description: >
+        Drag files in. ⌘E exports the canvas exactly as you see it, and ⌘S saves
+        a session file that reproduces the whole state offline — a session is the
+        single most useful thing you can attach.
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I searched the existing issues.
+          required: true
+        - label: >
+            If this is about the accessibility reader being empty, I enabled the
+            simulator's accessibility flag and relaunched the app under test.
+        - label: >
+            If this is about updates not working, the app is in /Applications and
+            was moved there in the Finder.

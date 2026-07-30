@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Documentation
+    url: https://zalazara.github.io/PrismKit-SDK/guide.html
+    about: Setup, the SDK API, the MCP tools, and the common failure modes.
+  - name: Download the app
+    url: https://zalazara.github.io/PrismKit-SDK/
+    about: Prism Inspector for macOS — free, signed and notarized.
