@@ -17,6 +17,22 @@
         <description>Updates for Prism Inspector, the macOS companion for PrismKit.</description>
         <language>en</language>
         <item>
+            <title>1.4.0</title>
+            <pubDate>Thu, 30 Jul 2026 23:21:51 +0000</pubDate>
+            <sparkle:version>57</sparkle:version>
+            <sparkle:shortVersionString>1.4.0</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
+            <description><![CDATA[<h3>New</h3>
+<ul>
+  <li>Prism Inspector now checks the controls on screen against Apple's 44×44 pt minimum tap target. When something is too small a warning count appears in the toolbar, and clicking a warning marks the control on the canvas.</li>
+  <li>Prism Inspector now also checks text contrast, reading the colours from the screen as drawn rather than from any theme file. Text that falls short of Apple's 4.5:1 shows up in the same warnings list as undersized controls, with what passes only as large text kept separate from what fails outright.</li>
+  <li>Guideline warnings now name the guideline as Apple's, explain what goes wrong for someone using the app, and link to Apple's own page for the rule.</li>
+  <li>Guideline warnings are now grouped by rule, so the explanation and the link to Apple's page appear once per rule rather than once per element, and the count beside each rule shows how much of the screen it affects.</li>
+</ul>
+]]></description>
+            <enclosure url="https://github.com/zalazara/PrismKit-SDK/releases/download/app-v1.4.0/Prism-Inspector-1.4.0.zip" length="8442593" type="application/octet-stream" sparkle:edSignature="v9R6Y2EvfSQmEcq0jNCZDgTthFx437kkqaf3bEI15Hh3Yh8+ZVOG2DVbp8QrHNG06jCcvdTctVoYuh88LLF6BA=="/>
+        </item>
+        <item>
             <title>1.3.1</title>
             <pubDate>Thu, 30 Jul 2026 21:21:29 +0000</pubDate>
             <sparkle:version>49</sparkle:version>
@@ -44,20 +60,6 @@
 </ul>
 ]]></description>
             <enclosure url="https://github.com/zalazara/PrismKit-SDK/releases/download/app-v1.3.0/Prism-Inspector-1.3.0.zip" length="8191805" type="application/octet-stream" sparkle:edSignature="FojzVncTbkSdWraYkVXCi/26BSCKnDkNk6HZ+/quXtD1QWnWDfs+GELms9h58vzzy0ZOyavB6ubeTJHumtNvBw=="/>
-        </item>
-        <item>
-            <title>1.2.1</title>
-            <pubDate>Thu, 30 Jul 2026 19:01:58 +0000</pubDate>
-            <sparkle:version>42</sparkle:version>
-            <sparkle:shortVersionString>1.2.1</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
-            <description><![CDATA[<h3>Fixed</h3>
-<ul>
-  <li><strong>A design attached while you are looking at another screen now says so.</strong> It used to report every element as missing and draw the whole design over whatever was on screen; it now tells you which screen the design is for, once.</li>
-  <li><strong>The design check no longer mistakes text metrics for a misplaced design.</strong> A design tool and iOS disagree by a point or two about where the same string sits, and at the default tolerance that was being read as the whole screen sitting in the wrong place — after which every difference was quoted against a number the design never contained. It now takes a real offset, the size of a status bar, before saying so.</li>
-</ul>
-]]></description>
-            <enclosure url="https://github.com/zalazara/PrismKit-SDK/releases/download/app-v1.2.1/Prism-Inspector-1.2.1.zip" length="8085503" type="application/octet-stream" sparkle:edSignature="F3gtczUOpk7slCbE7Xl/TMvaJRPOdMqb41LrrRj5WOeFUKHBQagn9soIJLTLF0mf/X5iiNIHPhKLa2ttak4JDw=="/>
         </item>
     </channel>
 </rss>
