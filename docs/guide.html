@@ -304,6 +304,32 @@ var body: some Scene {
       app's real icon. If several simulators are booted, pick one there.
     </p>
 
+    <h3>What works if your app has UIKit screens</h3>
+    <p>
+      Prism Inspector is built for SwiftUI, but the view tree does not come from SwiftUI — it
+      comes from the accessibility tree, walked from your app's key window. So in a mixed app,
+      <strong>UIKit screens are measured too</strong>, with correct geometry and text, as long as
+      a <code>measureScope</code> is mounted somewhere in the app. You do not have to be on a
+      SwiftUI screen for it to work.
+    </p>
+    <p>Two limits are worth knowing before you rely on it:</p>
+    <ul>
+      <li>
+        <strong>A pure UIKit app has nowhere to start.</strong> <code>measureScope</code> is a
+        SwiftUI modifier, so an app with no SwiftUI in it cannot stream at all. Mixed apps are
+        fine; UIKit-only ones are not supported yet.
+      </li>
+      <li>
+        <strong>UIKit views cannot be paired by identity in a design check.</strong>
+        <code>accessibilityIdentifier</code> set on a UIView does not reach the snapshot — a
+        known defect, not something your code can work around — and UIKit has no
+        <code>measure</code> equivalent to fall back on. Design checks against UIKit screens
+        therefore pair by copy and geometry, which works but produces findings worth verifying
+        before acting on. Everything else — selection, measuring, the layers, the accessibility
+        reader — behaves the same.
+      </li>
+    </ul>
+
     <!-- ============================================================ -->
     <h2 id="canvas">The canvas</h2>
     <p>
