@@ -372,8 +372,8 @@
     <div class="sec-head">
       <h2>Get started</h2>
       <p class="sub">
-        Three steps and you are measuring. Everything else — the SDK, your spacing scale, the
-        MCP server — is optional and covered in the docs.
+        Four steps and you are measuring. Two of them are in your app: the inspector reads what
+        the SDK streams, so an app without it has nothing to show.
       </p>
     </div>
 
@@ -386,16 +386,37 @@
         itself.</p>
       </li>
       <li>
-        <h3>Run your app in the simulator</h3>
-        <p>Any SwiftUI app, from Xcode or <code>simctl</code>. Nothing to add to your project and
-        nothing to configure.</p>
+        <h3>Add the package to your app</h3>
+        <p>In Xcode: <strong style="color:var(--ink);font-weight:500">File ▸ Add Package
+        Dependencies…</strong> and paste the repository URL. Or in a
+        <code>Package.swift</code>:</p>
+<pre class="snippet"><code>.package(url: "https://github.com/zalazara/PrismKit-SDK.git", from: "0.2.0")</code></pre>
+        <p class="note">It compiles out of release builds entirely — the collection, overlay and
+        streaming code is not in the shipping binary, so it does not need wrapping in
+        <code>#if DEBUG</code>.</p>
       </li>
       <li>
-        <h3>Open Prism Inspector</h3>
-        <p>It finds the running app and mirrors its screen. Click anything to inspect it, ⌥-click
-        a second element to measure between them.</p>
-        <p class="note">Order does not matter. Start either one first — the app reconnects on its
-        own within a few seconds.</p>
+        <h3>Add one modifier at the root</h3>
+        <p>This is what streams. Nothing else in your app needs annotating:</p>
+<pre class="snippet"><code>import PrismKit
+
+var body: some Scene {
+    WindowGroup {
+        ContentView()
+            .measureScope()
+    }
+}</code></pre>
+        <p>Put it above your <code>NavigationStack</code> or <code>TabView</code> so every screen
+        you push is covered by it.</p>
+      </li>
+      <li>
+        <h3>Run it, and open Prism Inspector</h3>
+        <p>Launch in the simulator from Xcode or <code>simctl</code>. The inspector finds the app
+        and mirrors its screen. Click anything to inspect it, ⌥-click a second element to measure
+        between them.</p>
+        <p class="note">Order does not matter — start either one first, the app reconnects within
+        a few seconds. If the view tree stays empty, the simulator has not built its accessibility
+        tree yet: the inspector has a button for that, then relaunch the app.</p>
       </li>
     </ol>
 

@@ -28,6 +28,7 @@ struct PlaygroundScreen: View {
                     case .cart: CartScreen()
                     case .checkout: CheckoutScreen()
                     case .confirmation: ConfirmationScreen()
+                    case .uikit: UIKitScreen().ignoresSafeArea(edges: .bottom)
                     }
                 }
         }
@@ -61,6 +62,7 @@ struct PlaygroundScreen: View {
         case "cart": return [detail, .cart]
         case "checkout": return [detail, .cart, .checkout]
         case "confirmation": return [detail, .cart, .checkout, .confirmation]
+        case "uikit": return [.uikit]
         default:
             guard let product = Product.all.first(where: { $0.slug == slug }) else { return [] }
             return [.product(product)]
