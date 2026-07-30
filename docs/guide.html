@@ -256,13 +256,48 @@
     <!-- ============================================================ -->
     <h2 id="connect">Connect to your app</h2>
     <p>
-      Boot a simulator and run any SwiftUI app — from Xcode, or with
-      <code>xcrun simctl launch</code>. Then open Prism Inspector. It finds the running app,
-      mirrors its screen, and fills the view tree.
+      <strong>Your app has to carry the SDK.</strong> The inspector renders what the app streams
+      to it, so an app without PrismKit shows nothing at all — not an empty tree, but no screen
+      either, because capture only runs while something is streaming. Two lines get you there.
+    </p>
+    <p>
+      Add the package, in Xcode through <strong>File ▸ Add Package Dependencies…</strong> or in a
+      <code>Package.swift</code>:
+    </p>
+<pre><code>.package(url: "https://github.com/zalazara/PrismKit-SDK.git", from: "0.2.0")</code></pre>
+    <p>
+      Then put one modifier at the root of your view hierarchy — above your
+      <code>NavigationStack</code> or <code>TabView</code>, so every screen you push is covered
+      by the same scope:
+    </p>
+<pre><code>import PrismKit
+
+var body: some Scene {
+    WindowGroup {
+        ContentView()
+            .measureScope()
+    }
+}</code></pre>
+    <p>
+      That is the whole integration. Individual views do not need annotating: everything in the
+      view tree comes from the accessibility tree, so a screen you never touched still reports
+      its elements. <a href="#sdk-why">Adding <code>measure</code></a> to specific views is
+      worthwhile later, for naming components and for design checks that pair by identity, but
+      nothing requires it.
+    </p>
+    <p class="note">
+      It compiles out of release builds entirely — the collection, overlay and streaming code is
+      not in the shipping binary — so it does not need wrapping in <code>#if DEBUG</code>.
+    </p>
+    <p>
+      Now boot a simulator, run the app from Xcode or with <code>xcrun simctl launch</code>, and
+      open Prism Inspector. It finds the running app, mirrors its screen, and fills the view tree.
     </p>
     <p class="note">
       Order does not matter. Start either one first; the connection retries every few seconds, so
-      an app launched before the inspector still appears.
+      an app launched before the inspector still appears. If the app is there but the view tree
+      is empty, the simulator has not built its accessibility tree — see
+      <a href="#trouble">Troubleshooting</a>.
     </p>
     <p>
       The toolbar's breadcrumb shows which app and which simulator you are looking at, with the

@@ -45,6 +45,8 @@ enum ShopRoute: Hashable {
     case cart
     case checkout
     case confirmation
+    /// A screen with no SwiftUI in it, to prove the tree does not care.
+    case uikit
 }
 
 // MARK: - Home
