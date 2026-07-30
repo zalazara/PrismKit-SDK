@@ -438,15 +438,34 @@
   "source": "Figma",
   "reference": "Shop / Home — v4",
   "frame": { "width": 402, "height": 874 },
+  "origin": "safeArea",
   "nodes": [
     {
       "id": "node-1",
       "name": "Featured card",
+      "match": "featuredCard",
       "frame": { "x": 16, "y": 300, "width": 168, "height": 170 },
       "text": "Studio Headphones"
     }
   ]
 }</code></pre>
+    <p>
+      Two of those fields decide whether the report is something you can act on.
+    </p>
+    <p>
+      <code>match</code> is the name the app knows the view by. Set it and pairing is an
+      identity rather than a guess, and every difference under that node inherits that
+      certainty. Leave it out and the comparator falls back to identical copy, then to
+      overlapping rectangles &mdash; which works, and produces findings you have to verify
+      before believing. The name it looks for is a <code>measure</code> group; a SwiftUI
+      <code>accessibilityIdentifier</code> is <em>not</em> enough on its own, because SwiftUI
+      does not surface it to the runtime element the snapshot reads.
+    </p>
+    <p>
+      <code>origin</code> says what the frame&rsquo;s top-left corner is measured from &mdash;
+      <code>"safeArea"</code> for an ordinary screen drawn below the status bar,
+      <code>"screen"</code> (the default) for content that runs to the glass.
+    </p>
     <p>
       Load it with <strong>Load design…</strong> in the toolbar, or have an agent attach it with
       <code>attach_design</code> — they are the same document, so the agent's work and yours are
@@ -469,19 +488,35 @@
     <h2 id="figma">From Figma or Pencil to a design file</h2>
     <p>
       The comparator takes the neutral shape above, so getting a design in means translating from
-      whatever tool drew it. There is <strong>exactly one thing you have to change</strong>, and
+      whatever tool drew it. There are <strong>two things you have to state</strong>, and
       one that is handled for you.
     </p>
 
-    <h3>What you must translate: the origin</h3>
+    <h3>What you must translate: canvas coordinates</h3>
     <p>
       Design tools report positions in <em>canvas</em> coordinates — where the frame happens to
       sit on an infinite board, so a screen might start at <code>x: 4820</code>. The comparator
-      assumes the design frame maps to the whole screen starting at its own top-left corner.
+      expects node frames relative to the design frame&rsquo;s own top-left corner.
     </p>
     <p>
       So subtract the frame's origin from every node: a node at canvas <code>x: 4836</code> inside
       a frame at <code>x: 4820</code> becomes <code>x: 16</code>.
+    </p>
+
+    <h3>What you must state: where that corner sits on the device</h3>
+    <p>
+      A design frame&rsquo;s numbers mean nothing until you say what they are measured from.
+      <code>y: 24</code> is the safe area on a phone with a Dynamic Island and the glass on a
+      phone without one &mdash; the same number, two different places. Say which with
+      <code>origin</code> and the inset the running device reports is added for you, so one
+      design frame holds on every phone instead of being redrawn for each.
+    </p>
+    <p class="note">
+      Anchor it wrong and the whole screen sits at a constant offset. That is reported once, as
+      <code>screenOffset</code>, with the remaining differences measured with it removed &mdash;
+      one mistake reads as one finding rather than as forty. The detection is deliberately
+      strict: a layout bug high on a screen also pushes everything below it, but by amounts that
+      scatter, so that stays reported element by element.
     </p>
 
     <h3>What is handled for you: the scale</h3>
@@ -561,10 +596,38 @@ print(json.dumps({
 
     <h3>Pencil</h3>
     <p>
-      Pencil's MCP server exposes <code>snapshot_layout</code>, which returns the layout
-      rectangles for a node's subtree with a <code>maxDepth</code> you control — so the pruning
-      problem above is solved at the source by asking for two or three levels rather than
-      everything. The same origin subtraction applies.
+      Pencil is driven through <code>execute</code>, which evaluates a small JavaScript snippet
+      against the open document. <code>Get</code> walks a subtree and hands each node to a
+      visitor; <code>Print</code> adds a line to the response. So instead of pulling the whole
+      tree and pruning it, you ask for exactly the columns you need:
+    </p>
+<pre><code>Get("FRAME_ID", (n, c) =&gt; Print([
+  n.name,
+  Math.round(c.bounds.x), Math.round(c.bounds.y),
+  Math.round(c.bounds.width), Math.round(c.bounds.height),
+  n.content ?? ""
+].join(" | ")))</code></pre>
+    <p>
+      <code>ctx.bounds</code> resolves in the parent&rsquo;s coordinate space, so walk the
+      <code>parentCtx</code> chain to accumulate an absolute position, then subtract the frame&rsquo;s
+      own origin &mdash; the same subtraction as above. Call
+      <code>get_app_state</code> first: it lists the top-level frames with their ids, and with
+      <code>include_schema</code> it returns the document schema and the full <code>execute</code>
+      API.
+    </p>
+    <p>
+      Name your layers after the <code>measure</code> groups in the app and the translation
+      becomes mechanical: the layer name is the node&rsquo;s <code>match</code>, and every finding
+      comes back paired by identity.
+    </p>
+    <p class="note">
+      Two things will otherwise cost you an afternoon. The MCP server has to be started with
+      <code>--agent</code>; with <code>--app desktop</code> alone every call fails with
+      <em>&ldquo;you are probably referencing the wrong .pen file&rdquo;</em>, which reads like a
+      problem with your document. And the first call on a fresh connection hangs for about a
+      minute while the agent name registers, then fails &mdash; the immediate retry answers in
+      well under a second. Earlier builds exposed <code>snapshot_layout</code> and
+      <code>batch_get</code>; 1.2 folds both into <code>execute</code>.
     </p>
 
     <h3>Or let the agent do it</h3>
@@ -582,6 +645,49 @@ print(json.dumps({
       The agent calls <code>attach_design</code> and then <code>compare_to_design</code>, and
       because the attachment is shared, the same design appears drawn on your canvas while it
       works.
+    </p>
+
+    <h3 id="example-design">Check it against the example design</h3>
+    <p>
+      Before pointing this at your own screens, watch it work on one where the answer is already
+      known. The SDK repository ships <code>Example.pen</code> &mdash; a six-frame Pencil document
+      holding five screens and the design system behind them &mdash; and
+      <code>Example/PrismKitExample</code>, that design built in SwiftUI. The app drifts from the
+      design in <strong>seven measured places</strong>, on purpose.
+    </p>
+    <p>
+      All seven are listed in <code>Example/DESIGN-DEMO.md</code> with the finding each one should
+      produce. That list is the point: run the check and compare against it. A finding that is not
+      on the list, or a row on the list with no finding, is worth chasing. It is the difference
+      between a demo you watch and a test that can fail.
+    </p>
+    <ol>
+      <li>
+        Open <code>Example.pen</code> in Pencil, and boot a simulator <strong>393 pt wide</strong>
+        (iPhone 15 Pro). Matching the design&rsquo;s width keeps the scale at exactly 1, so every
+        number you read is the layout rather than the rescaling.
+      </li>
+      <li>
+        Run the example app with <code>-autopush checkout</code>, which opens the screen whose
+        defects are the most legible. If the view tree comes back empty, see
+        <a href="#trouble">the accessibility list is empty</a>.
+      </li>
+      <li>
+        Ask your agent to read <code>screen-checkout</code>, translate it, attach it, and compare
+        with <code>tolerance: 6</code>.
+      </li>
+    </ol>
+    <p>
+      You should get seven findings on that screen: a button 8 pt short and the caption that moved
+      because of it, two copy differences &mdash; <strong>one of which is not a bug</strong>, a
+      delivery date the app computes and the mock could only guess &mdash; and the residue of two
+      text engines measuring the same string differently.
+    </p>
+    <p class="note">
+      That last part is why <code>tolerance</code> exists. A design tool and CoreText disagree by a
+      point or two on every line of text, and those differences accumulate down a screen. Six
+      points clears the disagreement while still catching an eight-point mistake; zero would report
+      a perfect screen as broken.
     </p>
 
     <!-- ============================================================ -->
@@ -868,5 +974,6 @@ check_alignment(tolerance: 2)</code></pre>
   </main>
 </div>
 
+<script type="module" src="analytics.js"></script>
 </body>
 </html>
