@@ -237,7 +237,7 @@
     <nav>
       <a href="#features">Features</a>
       <a href="#start">Get started</a>
-      <a href="#sdk">SDK</a>
+      <a href="guide.html">Docs</a>
       <a href="#agents">AI agents</a>
       <a href="https://github.com/zalazara/PrismKit-SDK">GitHub</a>
     </nav>
@@ -372,8 +372,8 @@
     <div class="sec-head">
       <h2>Get started</h2>
       <p class="sub">
-        The first three steps are the whole tool. Everything after them is optional and can wait
-        until you want it.
+        Three steps and you are measuring. Everything else — the SDK, your spacing scale, the
+        MCP server — is optional and covered in the docs.
       </p>
     </div>
 
@@ -381,73 +381,27 @@
       <li>
         <h3>Install it</h3>
         <p>Download the disk image, then <strong style="color:var(--ink);font-weight:500">drag
-        Prism Inspector into Applications in the Finder</strong> — dragging matters. An app copied
-        any other way keeps the quarantine flag macOS puts on downloads, and macOS then runs it
-        from a random read-only folder, which stops it updating itself later.</p>
-        <p>The first time you open it, macOS asks you to confirm because it came from the
-        internet. That prompt is normal: it also says Apple checked the app and found no malware,
-        which is what notarization means.</p>
+        Prism Inspector into Applications in the Finder</strong>. Dragging matters: copied any
+        other way, macOS runs it from a randomised read-only folder and it can never update
+        itself.</p>
       </li>
-
       <li>
         <h3>Run your app in the simulator</h3>
         <p>Any SwiftUI app, from Xcode or <code>simctl</code>. Nothing to add to your project and
         nothing to configure.</p>
       </li>
-
       <li>
         <h3>Open Prism Inspector</h3>
-        <p>It finds the running app and mirrors its screen. Click anything in the canvas or the
-        view tree to inspect it, ⌥-click a second element to measure between them, and press
-        <code>Esc</code> to deselect.</p>
+        <p>It finds the running app and mirrors its screen. Click anything to inspect it, ⌥-click
+        a second element to measure between them.</p>
         <p class="note">Order does not matter. Start either one first — the app reconnects on its
         own within a few seconds.</p>
       </li>
-
-      <li>
-        <h3>Turn on accessibility reading <span class="opt">— optional</span></h3>
-        <p>iOS only builds the accessibility tree while the system accessibility flag is on, so
-        the reader has nothing to read until you enable it. The app has a button that does it for
-        the selected simulator; the app has to be relaunched afterwards.</p>
-        <p>Without it you still get geometry — sizes, spacing, the view tree — just not labels or
-        announcements.</p>
-      </li>
-
-      <li>
-        <h3>Name your components <span class="opt">— optional</span></h3>
-        <p>Add the package and mark the views you care about. Readings stop saying
-        <code>CGDrawingLayer</code> and start saying what you called them, and padding becomes
-        measurable as padding rather than as the gap between two boxes.</p>
-<pre><code>dependencies: [
-    .package(url: "https://github.com/zalazara/PrismKit-SDK.git", from: "0.2.0")
-]</code></pre>
-<pre><code>ProductRow(item: item)
-    .measure("productRow", role: .container)</code></pre>
-        <p class="note">All of it compiles out of release builds. Nothing ships to the App Store
-        and no user data leaves a device.</p>
-      </li>
-
-      <li>
-        <h3>Declare your spacing scale <span class="opt">— optional</span></h3>
-        <p>Drop a <code>.prismkit.json</code> in your project and point the app at that folder
-        once. From then on the app, the MCP server and anything an agent reports all flag spacing
-        against the same numbers instead of a built-in default that is not your design system.</p>
-<pre><code>{
-  "spacing": [4, 8, 12, 16, 24, 32, 40, 48, 64],
-  "grid": 8
-}</code></pre>
-        <p>Commit it, and the whole team judges spacing the same way.</p>
-      </li>
-
-      <li>
-        <h3>Connect an AI agent <span class="opt">— optional</span></h3>
-        <p>Open <strong style="color:var(--ink);font-weight:500">Settings ▸ AI agents</strong> and
-        copy the JSON shown there into your MCP client's configuration. The path is already filled
-        in, because the server ships inside the app — there is nothing to install or build.</p>
-        <p class="note">The app and the server both listen on port 9294, so only one runs at a
-        time. To use both at once, set <code>PRISMKIT_PORT</code> for the server.</p>
-      </li>
     </ol>
+
+    <div style="margin-top:30px">
+      <a class="pill pill-secondary" href="guide.html">Read the docs</a>
+    </div>
   </section>
 
   <section id="agents">
