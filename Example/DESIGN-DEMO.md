@@ -90,10 +90,32 @@ the Mac app and CI all judge spacing by the same numbers.
 
 ### 2. Translate a frame into a DesignSpec
 
-Read the frame's nodes from Pencil and emit node frames **relative to the
-design frame's top-left, in design points**. Set `match` to the app's
-accessibility identifier — here the layer names and the identifiers are the
-same string on purpose, which is what turns pairing from a guess into a fact.
+`get_app_state` lists the top-level frames with their ids — `screen-checkout`
+is `A7FHJt` in this document, and ids change if the file is rebuilt, so read
+them rather than hard-coding them. Then one `execute` per frame returns a row
+per node:
+
+```js
+f = Get("A7FHJt", {depth: 0})
+FX = f.x
+FY = f.y
+Get("A7FHJt", (n, c) => {
+  let x = 0, y = 0, k = c
+  while (k) { x += k.bounds.x; y += k.bounds.y; k = k.parentCtx }
+  Print([n.name,
+         Math.round(x - FX), Math.round(y - FY),
+         Math.round(c.bounds.width), Math.round(c.bounds.height),
+         n.content === undefined ? "" : n.content].join(" | "))
+})
+```
+
+`ctx.bounds` resolves in the parent's space, so the walk up `parentCtx`
+accumulates an absolute position and subtracting the frame's own origin makes
+it relative — which is what the comparator wants.
+
+Set `match` to the name the app knows the view by. Here the Pencil layer
+names and the `designNode(_:)` names are the same string on purpose, which is
+what turns pairing from a guess into a fact.
 
 ```json
 {
