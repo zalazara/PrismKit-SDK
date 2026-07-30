@@ -751,6 +751,105 @@ print(json.dumps({
       a perfect screen as broken.
     </p>
 
+    <h3>One defect, followed all the way through</h3>
+    <p>
+      The checkout screen's primary button is 8 pt short. Here is every step of that, so you can
+      see where the number comes from rather than taking the report's word for it.
+    </p>
+    <figure>
+      <div class="tile">
+        <img src="example-checkout.png" width="350" height="760"
+             alt="The checkout screen in the simulator: a Review order title, three products, a payment summary and a blue Place order button.">
+      </div>
+      <figcaption>
+        The screen being checked. The button at the bottom is the one the design and the app
+        disagree about — 8 pt is not something you catch by looking.
+      </figcaption>
+    </figure>
+
+    <p><strong>1. What the design says.</strong> The node in <code>Example.pen</code>:</p>
+<pre><code>checkout-place-order-button    x 16   y 553   361 × 52</code></pre>
+    <p><strong>2. What the app does.</strong> One line in the example project:</p>
+<pre><code>CheckoutScreens.swift:192        .frame(height: 44)</code></pre>
+    <p><strong>3. What the check reports.</strong> Verbatim, from an actual run:</p>
+<pre><code>sizeMismatch   checkout-place-order-button
+  checkout-place-order-button: height is 44 pt, design says 52 pt (-8 pt).</code></pre>
+    <p>
+      <strong>4. Why that is trustworthy</strong>, which is the part worth learning to check. Two
+      fields in the same report decide it:
+    </p>
+    <ul>
+      <li>
+        <code>matchedBy: "identifier"</code> — the design node and the view were paired by name,
+        not by position. The Pencil layer is called <code>checkout-place-order-button</code> and so
+        is the view, through <code>designNode(_:)</code>. Nothing was inferred, so the difference
+        under it is not inferred either.
+      </li>
+      <li>
+        <code>scale: { factor: 1, designWidth: 393, screenWidth: 393 }</code> — the design frame
+        and the device are the same width, so 44 and 52 are literal points. Had the factor been
+        1.02, both numbers would be rescaled and the subtraction would be doing more work than it
+        appears to.
+      </li>
+    </ul>
+    <p class="note">
+      A finding matched by <code>overlap</code> deserves the opposite reflex. It means the pairing
+      was a guess from geometry, and a wrong guess produces a confident, well-formatted, entirely
+      invented defect. Check those before acting on them.
+    </p>
+
+    <h3>Reading a whole report</h3>
+    <p>
+      The same run reports seven differences on that screen. Only two are defects, and telling
+      them apart is the skill:
+    </p>
+<pre><code>textMismatch     checkout-delivery-estimate
+  reads "Arrives Tue, Aug 4", design says "Arrives Thu, Aug 6".
+textMismatch     checkout-summary-title
+  reads "Payment Summary", design says "Payment summary".
+positionMismatch checkout-legal-caption            y is 661.3, design says 676   (-14.7)
+positionMismatch checkout-place-order-button-label y is 617,   design says 627   (-10)
+sizeMismatch     checkout-place-order-button       height is 44, design says 52  (-8)
+sizeMismatch     checkout-item-sneakers-name       width is 101.3, design says 108 (-6.7)
+positionMismatch checkout-place-order-button       y is 605.3, design says 612   (-6.7)</code></pre>
+    <figure>
+      <div class="tile">
+        <img src="example-report.png" width="1470" height="923"
+             alt="Prism Inspector showing the checkout screen with the design drawn over it and the findings listed on the right.">
+      </div>
+      <figcaption>
+        The same comparison in the app: the design drawn over the running screen with each
+        difference labelled, and the findings listed on the right. Shown at the app's default
+        tolerance of 1, which reports the sub-point text differences too — the list above is the
+        same run at 6.
+      </figcaption>
+    </figure>
+
+    <table>
+      <thead>
+        <tr><th>Finding</th><th>What it is</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>checkout-place-order-button</code> height</td><td><strong>A defect.</strong> The button is 44 where the design says 52.</td></tr>
+        <tr><td><code>checkout-summary-title</code> text</td><td><strong>A defect.</strong> "Payment Summary" against "Payment summary" — a capital letter nobody would catch by eye.</td></tr>
+        <tr><td>the caption, the label, the button's own <code>y</code></td><td><strong>The same defect, three more times.</strong> A button 8 pt short moves everything below it. One cause, one fix.</td></tr>
+        <tr><td><code>checkout-delivery-estimate</code> text</td><td><strong>Not a defect.</strong> The design states a fixed date because a mock has to state something; the app computes the real one. Both are correct.</td></tr>
+        <tr><td><code>checkout-item-sneakers-name</code> width</td><td><strong>Not a defect.</strong> 6.7 pt is Pencil and CoreText measuring the same string differently. This is the noise <code>tolerance</code> exists for.</td></tr>
+      </tbody>
+    </table>
+    <p>
+      That distribution is normal, and worth expecting: of seven differences, two were worth
+      fixing, three were the same bug seen from below, and two were the tool being honest about
+      things it cannot know. A report that only ever showed defects would be hiding the last two
+      rather than solving them.
+    </p>
+    <p>
+      Both non-defects are copy or text width, which is why the geometry pass is usually run with
+      <code>compare_text: false</code> once the wording has been read once. That drops this screen
+      from seven findings to five — and takes the capitalisation bug with it, which is the trade
+      to make deliberately rather than by default.
+    </p>
+
     <!-- ============================================================ -->
     <h2 id="sessions">Sessions and export</h2>
     <p>
