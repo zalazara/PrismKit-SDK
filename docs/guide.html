@@ -181,6 +181,7 @@
     <a href="#a11y">Accessibility reader</a>
     <a href="#tokens">Your spacing scale</a>
     <a href="#design">Compare with a design</a>
+    <a href="#figma">From Figma or Pencil</a>
     <a href="#sessions">Sessions and export</a>
 
     <strong>The SDK</strong>
@@ -458,6 +459,125 @@
       <strong>side by side</strong> with the running app, <strong>overlaid</strong> at an
       adjustable opacity, or behind a <strong>wipe</strong> slider. Guides are mirrored across
       both halves, so a guide you drag on the design lands in the same place on the app.
+    </p>
+
+    <!-- ============================================================ -->
+    <h2 id="figma">From Figma or Pencil to a design file</h2>
+    <p>
+      The comparator takes the neutral shape above, so getting a design in means translating from
+      whatever tool drew it. There is <strong>exactly one thing you have to change</strong>, and
+      one that is handled for you.
+    </p>
+
+    <h3>What you must translate: the origin</h3>
+    <p>
+      Design tools report positions in <em>canvas</em> coordinates — where the frame happens to
+      sit on an infinite board, so a screen might start at <code>x: 4820</code>. The comparator
+      assumes the design frame maps to the whole screen starting at its own top-left corner.
+    </p>
+    <p>
+      So subtract the frame's origin from every node: a node at canvas <code>x: 4836</code> inside
+      a frame at <code>x: 4820</code> becomes <code>x: 16</code>.
+    </p>
+
+    <h3>What is handled for you: the scale</h3>
+    <p>
+      You do <strong>not</strong> need to redraw the design at the device's size. The comparison
+      scales by width — a 390 pt design checked against a 402 pt screen is multiplied by
+      <code>402 / 390</code> — and the report says which factor it used.
+    </p>
+    <p class="note">
+      Because the factor comes from the width alone, a design whose aspect ratio differs from the
+      device drifts vertically the further down the screen you look. If your design frame is a
+      different <em>shape</em> than the device, expect the bottom of the screen to report offsets
+      that are the aspect ratio talking, not the layout.
+    </p>
+
+    <h3>Figma, via the REST API</h3>
+    <p>
+      Take the two ids out of the frame's URL. In
+      <code>figma.com/design/<strong>FILE_KEY</strong>/Name?node-id=<strong>1-234</strong></code>
+      the file key is the path segment, and the node id becomes <code>1:234</code> — the API wants
+      a colon where the URL has a dash. Get a personal access token from Figma ▸ Settings ▸
+      Security.
+    </p>
+<pre><code>import json, os, urllib.request
+
+FILE_KEY = "abc123…"
+NODE_ID  = "1:234"                 # the frame, colon not dash
+TOKEN    = os.environ["FIGMA_TOKEN"]
+
+request = urllib.request.Request(
+    f"https://api.figma.com/v1/files/{FILE_KEY}/nodes?ids={NODE_ID}",
+    headers={"X-Figma-Token": TOKEN},
+)
+root = json.load(urllib.request.urlopen(request))["nodes"][NODE_ID]["document"]
+origin = root["absoluteBoundingBox"]
+
+nodes = []
+
+def walk(node):
+    box = node.get("absoluteBoundingBox")
+    # Hidden layers still carry a box; they are not on screen, so they would
+    # be reported as missing from a screen that is behaving correctly.
+    if box and node.get("visible", True):
+        entry = {
+            "id": node["id"],
+            "name": node.get("name"),
+            "frame": {
+                "x": round(box["x"] - origin["x"], 1),   # canvas → screen
+                "y": round(box["y"] - origin["y"], 1),
+                "width": round(box["width"], 1),
+                "height": round(box["height"], 1),
+            },
+        }
+        if node.get("type") == "TEXT":
+            entry["text"] = node["characters"]
+        nodes.append(entry)
+    for child in node.get("children", []):
+        walk(child)
+
+for child in root.get("children", []):
+    walk(child)
+
+print(json.dumps({
+    "source": "Figma",
+    "reference": root.get("name"),
+    "frame": {"width": origin["width"], "height": origin["height"]},
+    "nodes": nodes,
+}, indent=2))</code></pre>
+    <p class="warn">
+      Run that on a real screen and you will get several hundred nodes, because every vector and
+      every auto-layout wrapper has a bounding box. <strong>Prune it.</strong> A design worth
+      checking against is the elements you would actually review — the cards, the rows, the
+      headings — not every shape that makes them. Filter by <code>type</code> (drop
+      <code>VECTOR</code>, <code>LINE</code>, <code>ELLIPSE</code>), or keep only nodes whose name
+      you deliberately set rather than the ones Figma named <code>Rectangle 41</code>.
+    </p>
+
+    <h3>Pencil</h3>
+    <p>
+      Pencil's MCP server exposes <code>snapshot_layout</code>, which returns the layout
+      rectangles for a node's subtree with a <code>maxDepth</code> you control — so the pruning
+      problem above is solved at the source by asking for two or three levels rather than
+      everything. The same origin subtraction applies.
+    </p>
+
+    <h3>Or let the agent do it</h3>
+    <p>
+      This is the shortest path, and the reason the format is neutral in the first place. Give
+      your agent both MCP servers — the design tool's and this one — and the translation is a
+      step it can take on its own:
+    </p>
+    <p style="color:var(--ink)">
+      “Read frame <code>1:234</code> from that Figma file, convert the cards and rows to
+      PrismKit's design shape with coordinates relative to the frame, attach it, then tell me what
+      does not match on the screen currently running.”
+    </p>
+    <p>
+      The agent calls <code>attach_design</code> and then <code>compare_to_design</code>, and
+      because the attachment is shared, the same design appears drawn on your canvas while it
+      works.
     </p>
 
     <!-- ============================================================ -->
