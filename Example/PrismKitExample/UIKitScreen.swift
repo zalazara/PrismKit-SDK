@@ -9,9 +9,11 @@ import UIKit
 /// SwiftUI view, so it should not be — and this screen is how that gets
 /// checked rather than assumed.
 ///
-/// Note what it does *not* need: `.measure()` has no UIKit equivalent, but
-/// `accessibilityIdentifier` is a real property on UIView, and the walk reads
-/// it. In SwiftUI that same property never reaches the tree.
+/// The answer is yes: it streams with correct geometry and text. What does
+/// not survive is `accessibilityIdentifier` — set on every view below and
+/// present at runtime, it still reaches the snapshot as nil. That is a defect
+/// in the walk rather than in this screen, and it is why UIKit content cannot
+/// yet be paired by identity in a design check.
 final class UIKitDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -81,6 +83,7 @@ final class UIKitDetailViewController: UIViewController {
             button.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -margin),
             button.heightAnchor.constraint(equalToConstant: Shop.buttonHeight),
         ])
+
     }
 
     private func label(
