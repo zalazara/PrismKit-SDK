@@ -20,9 +20,18 @@ import {
 // From the Firebase console: Project settings → Your apps → Web app → SDK
 // setup and configuration.
 //
-// These are not secrets. A web app's Firebase config is public by design —
-// it identifies the project, it does not authorise anything. What protects a
-// Firebase project is its security rules, not hiding this object.
+// None of this is secret. A web app's Firebase config identifies a project, it
+// does not authorise anything, and it has to reach the browser to work at all.
+// Analytics does not even use the API key: collection is keyed by
+// `measurementId` and goes to google-analytics.com. The key is here because
+// the SDK's config shape includes it, and it is restricted to this site's
+// referrers in the Google Cloud console — which matters the day something
+// beyond Analytics is added to this project, not today.
+//
+// One consequence worth knowing rather than discovering: a measurement ID is
+// public, and GA4 has no allowlist that stops anyone else sending events to
+// it. If the numbers ever look wrong, filter by hostname in GA4 rather than
+// looking for a setting here.
 const firebaseConfig = {
   apiKey: "AIzaSyBqovMpttbEt3GUPbfA4XTqjn3TEpqVVbU",
   authDomain: "prism-inspector.firebaseapp.com",
