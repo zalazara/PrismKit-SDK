@@ -87,6 +87,9 @@ private struct CartRow: View {
                 glyphSize: 24,
                 identifier: "cart-item-\(product.slug)-image"
             )
+            // Decorative: the name is right beside it, and an unhidden SF
+            // Symbol announces itself by name in the simulator's language.
+            .accessibilityHidden(true)
             VStack(alignment: .leading, spacing: Shop.Space.sm) {
                 Text(product.name)
                     .font(Shop.TypeStyle.body)
@@ -123,7 +126,12 @@ private struct CartRow: View {
         .frame(width: 96, height: 32)
         .background(Shop.Palette.screenBackground)
         .clipShape(RoundedRectangle(cornerRadius: Shop.Radius.pill, style: .continuous))
-        .accessibilityElement(children: .contain)
+        // Grouped, but left as its own stop rather than folded into the row:
+        // it is a control, and a control merged into a label stops being
+        // reachable.
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(Text(verbatim: "Quantity"))
+        .accessibilityValue(Text(verbatim: "1"))
         .designNode("cart-item-\(product.slug)-stepper")
     }
 }
@@ -247,6 +255,9 @@ struct CheckoutScreen: View {
             Rectangle()
                 .fill(Shop.Palette.divider)
                 .frame(height: 1)
+                // A rule between rows says nothing out loud; without this it
+                // announces itself as an element with no content.
+                .accessibilityHidden(true)
                 .designNode("checkout-summary-divider")
             ShopValueRow(
                 label: "Total",
@@ -283,7 +294,7 @@ private struct CheckoutRow: View {
                 .foregroundColor(Shop.Palette.primaryText)
                 .designNode("checkout-item-\(product.slug)-price")
         }
-        .accessibilityElement(children: .contain)
+        .modifier(ProductAccessibility(product: product))
         .designNode("checkout-item-\(product.slug)")
     }
 }

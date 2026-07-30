@@ -238,7 +238,7 @@ private struct PopularRow: View {
 /// The cost is worth knowing: grouping removes the children's own elements, so
 /// a design check can no longer compare their copy. Better VoiceOver, less copy
 /// checking.
-private struct ProductAccessibility: ViewModifier {
+struct ProductAccessibility: ViewModifier {
     let product: Product
     /// Cards announce name and price; rows also carry the tagline.
     var includesTagline = false
