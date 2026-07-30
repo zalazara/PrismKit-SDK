@@ -157,7 +157,13 @@
   }
 
   /* ----------------------------------------------------------- cards --- */
-  .grid { display: grid; gap: 15px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+  /* Fixed three-up rather than auto-fit: auto-fit packs in a fourth column
+     whenever the viewport allows it, and six cards then land as 4 + 2 with a
+     hole in the grid. Three and three divides evenly, and so does the two-up
+     fallback below. */
+  .grid { display: grid; gap: 15px; grid-template-columns: repeat(3, 1fr); }
+  @media (max-width: 980px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 620px) { .grid { grid-template-columns: 1fr; } }
   .card { background: var(--surface-1); border-radius: var(--r-xl); padding: 24px; }
   .card h3 { font-size: 16px; letter-spacing: -0.02em; margin-bottom: 8px; }
   .card p { margin: 0; color: var(--ink-muted); font-size: 14px; line-height: 1.4; }
