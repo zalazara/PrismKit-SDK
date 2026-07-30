@@ -74,6 +74,50 @@ function trackDownloads(analytics) {
   }
 }
 
+/// Which call to action was taken, for the ones that stay on the site.
+///
+/// Outbound links are deliberately not marked. GA4's enhanced measurement
+/// already logs those as `click` events, and marking them here would record
+/// one action twice — which is worse than not recording it, because the
+/// double is invisible in the report.
+function trackCallsToAction(analytics) {
+  for (const link of document.querySelectorAll("[data-cta]")) {
+    link.addEventListener("click", () => {
+      logEvent(analytics, "cta_click", { cta: link.dataset.cta });
+    });
+  }
+}
+
+/// How far into the page a reader actually got.
+///
+/// GA4's automatic `scroll` event fires once, at 90% — which answers "did
+/// they reach the bottom" and nothing else. On a long guide the useful
+/// question is where attention stopped, so each section reports itself once,
+/// the first time it is genuinely on screen.
+function trackSectionsRead(analytics) {
+  const sections = document.querySelectorAll("section[id], h2[id]");
+  if (!sections.length || !("IntersectionObserver" in window)) return;
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        // Once each: a reader scrolling back up is not new interest.
+        observer.unobserve(entry.target);
+        logEvent(analytics, "section_read", {
+          section: entry.target.id,
+          page: document.location.pathname.split("/").pop() || "index.html",
+        });
+      }
+    },
+    // A heading clipping the bottom edge is not read. Requiring it to be a
+    // third of the way up keeps a fast scroll from reporting the whole page.
+    { rootMargin: "0px 0px -66% 0px" }
+  );
+
+  for (const section of sections) observer.observe(section);
+}
+
 async function startAnalytics() {
   // A consent gate belongs here: return early unless the visitor has agreed,
   // and call this again once they do. Nothing above this line touches the
@@ -86,6 +130,8 @@ async function startAnalytics() {
 
   const analytics = getAnalytics(initializeApp(firebaseConfig));
   trackDownloads(analytics);
+  trackCallsToAction(analytics);
+  trackSectionsRead(analytics);
 }
 
 startAnalytics();
