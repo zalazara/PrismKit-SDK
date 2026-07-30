@@ -99,6 +99,10 @@ struct ShopHomeScreen: View {
                 .font(.system(size: 16, weight: .regular))
                 .foregroundColor(Shop.Palette.secondaryText)
                 .frame(width: 20, height: 20)
+                // Decorative: the placeholder beside it already says what the
+                // field is for, and an unhidden SF Symbol announces itself by
+                // name, in the simulator's language rather than the app's.
+                .accessibilityHidden(true)
                 .designNode("home-search-icon")
             Text(verbatim: "Search products")
                 .font(Shop.TypeStyle.body)
@@ -122,6 +126,7 @@ struct ShopHomeScreen: View {
                         FeaturedCard(product: product)
                     }
                     .buttonStyle(.plain)
+                    .modifier(ProductAccessibility(product: product))
                 }
             }
             .designNode("home-featured-rail")
@@ -137,6 +142,9 @@ struct ShopHomeScreen: View {
                     PopularRow(product: product)
                 }
                 .buttonStyle(.plain)
+                // On the link rather than inside it: NavigationLink flattens
+                // its own label, so grouping applied underneath is overridden.
+                .modifier(ProductAccessibility(product: product, includesTagline: true))
             }
         }
         .accessibilityElement(children: .contain)
@@ -212,6 +220,40 @@ private struct PopularRow: View {
         .clipShape(RoundedRectangle(cornerRadius: Shop.Radius.card, style: .continuous))
         .accessibilityElement(children: .contain)
         .designNode("home-popular-\(product.slug)")
+    }
+}
+
+/// One VoiceOver stop per product, reading the whole card rather than a
+/// fragment of it.
+///
+/// `ignore` plus an explicit label is not a stylistic preference here, it is
+/// the only thing that worked. Measured on this screen with the accessibility
+/// reader: `contain` left a row reading "$89. button" and `combine` left one
+/// reading "$599. button" — name and description lost in both — and moving the
+/// modifier onto the NavigationLink changed nothing. Grouping also excludes the
+/// product image, which is what fixed cards announcing themselves by SF Symbol
+/// name ("Audiolibro" for headphones, in the simulator's language rather than
+/// the app's).
+///
+/// The cost is worth knowing: grouping removes the children's own elements, so
+/// a design check can no longer compare their copy. Better VoiceOver, less copy
+/// checking.
+private struct ProductAccessibility: ViewModifier {
+    let product: Product
+    /// Cards announce name and price; rows also carry the tagline.
+    var includesTagline = false
+
+    func body(content: Content) -> some View {
+        content
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel(Text(verbatim: label))
+            .accessibilityAddTraits(.isButton)
+    }
+
+    private var label: String {
+        includesTagline
+            ? "\(product.name), \(product.tagline), \(product.price)"
+            : "\(product.name), \(product.price)"
     }
 }
 
