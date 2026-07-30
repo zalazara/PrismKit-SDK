@@ -24,28 +24,14 @@ import {
 // it identifies the project, it does not authorise anything. What protects a
 // Firebase project is its security rules, not hiding this object.
 const firebaseConfig = {
-  apiKey: "REPLACE_WITH_YOUR_API_KEY",
-  authDomain: "REPLACE_WITH_YOUR_PROJECT.firebaseapp.com",
-  projectId: "REPLACE_WITH_YOUR_PROJECT",
-  storageBucket: "REPLACE_WITH_YOUR_PROJECT.firebasestorage.app",
-  messagingSenderId: "REPLACE_WITH_YOUR_SENDER_ID",
-  appId: "REPLACE_WITH_YOUR_APP_ID",
-  measurementId: "G-REPLACE",
+  apiKey: "AIzaSyBqovMpttbEt3GUPbfA4XTqjn3TEpqVVbU",
+  authDomain: "prism-inspector.firebaseapp.com",
+  projectId: "prism-inspector",
+  storageBucket: "prism-inspector.firebasestorage.app",
+  messagingSenderId: "874201660509",
+  appId: "1:874201660509:web:2c5b5320872ab7dce1e1b4",
+  measurementId: "G-RF1Z6T1LYK",
 };
-
-/// Whether the config above has actually been filled in.
-///
-/// The placeholders are committed on purpose so the file can live in the repo
-/// before the Firebase project exists. Without this guard the SDK throws on
-/// every page load and the browser console fills with errors that look like a
-/// broken site rather than an unfinished setup.
-function isConfigured() {
-  return (
-    firebaseConfig.measurementId.startsWith("G-") &&
-    firebaseConfig.measurementId !== "G-REPLACE" &&
-    !firebaseConfig.appId.startsWith("REPLACE")
-  );
-}
 
 /// Records a download the moment it is asked for.
 ///
@@ -80,8 +66,6 @@ function trackDownloads(analytics) {
 }
 
 async function startAnalytics() {
-  if (!isConfigured()) return;
-
   // A consent gate belongs here: return early unless the visitor has agreed,
   // and call this again once they do. Nothing above this line touches the
   // browser's storage.
