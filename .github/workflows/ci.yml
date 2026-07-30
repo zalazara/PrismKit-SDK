@@ -26,5 +26,14 @@ jobs:
       - name: Test (release)
         run: swift test -c release
 
-      - name: Build the MCP server
-        run: swift build -c release --product prismkit-mcp
+      # The MCP server used to be built here. It moved to the companion app's
+      # repository along with the analysis layer, so this package no longer
+      # declares that product — it is a Swift package apps embed, and macOS
+      # tooling has no business in it.
+      - name: Check the package builds for iOS
+        run: |
+          xcodebuild build \
+            -scheme PrismKit \
+            -destination 'generic/platform=iOS Simulator' \
+            -quiet
+
