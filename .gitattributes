@@ -1,0 +1,6 @@
+# Pencil documents are encrypted: the bytes are text, but they are not
+# readable, not reviewable line by line, and a three-way merge on them
+# produces a corrupt file rather than a conflict a person can resolve.
+# Treating them as binary means git offers the whole file, either version,
+# which is the only honest resolution.
+*.pen binary
