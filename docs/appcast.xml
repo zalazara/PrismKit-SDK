@@ -17,6 +17,25 @@
         <description>Updates for Prism Inspector, the macOS companion for PrismKit.</description>
         <language>en</language>
         <item>
+            <title>1.2.0</title>
+            <pubDate>Thu, 30 Jul 2026 18:21:10 +0000</pubDate>
+            <sparkle:version>39</sparkle:version>
+            <sparkle:shortVersionString>1.2.0</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
+            <description><![CDATA[<h3>New</h3>
+<ul>
+  <li><strong>A simulator that is not exposing its accessibility tree now says so.</strong> That flag being off is the single reason the view tree, the accessibility reader and design checks all come up empty at once, and the only way to fix it was a button buried in a collapsed section of the inspector. Prism Inspector now offers to switch the flag on and relaunch the app for you — and waits a few seconds before asking, so a screen that is merely still loading is never mistaken for a broken one.</li>
+  <li><strong>The view tree explains itself when it is empty.</strong> It used to render a blank list with no message and nothing to click, which looks identical to a bug in your app.</li>
+  <li><strong>A crash is no longer something only you know about.</strong> If Prism Inspector quits unexpectedly, the next launch shows you the report macOS saved — in full, so you can read it first — and offers to open a pre-filled bug report with it on your clipboard. Nothing is ever sent automatically: the app talks to your simulator and to its own update feed, and to nothing else.</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+  <li><strong>A design attached or detached by an agent now takes effect while the window is open.</strong> It was only read at launch, so a design an agent attached mid-session never appeared, and one it detached kept drawing itself over the canvas indefinitely.</li>
+</ul>
+]]></description>
+            <enclosure url="https://github.com/zalazara/PrismKit-SDK/releases/download/app-v1.2.0/Prism-Inspector-1.2.0.zip" length="8080608" type="application/octet-stream" sparkle:edSignature="7g1fZVW9PcQAOGN2nv9yWkAr/J4tGnDNc4ekyRNJQIOYtvINBfDVKeGyuaeCLCY68hQ5m47PBSe8wexmRcI1Dw=="/>
+        </item>
+        <item>
             <title>1.1.0</title>
             <pubDate>Thu, 30 Jul 2026 16:31:57 +0000</pubDate>
             <sparkle:version>33</sparkle:version>
@@ -42,22 +61,6 @@
 </ul>
 <p>Nothing else changes how the app behaves: the rest is packaging.</p>]]></description>
             <enclosure url="https://github.com/zalazara/PrismKit-SDK/releases/download/app-v1.0.1/Prism-Inspector-1.0.1.zip" length="7991567" type="application/octet-stream" sparkle:edSignature="a+pNwcMlIHatYpF4Ztt0t24Xpr8fNcOKEGR2efN2JpnQ7i84zaiQcuIwTR6PkCmzSSOg0FGYG745aV/knRwcDA=="/>
-        </item>
-        <item>
-            <title>1.0.0</title>
-            <pubDate>Thu, 30 Jul 2026 00:42:13 +0000</pubDate>
-            <sparkle:version>26</sparkle:version>
-            <sparkle:shortVersionString>1.0.0</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
-            <description><![CDATA[<h3>First public release</h3>
-<ul>
-  <li>Inspect and measure a SwiftUI app running in the iOS Simulator — click to select, &#8997;-click to measure between elements.</li>
-  <li>Spacing flagged when it falls off your design system's scale.</li>
-  <li>Check the screen against a design and get what moved, what is the wrong size, and what is missing.</li>
-  <li>Play the screen back the way VoiceOver reads it.</li>
-  <li>An MCP server inside the app, so an AI agent can read the same measurements.</li>
-</ul>]]></description>
-            <enclosure url="https://github.com/zalazara/PrismKit-SDK/releases/download/app-v1.0.0/Prism.Inspector-1.0.0.zip" length="7697998" sparkle:edSignature="y5Xgvy55nSSgpdN3NByURfk+96RsPMwBCCwxxNW8fW6c1TELDZF2XwDzHBeyi2vB0stVznv4OqfIe1BcicpuBQ==" type="application/octet-stream"/>
         </item>
     </channel>
 </rss>
