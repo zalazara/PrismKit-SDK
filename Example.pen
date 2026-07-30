@@ -63,7 +63,8 @@
                       "content": "4",
                       "lineHeight": 1.2307692307692308,
                       "fontFamily": "$font-family",
-                      "fontSize": 13
+                      "fontSize": 13,
+                      "fontWeight": "normal"
                     }
                   ]
                 },
@@ -91,7 +92,8 @@
                       "content": "8",
                       "lineHeight": 1.2307692307692308,
                       "fontFamily": "$font-family",
-                      "fontSize": 13
+                      "fontSize": 13,
+                      "fontWeight": "normal"
                     }
                   ]
                 },
@@ -119,7 +121,8 @@
                       "content": "12",
                       "lineHeight": 1.2307692307692308,
                       "fontFamily": "$font-family",
-                      "fontSize": 13
+                      "fontSize": 13,
+                      "fontWeight": "normal"
                     }
                   ]
                 },
@@ -147,7 +150,8 @@
                       "content": "16",
                       "lineHeight": 1.2307692307692308,
                       "fontFamily": "$font-family",
-                      "fontSize": 13
+                      "fontSize": 13,
+                      "fontWeight": "normal"
                     }
                   ]
                 },
@@ -175,7 +179,8 @@
                       "content": "20",
                       "lineHeight": 1.2307692307692308,
                       "fontFamily": "$font-family",
-                      "fontSize": 13
+                      "fontSize": 13,
+                      "fontWeight": "normal"
                     }
                   ]
                 },
@@ -203,7 +208,8 @@
                       "content": "24",
                       "lineHeight": 1.2307692307692308,
                       "fontFamily": "$font-family",
-                      "fontSize": 13
+                      "fontSize": 13,
+                      "fontWeight": "normal"
                     }
                   ]
                 },
@@ -231,7 +237,8 @@
                       "content": "32",
                       "lineHeight": 1.2307692307692308,
                       "fontFamily": "$font-family",
-                      "fontSize": 13
+                      "fontSize": 13,
+                      "fontWeight": "normal"
                     }
                   ]
                 }
@@ -274,7 +281,8 @@
                   "content": "screen title / 22 / semibold",
                   "lineHeight": 1.2307692307692308,
                   "fontFamily": "$font-family",
-                  "fontSize": 13
+                  "fontSize": 13,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "text",
@@ -305,7 +313,8 @@
                   "content": "section title / 17 / semibold",
                   "lineHeight": 1.2307692307692308,
                   "fontFamily": "$font-family",
-                  "fontSize": 13
+                  "fontSize": 13,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "text",
@@ -336,7 +345,8 @@
                   "content": "emphasized row / 17 / semibold",
                   "lineHeight": 1.2307692307692308,
                   "fontFamily": "$font-family",
-                  "fontSize": 13
+                  "fontSize": 13,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "text",
@@ -367,7 +377,8 @@
                   "content": "body / 16 / regular",
                   "lineHeight": 1.2307692307692308,
                   "fontFamily": "$font-family",
-                  "fontSize": 13
+                  "fontSize": 13,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "text",
@@ -377,7 +388,8 @@
                   "content": "The quick brown fox",
                   "lineHeight": 1.25,
                   "fontFamily": "$font-family",
-                  "fontSize": 16
+                  "fontSize": 16,
+                  "fontWeight": "normal"
                 }
               ]
             },
@@ -397,7 +409,8 @@
                   "content": "price / 16 / medium",
                   "lineHeight": 1.2307692307692308,
                   "fontFamily": "$font-family",
-                  "fontSize": 13
+                  "fontSize": 13,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "text",
@@ -428,7 +441,8 @@
                   "content": "pill caption / 13 / regular",
                   "lineHeight": 1.2307692307692308,
                   "fontFamily": "$font-family",
-                  "fontSize": 13
+                  "fontSize": 13,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "text",
@@ -438,7 +452,8 @@
                   "content": "The quick brown fox",
                   "lineHeight": 1.2307692307692308,
                   "fontFamily": "$font-family",
-                  "fontSize": 13
+                  "fontSize": 13,
+                  "fontWeight": "normal"
                 }
               ]
             },
@@ -458,7 +473,8 @@
                   "content": "legal / 12 / regular",
                   "lineHeight": 1.2307692307692308,
                   "fontFamily": "$font-family",
-                  "fontSize": 13
+                  "fontSize": 13,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "text",
@@ -468,7 +484,8 @@
                   "content": "The quick brown fox",
                   "lineHeight": 1.3333333333333333,
                   "fontFamily": "$font-family",
-                  "fontSize": 12
+                  "fontSize": 12,
+                  "fontWeight": "normal"
                 }
               ]
             }
@@ -527,7 +544,8 @@
                       "content": "#1C1C1E",
                       "lineHeight": 1.2307692307692308,
                       "fontFamily": "$font-family",
-                      "fontSize": 13
+                      "fontSize": 13,
+                      "fontWeight": "normal"
                     }
                   ]
                 },
@@ -559,7 +577,8 @@
                       "content": "#8E8E93",
                       "lineHeight": 1.2307692307692308,
                       "fontFamily": "$font-family",
-                      "fontSize": 13
+                      "fontSize": 13,
+                      "fontWeight": "normal"
                     }
                   ]
                 },
@@ -591,7 +610,8 @@
                       "content": "#0A84FF",
                       "lineHeight": 1.2307692307692308,
                       "fontFamily": "$font-family",
-                      "fontSize": 13
+                      "fontSize": 13,
+                      "fontWeight": "normal"
                     }
                   ]
                 },
@@ -623,7 +643,8 @@
                       "content": "#E8F8EE",
                       "lineHeight": 1.2307692307692308,
                       "fontFamily": "$font-family",
-                      "fontSize": 13
+                      "fontSize": 13,
+                      "fontWeight": "normal"
                     }
                   ]
                 }
@@ -663,7 +684,8 @@
                       "content": "#1C7C4A",
                       "lineHeight": 1.2307692307692308,
                       "fontFamily": "$font-family",
-                      "fontSize": 13
+                      "fontSize": 13,
+                      "fontWeight": "normal"
                     }
                   ]
                 },
@@ -695,7 +717,8 @@
                       "content": "#E5E5EA",
                       "lineHeight": 1.2307692307692308,
                       "fontFamily": "$font-family",
-                      "fontSize": 13
+                      "fontSize": 13,
+                      "fontWeight": "normal"
                     }
                   ]
                 },
@@ -727,7 +750,8 @@
                       "content": "#FFFFFF",
                       "lineHeight": 1.2307692307692308,
                       "fontFamily": "$font-family",
-                      "fontSize": 13
+                      "fontSize": 13,
+                      "fontWeight": "normal"
                     }
                   ]
                 },
@@ -759,7 +783,8 @@
                       "content": "#F2F2F7",
                       "lineHeight": 1.2307692307692308,
                       "fontFamily": "$font-family",
-                      "fontSize": 13
+                      "fontSize": 13,
+                      "fontWeight": "normal"
                     }
                   ]
                 }
@@ -820,7 +845,8 @@
                       "content": "10 thumbnail",
                       "lineHeight": 1.2307692307692308,
                       "fontFamily": "$font-family",
-                      "fontSize": 13
+                      "fontSize": 13,
+                      "fontWeight": "normal"
                     }
                   ]
                 },
@@ -852,7 +878,8 @@
                       "content": "12 pill",
                       "lineHeight": 1.2307692307692308,
                       "fontFamily": "$font-family",
-                      "fontSize": 13
+                      "fontSize": 13,
+                      "fontWeight": "normal"
                     }
                   ]
                 },
@@ -884,7 +911,8 @@
                       "content": "14 button",
                       "lineHeight": 1.2307692307692308,
                       "fontFamily": "$font-family",
-                      "fontSize": 13
+                      "fontSize": 13,
+                      "fontWeight": "normal"
                     }
                   ]
                 },
@@ -916,7 +944,8 @@
                       "content": "16 card",
                       "lineHeight": 1.2307692307692308,
                       "fontFamily": "$font-family",
-                      "fontSize": 13
+                      "fontSize": 13,
+                      "fontWeight": "normal"
                     }
                   ]
                 }
@@ -986,7 +1015,8 @@
               "content": "Search products",
               "lineHeight": 1.25,
               "fontFamily": "$font-family",
-              "fontSize": 16
+              "fontSize": 16,
+              "fontWeight": "normal"
             }
           ]
         },
@@ -1080,7 +1110,8 @@
                       "content": "Studio Headphones",
                       "lineHeight": 1.25,
                       "fontFamily": "$font-family",
-                      "fontSize": 16
+                      "fontSize": 16,
+                      "fontWeight": "normal"
                     },
                     {
                       "type": "text",
@@ -1166,7 +1197,8 @@
                       "content": "Trail Sneakers",
                       "lineHeight": 1.25,
                       "fontFamily": "$font-family",
-                      "fontSize": 16
+                      "fontSize": 16,
+                      "fontWeight": "normal"
                     },
                     {
                       "type": "text",
@@ -1252,7 +1284,8 @@
                       "content": "Field Watch",
                       "lineHeight": 1.25,
                       "fontFamily": "$font-family",
-                      "fontSize": 16
+                      "fontSize": 16,
+                      "fontWeight": "normal"
                     },
                     {
                       "type": "text",
@@ -1363,7 +1396,8 @@
                       "content": "Commuter Backpack",
                       "lineHeight": 1.25,
                       "fontFamily": "$font-family",
-                      "fontSize": 16
+                      "fontSize": 16,
+                      "fontWeight": "normal"
                     },
                     {
                       "type": "text",
@@ -1373,7 +1407,8 @@
                       "content": "22L, laptop sleeve",
                       "lineHeight": 1.2307692307692308,
                       "fontFamily": "$font-family",
-                      "fontSize": 13
+                      "fontSize": 13,
+                      "fontWeight": "normal"
                     }
                   ]
                 },
@@ -1459,7 +1494,8 @@
                       "content": "Compact Camera",
                       "lineHeight": 1.25,
                       "fontFamily": "$font-family",
-                      "fontSize": 16
+                      "fontSize": 16,
+                      "fontWeight": "normal"
                     },
                     {
                       "type": "text",
@@ -1469,7 +1505,8 @@
                       "content": "28mm f/1.8, RAW",
                       "lineHeight": 1.2307692307692308,
                       "fontFamily": "$font-family",
-                      "fontSize": 13
+                      "fontSize": 13,
+                      "fontWeight": "normal"
                     }
                   ]
                 },
@@ -1555,7 +1592,8 @@
                       "content": "Desk Lamp",
                       "lineHeight": 1.25,
                       "fontFamily": "$font-family",
-                      "fontSize": 16
+                      "fontSize": 16,
+                      "fontWeight": "normal"
                     },
                     {
                       "type": "text",
@@ -1565,7 +1603,8 @@
                       "content": "Warm dimmable LED",
                       "lineHeight": 1.2307692307692308,
                       "fontFamily": "$font-family",
-                      "fontSize": 13
+                      "fontSize": 13,
+                      "fontWeight": "normal"
                     }
                   ]
                 },
@@ -1677,7 +1716,8 @@
           "content": "Noise cancelling, 40h battery",
           "lineHeight": 1.25,
           "fontFamily": "$font-family",
-          "fontSize": 16
+          "fontSize": 16,
+          "fontWeight": "normal"
         },
         {
           "type": "frame",
@@ -1711,7 +1751,8 @@
                   "content": "Battery",
                   "lineHeight": 1.25,
                   "fontFamily": "$font-family",
-                  "fontSize": 16
+                  "fontSize": 16,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "text",
@@ -1742,7 +1783,8 @@
                   "content": "Weight",
                   "lineHeight": 1.25,
                   "fontFamily": "$font-family",
-                  "fontSize": 16
+                  "fontSize": 16,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "text",
@@ -1773,7 +1815,8 @@
                   "content": "Warranty",
                   "lineHeight": 1.25,
                   "fontFamily": "$font-family",
-                  "fontSize": 16
+                  "fontSize": 16,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "text",
@@ -1829,7 +1872,8 @@
           "lineHeight": 1.3333333333333333,
           "textAlign": "center",
           "fontFamily": "$font-family",
-          "fontSize": 12
+          "fontSize": 12,
+          "fontWeight": "normal"
         }
       ]
     },
@@ -1940,7 +1984,8 @@
                       "content": "Studio Headphones",
                       "lineHeight": 1.25,
                       "fontFamily": "$font-family",
-                      "fontSize": 16
+                      "fontSize": 16,
+                      "fontWeight": "normal"
                     },
                     {
                       "type": "frame",
@@ -1965,7 +2010,8 @@
                           "content": "−",
                           "lineHeight": 1.2307692307692308,
                           "fontFamily": "$font-family",
-                          "fontSize": 13
+                          "fontSize": 13,
+                          "fontWeight": "normal"
                         },
                         {
                           "type": "text",
@@ -1975,7 +2021,8 @@
                           "content": "1",
                           "lineHeight": 1.2307692307692308,
                           "fontFamily": "$font-family",
-                          "fontSize": 13
+                          "fontSize": 13,
+                          "fontWeight": "normal"
                         },
                         {
                           "type": "text",
@@ -1985,7 +2032,8 @@
                           "content": "+",
                           "lineHeight": 1.2307692307692308,
                           "fontFamily": "$font-family",
-                          "fontSize": 13
+                          "fontSize": 13,
+                          "fontWeight": "normal"
                         }
                       ]
                     }
@@ -2070,7 +2118,8 @@
                       "content": "Trail Sneakers",
                       "lineHeight": 1.25,
                       "fontFamily": "$font-family",
-                      "fontSize": 16
+                      "fontSize": 16,
+                      "fontWeight": "normal"
                     },
                     {
                       "type": "frame",
@@ -2095,7 +2144,8 @@
                           "content": "−",
                           "lineHeight": 1.2307692307692308,
                           "fontFamily": "$font-family",
-                          "fontSize": 13
+                          "fontSize": 13,
+                          "fontWeight": "normal"
                         },
                         {
                           "type": "text",
@@ -2105,7 +2155,8 @@
                           "content": "1",
                           "lineHeight": 1.2307692307692308,
                           "fontFamily": "$font-family",
-                          "fontSize": 13
+                          "fontSize": 13,
+                          "fontWeight": "normal"
                         },
                         {
                           "type": "text",
@@ -2115,7 +2166,8 @@
                           "content": "+",
                           "lineHeight": 1.2307692307692308,
                           "fontFamily": "$font-family",
-                          "fontSize": 13
+                          "fontSize": 13,
+                          "fontWeight": "normal"
                         }
                       ]
                     }
@@ -2200,7 +2252,8 @@
                       "content": "Desk Lamp",
                       "lineHeight": 1.25,
                       "fontFamily": "$font-family",
-                      "fontSize": 16
+                      "fontSize": 16,
+                      "fontWeight": "normal"
                     },
                     {
                       "type": "frame",
@@ -2225,7 +2278,8 @@
                           "content": "−",
                           "lineHeight": 1.2307692307692308,
                           "fontFamily": "$font-family",
-                          "fontSize": 13
+                          "fontSize": 13,
+                          "fontWeight": "normal"
                         },
                         {
                           "type": "text",
@@ -2235,7 +2289,8 @@
                           "content": "1",
                           "lineHeight": 1.2307692307692308,
                           "fontFamily": "$font-family",
-                          "fontSize": 13
+                          "fontSize": 13,
+                          "fontWeight": "normal"
                         },
                         {
                           "type": "text",
@@ -2245,7 +2300,8 @@
                           "content": "+",
                           "lineHeight": 1.2307692307692308,
                           "fontFamily": "$font-family",
-                          "fontSize": 13
+                          "fontSize": 13,
+                          "fontWeight": "normal"
                         }
                       ]
                     }
@@ -2284,7 +2340,8 @@
               "content": "Subtotal",
               "lineHeight": 1.25,
               "fontFamily": "$font-family",
-              "fontSize": 16
+              "fontSize": 16,
+              "fontWeight": "normal"
             },
             {
               "type": "text",
@@ -2436,12 +2493,11 @@
                   "id": "CzOhH",
                   "name": "checkout-item-headphones-name",
                   "fill": "$color-text-primary",
-                  "textGrowth": "fixed-width",
-                  "width": "fill_container",
                   "content": "Studio Headphones",
                   "lineHeight": 1.25,
                   "fontFamily": "$font-family",
-                  "fontSize": 16
+                  "fontSize": 16,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "text",
@@ -2511,12 +2567,11 @@
                   "id": "r39E3",
                   "name": "checkout-item-sneakers-name",
                   "fill": "$color-text-primary",
-                  "textGrowth": "fixed-width",
-                  "width": "fill_container",
                   "content": "Trail Sneakers",
                   "lineHeight": 1.25,
                   "fontFamily": "$font-family",
-                  "fontSize": 16
+                  "fontSize": 16,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "text",
@@ -2586,12 +2641,11 @@
                   "id": "t8Id4",
                   "name": "checkout-item-lamp-name",
                   "fill": "$color-text-primary",
-                  "textGrowth": "fixed-width",
-                  "width": "fill_container",
                   "content": "Desk Lamp",
                   "lineHeight": 1.25,
                   "fontFamily": "$font-family",
-                  "fontSize": 16
+                  "fontSize": 16,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "text",
@@ -2630,7 +2684,8 @@
               "content": "Free shipping",
               "lineHeight": 1.2307692307692308,
               "fontFamily": "$font-family",
-              "fontSize": 13
+              "fontSize": 13,
+              "fontWeight": "normal"
             }
           ]
         },
@@ -2644,7 +2699,8 @@
           "content": "Arrives Thu, Aug 6",
           "lineHeight": 1.2307692307692308,
           "fontFamily": "$font-family",
-          "fontSize": 13
+          "fontSize": 13,
+          "fontWeight": "normal"
         },
         {
           "type": "text",
@@ -2691,7 +2747,8 @@
                   "content": "Subtotal",
                   "lineHeight": 1.25,
                   "fontFamily": "$font-family",
-                  "fontSize": 16
+                  "fontSize": 16,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "text",
@@ -2722,7 +2779,8 @@
                   "content": "Shipping",
                   "lineHeight": 1.25,
                   "fontFamily": "$font-family",
-                  "fontSize": 16
+                  "fontSize": 16,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "text",
@@ -2818,7 +2876,8 @@
           "lineHeight": 1.3333333333333333,
           "textAlign": "center",
           "fontFamily": "$font-family",
-          "fontSize": 12
+          "fontSize": 12,
+          "fontWeight": "normal"
         }
       ]
     },
@@ -2888,7 +2947,8 @@
           "lineHeight": 1.25,
           "textAlign": "center",
           "fontFamily": "$font-family",
-          "fontSize": 16
+          "fontSize": 16,
+          "fontWeight": "normal"
         },
         {
           "type": "frame",
@@ -2922,7 +2982,8 @@
                   "content": "Order",
                   "lineHeight": 1.25,
                   "fontFamily": "$font-family",
-                  "fontSize": 16
+                  "fontSize": 16,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "text",
@@ -2953,7 +3014,8 @@
                   "content": "Total",
                   "lineHeight": 1.25,
                   "fontFamily": "$font-family",
-                  "fontSize": 16
+                  "fontSize": 16,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "text",
@@ -2984,7 +3046,8 @@
                   "content": "Delivery",
                   "lineHeight": 1.25,
                   "fontFamily": "$font-family",
-                  "fontSize": 16
+                  "fontSize": 16,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "text",
