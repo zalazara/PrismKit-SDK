@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <!--
   The Sparkle update feed for Prism Inspector.
 
@@ -10,11 +10,58 @@
   key. Do not edit it by hand — an unsigned or wrongly signed entry is refused
   by every installed copy.
 -->
-<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle">
-  <channel>
-    <title>Prism Inspector</title>
-    <link>https://zalazara.github.io/PrismKit-SDK/appcast.xml</link>
-    <description>Updates for Prism Inspector, the macOS companion for PrismKit.</description>
-    <language>en</language>
-  </channel>
+<rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
+    <channel>
+        <title>Prism Inspector</title>
+        <link>https://zalazara.github.io/PrismKit-SDK/appcast.xml</link>
+        <description>Updates for Prism Inspector, the macOS companion for PrismKit.</description>
+        <language>en</language>
+        <item>
+            <title>1.0.0</title>
+            <pubDate>Thu, 30 Jul 2026 00:42:13 +0000</pubDate>
+            <sparkle:version>26</sparkle:version>
+            <sparkle:shortVersionString>1.0.0</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
+            <description><![CDATA[<h3>⚠️ Breaking changes</h3>
+<ul>
+  <li><strong>sdk:</strong> compile all instrumentation out of release builds (<code>fbc9aa1</code>)</li>
+  <li><strong>sdk:</strong> keep the stream listener out of iOS consumer binaries (<code>db569e5</code>)</li>
+  <li>split the PrismKit package out into its own repository (<code>6f77147</code>)</li>
+  <li>depend on the published PrismKit package instead of a sibling checkout (<code>79a10e9</code>)</li>
+  <li>relicense the app under MIT and point updates at GitHub Releases (<code>198dcb8</code>)</li>
+</ul>
+<h3>Features</h3>
+<ul>
+  <li>PrismKit SDK, Prism Inspector companion and MCP server (<code>fa59328</code>)</li>
+  <li><strong>app:</strong> surface the MCP server setup in Settings and Help (<code>9ad0eac</code>)</li>
+  <li><strong>mcp:</strong> compare a rendered screen against a design (<code>9f2a352</code>)</li>
+  <li><strong>app:</strong> draw design-check findings on the canvas (<code>16e5f05</code>)</li>
+  <li><strong>app:</strong> update itself through Sparkle (<code>75a606a</code>)</li>
+  <li><strong>app:</strong> ship the MCP server inside the app bundle (<code>df99e9e</code>)</li>
+  <li><strong>release:</strong> publish to the public repository and GitHub Pages (<code>43051b5</code>)</li>
+  <li><strong>release:</strong> derive the version from the commits (<code>476ac69</code>)</li>
+</ul>
+<h3>Fixes</h3>
+<ul>
+  <li>judge spacing against the team's scale, not a hardcoded one (<code>5f73324</code>)</li>
+  <li><strong>scripts:</strong> locate Sparkle's tools instead of assuming a DerivedData path (<code>0a4e467</code>)</li>
+  <li><strong>scripts:</strong> make sparkle-key.sh executable (<code>937724e</code>)</li>
+  <li><strong>release:</strong> ignore the public repository checkout (<code>5bfbb3e</code>)</li>
+  <li><strong>release:</strong> sign with Developer ID from the archive onwards (<code>7f14f42</code>)</li>
+</ul>
+<h3>Other changes</h3>
+<ul>
+  <li><strong>license:</strong> MIT for the package, proprietary for the companion (<code>bbc980f</code>)</li>
+  <li><strong>app:</strong> sign and notarize for Developer ID distribution (<code>c33a03b</code>)</li>
+  <li>add a manual release workflow with generated notes (<code>1e7c7f2</code>)</li>
+  <li>point the PrismKit links at the published repository (<code>a2f03df</code>)</li>
+  <li>keep signing material out of the repository (<code>f34f351</code>)</li>
+  <li>free to use, source stays closed (<code>3325241</code>)</li>
+  <li>take ownership of the analysis layer and the MCP server (<code>d1aadcd</code>)</li>
+  <li>depend on the published SDK instead of a sibling checkout (<code>1fa5f8e</code>)</li>
+</ul>
+]]></description>
+            <enclosure url="https://github.com/zalazara/PrismKit-SDK/releases/download/app-v1.0.0/Prism%20Inspector-1.0.0.zip" length="7697998" type="application/octet-stream"/>
+        </item>
+    </channel>
 </rss>

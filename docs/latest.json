@@ -1,6 +1,5 @@
 {
-  "version": null,
-  "dmg": null,
-  "released": null,
-  "_comment": "Written by the release workflow. `version: null` means nothing has been published yet, and the download button on the landing page says so instead of pointing at a URL that 404s."
+  "version": "1.0.0",
+  "dmg": "https://github.com/zalazara/PrismKit-SDK/releases/download/app-v1.0.0/Prism%20Inspector%201.0.0.dmg",
+  "released": "2026-07-30"
 }
