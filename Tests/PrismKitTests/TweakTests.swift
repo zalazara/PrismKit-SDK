@@ -104,6 +104,53 @@ final class TweakTests: XCTestCase {
     }
 
     @MainActor
+    func testTheFirstValueOfferedIsRememberedAsTheDefault() {
+        let registry = TweakRegistry.shared
+        registry.forget("Card padding")
+
+        registry.register(Tweak(name: "Card padding", value: .number(16)), write: { _ in })
+        // A view update re-registers with whatever the value is now. Taking
+        // that as the default would redefine "original" as "current" and
+        // there would be nothing to go back to.
+        registry.register(Tweak(name: "Card padding", value: .number(31)), write: { _ in })
+
+        let tweak = registry.current.first { $0.name == "Card padding" }
+        XCTAssertEqual(tweak?.value, .number(31))
+        XCTAssertEqual(tweak?.defaultValue, .number(16))
+        XCTAssertEqual(tweak?.isChanged, true)
+
+        registry.forget("Card padding")
+    }
+
+    @MainActor
+    func testAScreenThatComesBackOffersItsOriginalAgain() {
+        let registry = TweakRegistry.shared
+        registry.forget("Title")
+
+        registry.register(Tweak(name: "Title", value: .text("Shop")), write: { _ in })
+        registry.register(Tweak(name: "Title", value: .text("Edited")), write: { _ in })
+        // Navigating away and back rebuilds the state from the source, so the
+        // value offered next is the original — and it has to count as one.
+        registry.forget("Title")
+        registry.register(Tweak(name: "Title", value: .text("Shop")), write: { _ in })
+
+        let tweak = registry.current.first { $0.name == "Title" }
+        XCTAssertEqual(tweak?.defaultValue, .text("Shop"))
+        XCTAssertEqual(tweak?.isChanged, false)
+
+        registry.forget("Title")
+    }
+
+    /// A snapshot from an app built before defaults were carried.
+    func testATweakWithoutADefaultOffersNoReset() throws {
+        let json = Data(#"{"name":"Card padding","value":{"number":{"_0":16}}}"#.utf8)
+        let decoded = try decoder.decode(Tweak.self, from: json)
+
+        XCTAssertNil(decoded.defaultValue)
+        XCTAssertFalse(decoded.isChanged, "With nothing to go back to there is nothing to offer")
+    }
+
+    @MainActor
     func testAnUnknownNameIsIgnoredRatherThanFatal() {
         // A tweak can disappear while a message about it is in flight.
         TweakRegistry.shared.apply(TweakMessage(tweaks: ["Gone": .number(1)]))

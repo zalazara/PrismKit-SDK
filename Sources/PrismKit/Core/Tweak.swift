@@ -32,16 +32,35 @@ public struct Tweak: Codable, Equatable, Sendable, Identifiable {
     public var minimum: Double?
     public var maximum: Double?
 
+    /// What the value was when the app first offered it — the number written
+    /// in the source, before anybody dragged anything.
+    ///
+    /// Carried so a change can be undone. Without it the only way back to the
+    /// original is to remember it yourself and type it in, which is not an
+    /// undo, and every other editable thing here has a way back.
+    ///
+    /// Optional because an app built against an earlier PrismKit does not send
+    /// one; the companion simply offers no reset for those.
+    public var defaultValue: TweakValue?
+
     public init(
         name: String,
         value: TweakValue,
         minimum: Double? = nil,
-        maximum: Double? = nil
+        maximum: Double? = nil,
+        defaultValue: TweakValue? = nil
     ) {
         self.name = name
         self.value = value
         self.minimum = minimum
         self.maximum = maximum
+        self.defaultValue = defaultValue
+    }
+
+    /// Whether this has been moved away from what the app started with.
+    public var isChanged: Bool {
+        guard let defaultValue else { return false }
+        return value != defaultValue
     }
 }
 

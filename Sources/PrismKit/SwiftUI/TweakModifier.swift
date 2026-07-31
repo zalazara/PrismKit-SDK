@@ -130,15 +130,29 @@ final class TweakRegistry {
     private var writers: [String: (TweakValue) -> Void] = [:]
     private var order: [String] = []
 
+    /// What each value was the first time it was offered, so a change has a
+    /// way back. Recorded once per name and never overwritten — re-registering
+    /// on a view update reports the *current* value, and taking that as the
+    /// default would quietly redefine "original" as "whatever it is now".
+    private var defaults: [String: TweakValue] = [:]
+
     func register(_ tweak: Tweak, write: @escaping (TweakValue) -> Void) {
         if tweaks[tweak.name] == nil { order.append(tweak.name) }
-        tweaks[tweak.name] = tweak
+        if defaults[tweak.name] == nil { defaults[tweak.name] = tweak.value }
+        var recorded = tweak
+        recorded.defaultValue = defaults[tweak.name]
+        tweaks[tweak.name] = recorded
         writers[tweak.name] = write
     }
 
     func forget(_ name: String) {
         tweaks.removeValue(forKey: name)
         writers.removeValue(forKey: name)
+        // The default goes too. A screen that leaves and comes back rebuilds
+        // its state from the source, so the value it offers next time is the
+        // original again — keeping the old one would pin "default" to a
+        // previous screen's edit.
+        defaults.removeValue(forKey: name)
         order.removeAll { $0 == name }
     }
 
