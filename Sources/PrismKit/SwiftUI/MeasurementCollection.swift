@@ -6,6 +6,7 @@ struct MeasurementAnchor {
     let group: String
     let role: MeasurementRole
     let metadata: [String: String]
+    let callSite: CallSite
     let bounds: Anchor<CGRect>
 }
 

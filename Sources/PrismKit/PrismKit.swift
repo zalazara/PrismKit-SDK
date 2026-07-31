@@ -21,4 +21,34 @@ public enum PrismKit {
         return false
         #endif
     }()
+
+    /// Decides whether a component may be drawn on its own for the companion.
+    /// Return false to refuse one; nil — the default — allows everything.
+    ///
+    /// Two reasons to say no, and they are different questions:
+    ///
+    /// Cost. Drawing a component on its own is a real render on the main
+    /// thread, and a screen full of instrumented rows can be asked for at
+    /// once. Excluding the ones nobody inspects keeps the app responsive while
+    /// the companion is attached.
+    ///
+    /// Content. A picture of a component leaves the process. A view showing a
+    /// card number or somebody's medical record is one your team may not want
+    /// travelling to a Mac and sitting in a saved session file, however local
+    /// the socket is. The app is the only side that knows which those are.
+    ///
+    /// Called on the main thread, once per component per request, with the
+    /// measurement id ("group#role"). Keep it cheap and keep it pure.
+    ///
+    /// ```swift
+    /// PrismKit.rendersComponent = { id in
+    ///     !id.hasPrefix("payment-") && !id.hasPrefix("patient-")
+    /// }
+    /// ```
+    ///
+    /// Refusing a component is not hiding it: its frame, size and padding are
+    /// still measured and still streamed. This governs the picture only. In
+    /// release builds nothing is drawn or streamed at all, so it is moot.
+    @MainActor
+    public static var rendersComponent: ((String) -> Bool)?
 }

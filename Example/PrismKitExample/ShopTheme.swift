@@ -14,8 +14,21 @@ extension View {
     ///
     /// Apply it where the design's frame is: before padding modifiers, so the
     /// measured frame is the node's own.
-    func designNode(_ name: String) -> some View {
-        accessibilityIdentifier(name).measure(name)
+    ///
+    /// The `file`/`line` parameters are not passed by callers — the compiler
+    /// fills them in — but they have to be declared and forwarded, because a
+    /// wrapper is where a call site goes to die. Without them every one of the
+    /// seventy `designNode` calls in this app reports the line below as its
+    /// origin, and "where is this component written" answers "in the helper",
+    /// for all of them. It did, until a real run showed every component
+    /// pointing here.
+    func designNode(
+        _ name: String,
+        file: String = #fileID,
+        line: Int = #line
+    ) -> some View {
+        accessibilityIdentifier(name)
+            .measure(name, file: file, line: line)
     }
 }
 

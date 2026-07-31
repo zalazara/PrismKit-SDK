@@ -16,17 +16,24 @@ public struct ResolvedMeasurement: Identifiable, Equatable, Sendable, Codable {
     /// Optional free-form metadata attached by the instrumented view.
     public let metadata: [String: String]
 
+    /// Where `measure` was written. Nil when the measurement did not come from
+    /// a call site — the accessibility-derived elements have no source to point
+    /// at — and when the stream came from an SDK built before this existed.
+    public let callSite: CallSite?
+
     public var id: String { "\(group)#\(role.label)" }
 
     public init(
         group: String,
         role: MeasurementRole,
         frame: CGRect,
-        metadata: [String: String] = [:]
+        metadata: [String: String] = [:],
+        callSite: CallSite? = nil
     ) {
         self.group = group
         self.role = role
         self.frame = frame
         self.metadata = metadata
+        self.callSite = callSite
     }
 }

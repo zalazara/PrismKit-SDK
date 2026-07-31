@@ -55,19 +55,34 @@ struct ShopHomeScreen: View {
     private let featured = ["headphones", "sneakers", "watch"].map(Product.named)
     private let popular = ["backpack", "camera", "lamp"].map(Product.named)
 
+    // Offered to the companion, so the margin, the title and whether the
+    // search field appears can be changed while the app runs. The state stays
+    // here: `measureTweak` hands over the binding this view already owns
+    // rather than reaching into anything, which is why the layout reacts
+    // exactly as it would to any other state change — text rewraps, the
+    // screen below moves, and the measurements follow.
+    @State private var screenMargin: CGFloat = Shop.screenMargin
+    @State private var title = "Shop"
+    @State private var showsSearch = true
+
     var body: some View {
         ShopScreen(identifier: "screen-home") {
             VStack(alignment: .leading, spacing: 0) {
-                Text(verbatim: "Shop")
+                Text(verbatim: title)
                     .font(Shop.TypeStyle.screenTitle)
                     .foregroundColor(Shop.Palette.primaryText)
                     .designNode("home-title")
-                    .padding(.horizontal, Shop.screenMargin)
+                    .padding(.horizontal, screenMargin)
                     .padding(.top, Shop.Space.xxl)
+                    .measureTweak("Screen margin", $screenMargin, in: 0...48)
+                    .measureTweak("Title", $title)
+                    .measureTweak("Shows search", $showsSearch)
 
-                searchField
-                    .padding(.horizontal, Shop.screenMargin)
-                    .padding(.top, Shop.Space.lg)
+                if showsSearch {
+                    searchField
+                        .padding(.horizontal, screenMargin)
+                        .padding(.top, Shop.Space.lg)
+                }
 
                 Text(verbatim: "Featured")
                     .font(Shop.TypeStyle.sectionTitle)

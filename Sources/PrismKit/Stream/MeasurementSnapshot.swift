@@ -51,6 +51,11 @@ public struct MeasurementSnapshot: Codable, Equatable, Sendable {
     /// this field existed still decode.
     public var accessibilityTree: [AccessibilityTreeNode]?
 
+    /// Values the app has offered to let the companion change, in the order it
+    /// declared them. Optional so snapshots from before tweaks existed — and
+    /// saved sessions written then — still decode.
+    public var tweaks: [Tweak]?
+
     public init(
         appName: String,
         bundleID: String = "",
@@ -60,7 +65,8 @@ public struct MeasurementSnapshot: Codable, Equatable, Sendable {
         safeAreaInsets: StreamInsets,
         measurements: [ResolvedMeasurement],
         accessibilityElements: [AccessibilityElementInfo] = [],
-        accessibilityTree: [AccessibilityTreeNode]? = nil
+        accessibilityTree: [AccessibilityTreeNode]? = nil,
+        tweaks: [Tweak]? = nil
     ) {
         self.appName = appName
         self.bundleID = bundleID
@@ -71,6 +77,7 @@ public struct MeasurementSnapshot: Codable, Equatable, Sendable {
         self.measurements = measurements
         self.accessibilityElements = accessibilityElements
         self.accessibilityTree = accessibilityTree
+        self.tweaks = tweaks
     }
 
     /// The frame of a measurement converted to screen (global) coordinates.

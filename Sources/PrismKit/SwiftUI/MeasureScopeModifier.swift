@@ -156,7 +156,8 @@ private struct MeasureScopeModifier: ViewModifier {
                                 group: anchor.group,
                                 role: anchor.role,
                                 frame: proxy[anchor.bounds],
-                                metadata: anchor.metadata
+                                metadata: anchor.metadata,
+                                callSite: anchor.callSite
                             )
                         }
                         let snapshot = makeSnapshot(measurements: measurements, proxy: proxy)
@@ -257,7 +258,11 @@ private struct MeasureScopeModifier: ViewModifier {
                 bottom: insets.bottom,
                 trailing: insets.trailing
             ),
-            measurements: measurements
+            measurements: measurements,
+            // Read as the snapshot is assembled, so the values are the ones
+            // the app is showing rather than the ones it was showing when a
+            // tweak first registered.
+            tweaks: TweakRegistry.shared.current
         )
     }
 

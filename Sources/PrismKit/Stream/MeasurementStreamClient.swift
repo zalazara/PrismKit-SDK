@@ -1,5 +1,8 @@
 import Combine
 import Foundation
+#if canImport(UIKit)
+import UIKit
+#endif
 #if DEBUG
 import Network
 #endif
@@ -120,7 +123,8 @@ final class MeasurementStreamClient {
         retryTimer = timer
     }
 
-    /// Receives override messages pushed back by the companion.
+    /// Receives override messages and liveness probes pushed back by the
+    /// companion.
     private func receiveLoop(on connection: NWConnection, buffer: Data) {
         connection.receive(minimumIncompleteLength: 1, maximumLength: 1 << 16) { [weak self] data, _, isComplete, error in
             guard let self else { return }
@@ -133,6 +137,14 @@ final class MeasurementStreamClient {
                     DispatchQueue.main.async {
                         MeasurementOverrideStore.shared.apply(message)
                     }
+                } else if let ping = try? JSONDecoder().decode(PingMessage.self, from: Data(line)) {
+                    self.answer(ping)
+                } else if let request = try? JSONDecoder().decode(FrameRequestMessage.self, from: Data(line)) {
+                    self.renderFrame(for: request)
+                } else if let request = try? JSONDecoder().decode(ComponentRenderRequestMessage.self, from: Data(line)) {
+                    self.renderComponents(for: request)
+                } else if let message = try? JSONDecoder().decode(TweakMessage.self, from: Data(line)) {
+                    Task { @MainActor in TweakRegistry.shared.apply(message) }
                 }
             }
             if isComplete || error != nil {
@@ -141,6 +153,84 @@ final class MeasurementStreamClient {
                 self.receiveLoop(on: connection, buffer: buffer)
             }
         }
+    }
+
+    /// Replies to a probe — from the main queue, deliberately.
+    ///
+    /// Hopping to main before writing is the entire mechanism: while the app
+    /// is stopped at a breakpoint or its main thread is blocked, this block
+    /// never runs, no reply is written, and the companion learns the thing it
+    /// actually wanted to know. Answering from the network queue would always
+    /// succeed and would therefore mean nothing.
+    private func answer(_ ping: PingMessage) {
+        DispatchQueue.main.async {
+            self.queue.async {
+                guard let connection = self.connection, self.isConnectionReady else { return }
+                guard var data = try? self.encoder.encode(PongMessage(pong: ping.ping)) else { return }
+                data.append(0x0A)
+                connection.send(content: data, completion: .contentProcessed { _ in })
+            }
+        }
+    }
+
+    /// Renders the screen the companion asked for and sends it back.
+    ///
+    /// The render has to happen on the main thread; the encode and the write
+    /// do not, and a PNG of a 3x screen is slow enough that doing it on the
+    /// main thread would show up as a stutter in the app being measured. So
+    /// only the capture runs there.
+    private func renderFrame(for request: FrameRequestMessage) {
+        #if canImport(UIKit)
+        DispatchQueue.main.async {
+            guard let capture = ScreenRenderer.capture() else { return }
+            self.queue.async {
+                guard let frame = ScreenRenderer.encode(capture) else { return }
+                guard let connection = self.connection, self.isConnectionReady else { return }
+                let message = ScreenFrameMessage(id: request.requestFrame, frame: frame)
+                guard var data = try? self.encoder.encode(message) else { return }
+                data.append(0x0A)
+                connection.send(content: data, completion: .contentProcessed { _ in })
+            }
+        }
+        #endif
+    }
+
+    /// Draws the named components on their own and sends them back.
+    ///
+    /// Sizes come from the snapshot this client last sent, so the pictures
+    /// match the frames the companion is already drawing overlays on. Asking
+    /// the companion to supply them instead would let the two disagree about
+    /// what a component's size is, which is the one thing this whole tool is
+    /// supposed to settle.
+    private func renderComponents(for request: ComponentRenderRequestMessage) {
+        #if canImport(UIKit)
+        // Read on the queue this is already running on. Hopping to main and
+        // reaching back with `sync` would be a deadlock waiting for the one
+        // day something on this queue waits for main.
+        guard let snapshot = latest else { return }
+        // `Task { @MainActor in }` rather than `DispatchQueue.main.async`
+        // because the renderer is main-actor isolated and this gives the
+        // compiler that statically, on every OS this package supports.
+        Task { @MainActor in
+            var sizes: [String: CGSize] = [:]
+            for measurement in snapshot.measurements {
+                sizes[measurement.id] = measurement.frame.size
+            }
+            let scale = UIScreen.main.scale
+            let result = SoloRenderRegistry.render(ids: request.ids, sizes: sizes, scale: scale)
+            self.queue.async {
+                guard let connection = self.connection, self.isConnectionReady else { return }
+                let message = ComponentRenderMessage(
+                    id: request.requestComponents,
+                    components: result.rendered,
+                    refused: result.refused
+                )
+                guard var data = try? self.encoder.encode(message) else { return }
+                data.append(0x0A)
+                connection.send(content: data, completion: .contentProcessed { _ in })
+            }
+        }
+        #endif
     }
 
     private func openConnection() {
