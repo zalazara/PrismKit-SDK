@@ -300,8 +300,27 @@ var body: some Scene {
       <a href="#trouble">Troubleshooting</a>.
     </p>
     <p>
-      The toolbar's breadcrumb shows which app and which simulator you are looking at, with the
+      The toolbar's breadcrumb shows which app and which device you are looking at, with the
       app's real icon. If several simulators are booted, pick one there.
+    </p>
+
+    <h3>Or a real iPhone</h3>
+    <p>
+      Plug the phone in and it appears in the same menu, by name, under
+      <strong>Attached devices</strong>. Pick it and everything works as it does for a
+      simulator: the tree, the inspector, live values, the design check.
+    </p>
+    <p>
+      Nothing to configure. On a device the app listens and the Mac reaches in over the cable
+      through <code>usbmuxd</code> — the same mechanism Xcode has always used to talk to
+      attached devices — so the app has to be running and built with the SDK, and that is all.
+      Devices paired over Wi-Fi work too and are labelled as such, because they are slower and
+      it is worth knowing which one you are on.
+    </p>
+    <p class="note">
+      One difference worth knowing: the canvas shows the app's own render rather than a
+      photograph of the device, so the status bar and Dynamic Island are not in the picture —
+      the system draws those outside the app's window. The inspector says so when it happens.
     </p>
 
     <h3>What works if your app has UIKit screens</h3>
@@ -405,10 +424,45 @@ var body: some Scene {
       <strong>Align</strong> menu positions the original content inside the new frame.
     </p>
     <p class="note">
-      Live editing only works on views the SDK wraps, because there has to be something in the app
-      to apply the override to. Arbitrary SwiftUI has no runtime object graph to edit from outside,
-      and text and colour cannot be changed at all — a preview-only fake was built once and
-      removed, because overlaying invented text on a screenshot is a lie about what the app does.
+      Size editing only works on views the SDK wraps, because there has to be something in the app
+      to apply the override to. Arbitrary SwiftUI has no runtime object graph to edit from outside.
+    </p>
+
+    <h3>Live values</h3>
+    <p>
+      Size can be imposed from outside. Padding, colour and copy cannot — they are arguments a
+      component was built with, and from outside the process there is no object left to ask. So
+      the component offers them, by handing over the binding it already owns:
+    </p>
+<pre><code>@State private var cardPadding: CGFloat = 16
+
+VStack { … }
+    .padding(cardPadding)
+    .measureTweak("Card padding", $cardPadding, in: 0...48)</code></pre>
+    <p>
+      Anything offered this way appears under <strong>Live values</strong> in the inspector, with
+      the editor its type deserves: a slider when you gave bounds, a plain field when you did not,
+      a toggle for a flag, a text field for copy. Changing one goes through your own state, so the
+      app re-lays-out for real — text rewraps, everything below it moves, and the measurements
+      follow.
+    </p>
+    <p class="note">
+      This is the honest version of something that was tried and removed: a preview-only mock that
+      drew invented text over the screenshot. It looked the same and told you nothing, because the
+      app had not changed. Here it has.
+    </p>
+
+    <h3>A component on its own</h3>
+    <p>
+      Select an instrumented component and <strong>On its own</strong> shows it drawn by itself
+      beside the same patch of the screen. On screen a component covered by another, one at zero
+      opacity and one with no height all look identical — like nothing at all — and they are three
+      different bugs. The pair separates them.
+    </p>
+    <p>
+      A blank picture is an answer too: the component draws nothing itself and everything you see
+      in it belongs to its children. If your app declines to send a picture of a view — see
+      <code>PrismKit.rendersComponent</code> — the inspector says so rather than showing a blank.
     </p>
 
     <!-- ============================================================ -->
@@ -933,12 +987,42 @@ Text(item.title)
 <pre><code>func measure(
     _ group: String,
     role: MeasurementRole = .container,
-    metadata: [String: String] = [:]
+    metadata: [String: String] = [:],
+    file: String = #fileID,
+    line: Int = #line
 ) -> some View</code></pre>
     <p>
       Roles: <code>.container</code>, <code>.content</code>, <code>.title</code>,
       <code>.subtitle</code>, <code>.icon</code>, <code>.image</code>, <code>.background</code>,
       and <code>.custom("…")</code>.
+    </p>
+    <p>
+      The last two are filled in by the compiler and record where the component is written, so a
+      finding can point at a line of code instead of at a name to go and search for. Do not pass
+      them — with one exception. A helper that calls <code>measure</code> for you must declare and
+      forward them, or every view it wraps reports the helper's own line:
+    </p>
+<pre><code>func designNode(
+    _ name: String,
+    file: String = #fileID,
+    line: Int = #line
+) -> some View {
+    accessibilityIdentifier(name).measure(name, file: file, line: line)
+}</code></pre>
+
+    <h3>measureTweak</h3>
+<pre><code>func measureTweak(_ name: String, _ value: Binding&lt;CGFloat&gt;, in bounds: ClosedRange&lt;CGFloat&gt;? = nil) -> some View
+func measureTweak(_ name: String, _ value: Binding&lt;Bool&gt;) -> some View
+func measureTweak(_ name: String, _ value: Binding&lt;String&gt;) -> some View</code></pre>
+    <p>Offers a value for the inspector to change while the app runs. Names must be unique in the app.</p>
+
+    <h3>PrismKit.rendersComponent</h3>
+<pre><code>PrismKit.rendersComponent = { id in !id.hasPrefix("payment-") }</code></pre>
+    <p>
+      Decides whether a component may be drawn on its own and sent to the Mac. Two reasons to say
+      no: cost, since each one is a real render on the main thread; and content, since a picture
+      leaves the process and lands in a saved session file. Refusing one does not hide it — its
+      geometry is still measured and reported.
     </p>
 
     <h3>MeasureConfiguration</h3>
@@ -948,6 +1032,13 @@ Text(item.title)
       <code>showsSizeLabels</code>, <code>showsInternalPadding</code>,
       <code>showsExternalSpacing</code>, <code>validatesTokens</code>. The floating toolbar can
       change them at runtime.
+    </p>
+    <p>
+      Bounds, sizes and padding start <strong>off</strong>. Drawing them for every instrumented
+      view at once is legible on a demo screen and unreadable on a real one, so a screen comes up
+      clean and you turn on what you need. On a busy screen the select button beside the toolbar's
+      ruler is the better route: arm it, tap a component and only that one is drawn; tap a second
+      and you get the distance between them.
     </p>
     <p>It works in Xcode previews as well as in the simulator.</p>
 

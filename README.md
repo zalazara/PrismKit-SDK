@@ -71,6 +71,56 @@ Measurements sharing a group name form one logical component. Roles: `container`
 
 Put these inside your design-system components rather than writing them per screen.
 
+`measure` also records where it was written, so a finding can point at the line
+of code instead of at a name to go and search for. If you wrap it in a helper —
+which is the normal thing to do — the helper has to declare and forward the
+location, or every view it wraps reports the helper's own line:
+
+```swift
+func designNode(
+    _ name: String,
+    file: String = #fileID,
+    line: Int = #line
+) -> some View {
+    accessibilityIdentifier(name).measure(name, file: file, line: line)
+}
+```
+
+### Values you let the tooling change
+
+Size can be overridden from outside, because `measure` wraps the view and can
+impose a frame on it. Padding, colour and copy cannot: they are arguments a
+component was built with, and from outside the process there is no object left
+to ask. So the component offers them, by handing over the binding it already
+owns:
+
+```swift
+@State private var cardPadding: CGFloat = 16
+
+VStack { … }
+    .padding(cardPadding)
+    .measureTweak("Card padding", $cardPadding, in: 0...48)
+```
+
+`CGFloat`, `Bool` and `String`. Give bounds when the value has them and the
+companion shows a slider; leave them off and it shows a field, because a slider
+with invented limits states a range nobody chose. Changing one goes through
+your own state, so the app re-lays-out for real — text rewraps and everything
+below it moves.
+
+### Pictures of a component leave the process
+
+The companion can ask the app to draw a component on its own, which is how it
+tells a covered element from an invisible one. If some of your views should not
+travel — anything showing a card number or a medical record — say so:
+
+```swift
+PrismKit.rendersComponent = { id in !id.hasPrefix("payment-") }
+```
+
+Refusing one does not hide it: its geometry is still measured and reported.
+This governs the picture only.
+
 ### Configuration
 
 ```swift
@@ -82,6 +132,15 @@ Put these inside your design-system components rather than writing them per scre
 ```
 
 Padding and spacing are checked against `spacingTokens`: valid values render green, invalid ones red with the nearest token, e.g. `13→12`.
+
+The overlay layers start off. Drawing bounds, sizes and padding for every
+instrumented view at once is legible on a demo screen and unreadable on a real
+one, so a screen comes up clean and you turn on what you need — from the
+floating toolbar, or by passing the flags above.
+
+On a busy screen the better route is the select button beside the toolbar's
+ruler: arm it, tap a component and only that one is drawn; tap a second and you
+get the distance between them.
 
 ## What this package is, and is not
 
@@ -102,6 +161,12 @@ The app bundles an MCP server, so an AI agent can read the same measurements and
 
 Streaming is on by default in `measureScope` and is a silent no-op when nothing is listening, so leaving it enabled costs nothing. PrismKit works fully without the app.
 
+It works on a real device too, not only in the simulator. On a phone the app
+listens and the Mac reaches in over the cable through `usbmuxd` — the same
+mechanism Xcode has always used — so an attached device appears in the
+companion's device menu beside your booted simulators. Nothing to configure at
+this end: plug the phone in, run your app, pick it.
+
 ## Example app
 
 `Example/PrismKitExample.xcodeproj` is a runnable, instrumented sample:
@@ -115,7 +180,7 @@ open Example/PrismKitExample.xcodeproj
 - **SwiftUI only.** No UIKit support in this version.
 - **Element discovery comes from the accessibility tree.** That covers most meaningful UI, but not purely decorative views, and it needs the accessibility flag described above. Internal padding and semantic grouping still need the optional `measure(_:role:)` calls, because SwiftUI exposes no public runtime view graph to infer them from.
 - **Not a general-purpose debugger.** For runtime property inspection use Lookin, Reveal, or the Xcode view debugger.
-- **Simulator-first.** The companion workflow relies on the simulator sharing the Mac's loopback interface; physical devices would need discovery that is not built yet.
+- **Drawing a component on its own needs iOS 16.** Below that there is no way to rasterise a SwiftUI view off screen without rearranging the live hierarchy, which would make the app being measured flicker. Everything else works on iOS 15.
 - Overlay labels for measurements scrolled offscreen can draw outside the visible viewport.
 
 ## License

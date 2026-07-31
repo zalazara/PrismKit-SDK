@@ -444,9 +444,10 @@ var body: some Scene {
       </li>
       <li>
         <h3>Run it, and open Prism Inspector</h3>
-        <p>Launch in the simulator from Xcode or <code>simctl</code>. The inspector finds the app
-        and mirrors its screen. Click anything to inspect it, ⌥-click a second element to measure
-        between them.</p>
+        <p>Launch in the simulator from Xcode or <code>simctl</code>, or plug in an iPhone and
+        run it there — an attached device shows up in the same menu, by name. The inspector finds
+        the app and mirrors its screen. Click anything to inspect it, ⌥-click a second element to
+        measure between them.</p>
         <p class="note">Order does not matter — start either one first, the app reconnects within
         a few seconds. If the view tree stays empty, the simulator has not built its accessibility
         tree yet: the inspector has a button for that, then relaunch the app.</p>
@@ -499,7 +500,7 @@ var body: some Scene {
       <li>Compiled out of release builds: the measurement code, the accessibility walk and the
       network client all sit behind <code>#if DEBUG</code>, so nothing ships to the App Store and
       no user data ever leaves a device.</li>
-      <li>Works in Xcode previews as well as in the simulator.</li>
+      <li>Works in Xcode previews, in the simulator, and on an iPhone plugged into your Mac.</li>
     </ul>
 
     <div class="spotlight spotlight-coral" style="margin-top:40px">
