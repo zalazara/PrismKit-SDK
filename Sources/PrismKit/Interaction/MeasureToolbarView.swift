@@ -67,15 +67,27 @@ struct MeasureToolbarView: View {
 
     private var panel: some View {
         VStack(alignment: .leading, spacing: 7) {
-            row("Bounds", isOn: $configuration.showsBounds)
-            row("Sizes", isOn: $configuration.showsSizeLabels)
-            row("Padding", isOn: $configuration.showsInternalPadding)
-            row("Spacing", isOn: $configuration.showsExternalSpacing)
+            // These four describe a component, so they draw for whatever is
+            // selected and arm the selection when switched on — otherwise
+            // turning one on with nothing selected looks like a broken switch.
+            componentRow("Bounds", isOn: $configuration.showsBounds)
+            componentRow("Sizes", isOn: $configuration.showsSizeLabels)
+            componentRow("Padding", isOn: $configuration.showsInternalPadding)
+            componentRow("Spacing", isOn: $configuration.showsExternalSpacing)
+            // These two describe the screen, so they simply draw.
             row("Grid", isOn: $configuration.showsGrid)
             row("Safe area", isOn: $configuration.showsSafeArea)
             row("Tokens", isOn: $configuration.validatesTokens)
             Divider()
             row("Selection", isOn: $isSelectionEnabled)
+            if isSelectionEnabled, selection.isEmpty, showsComponentLayer {
+                // The layer is on and there is nothing for it to draw. Saying
+                // so beats leaving somebody tapping a switch that appears
+                // to do nothing.
+                Text("Tap an element")
+                    .font(.caption2)
+                    .foregroundColor(.secondary)
+            }
             if !selection.isEmpty {
                 Button {
                     selection.clear()
@@ -98,9 +110,30 @@ struct MeasureToolbarView: View {
         )
     }
 
-    private func row(_ title: String, isOn: Binding<Bool>) -> some View {
+    /// Whether any layer that needs a selection is switched on.
+    private var showsComponentLayer: Bool {
+        configuration.showsBounds
+            || configuration.showsSizeLabels
+            || configuration.showsInternalPadding
+            || configuration.showsExternalSpacing
+    }
+
+    /// A layer that draws about a component: switching it on also arms the
+    /// selection, because a layer with nothing selected has nothing to draw.
+    private func componentRow(_ title: String, isOn: Binding<Bool>) -> some View {
+        row(title, isOn: isOn) {
+            if isOn.wrappedValue { isSelectionEnabled = true }
+        }
+    }
+
+    private func row(
+        _ title: String,
+        isOn: Binding<Bool>,
+        onChange: @escaping () -> Void = {}
+    ) -> some View {
         Button {
             isOn.wrappedValue.toggle()
+            onChange()
         } label: {
             HStack(spacing: 6) {
                 Image(systemName: isOn.wrappedValue ? "checkmark.square.fill" : "square")
