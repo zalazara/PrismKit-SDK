@@ -175,6 +175,22 @@ this end: plug the phone in, run your app, pick it.
 open Example/PrismKitExample.xcodeproj
 ```
 
+Three tabs, each demonstrating something different:
+
+- **Shop** — a whole purchase flow, built from `Example.pen` and drifting from
+  it on purpose in a few places. Type and colour are deliberately fixed here:
+  the design check compares geometry against that file, and text that resized
+  with the reader's settings would move every frame below it. `DESIGN-DEMO.md`
+  lists each planted defect and the finding it should produce.
+- **Adaptive** — the opposite, and what the companion's App preview controls
+  are for. Text styles and semantic colours, plus two rows that are wrong on
+  purpose: a fixed 44 pt height and a one-line label. Raise the text size from
+  the Mac and the top half reflows while the bottom half stays frozen at its
+  hard-coded size; switch to dark and one colour card follows while the other
+  keeps its light palette.
+- **Demo** — `PrismKitDemoScreen`, the minimal instrumented screen that ships
+  in the package itself.
+
 ## Limitations
 
 - **SwiftUI only.** No UIKit support in this version.

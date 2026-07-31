@@ -15,6 +15,8 @@ struct ContentView: View {
         TabView {
             PlaygroundScreen()
                 .tabItem { Label("Shop", systemImage: "bag") }
+            AdaptiveScreen()
+                .tabItem { Label("Adaptive", systemImage: "textformat.size") }
             PrismKitDemoScreen()
                 .tabItem { Label("Demo", systemImage: "rectangle.dashed") }
         }
