@@ -1,23 +1,9 @@
 import SwiftUI
 
-/// A measurement reported by an instrumented view, carrying an unresolved
-/// layout anchor. Resolved to a concrete frame by the enclosing scope.
-struct MeasurementAnchor {
-    let group: String
-    let role: MeasurementRole
-    let metadata: [String: String]
-    let callSite: CallSite
-    let bounds: Anchor<CGRect>
-}
-
-/// Collects measurement anchors from the instrumented subtree.
-struct MeasurementPreferenceKey: PreferenceKey {
-    static var defaultValue: [MeasurementAnchor] { [] }
-
-    static func reduce(value: inout [MeasurementAnchor], nextValue: () -> [MeasurementAnchor]) {
-        value.append(contentsOf: nextValue())
-    }
-}
+// The anchor preference this file used to define is gone. Measured views
+// report themselves to `MeasurementStore` instead, because a preference cannot
+// travel out of a `navigationDestination` and so never reached a scope placed
+// above a navigation stack.
 
 private struct MeasureScopeEnabledKey: EnvironmentKey {
     static let defaultValue = false

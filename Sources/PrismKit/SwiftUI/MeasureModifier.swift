@@ -151,29 +151,55 @@ private struct MeasureModifier: ViewModifier {
                 height: sizeOverride?.height,
                 alignment: overrideAlignment
             )
-            .transformAnchorPreference(
-                key: MeasurementPreferenceKey.self,
-                value: .bounds
-            ) { value, anchor in
-                guard isEnabled, isVisible else { return }
-                value.append(
-                    MeasurementAnchor(
-                        group: group,
-                        role: role,
-                        metadata: metadata,
-                        callSite: callSite,
-                        bounds: anchor
-                    )
-                )
-            }
+            // Reported rather than handed up as a preference. A preference
+            // cannot leave a `navigationDestination`, so a scope above the
+            // navigation stack never heard from any screen but the first —
+            // see `MeasurementStore`.
+            .background(reporter)
             .onAppear { isVisible = true }
             .onDisappear {
                 isVisible = false
-                // A view that left the hierarchy must stop offering to draw
-                // itself, or the companion would be handed a picture of a
-                // screen the app navigated away from.
+                // Both registries: a view that has left the hierarchy must
+                // stop being measured and stop offering to draw itself, or the
+                // companion is handed the geometry and the picture of a screen
+                // the app navigated away from.
+                MeasurementStore.shared.forget(id)
                 SoloRenderRegistry.forget(id: id)
             }
+    }
+
+    /// Watches this view's frame and reports it.
+    ///
+    /// In the background rather than as an overlay so it cannot intercept a
+    /// touch, and `Color.clear` so it cannot be seen. `.global` because the
+    /// scope may be an entire navigation stack away and screen coordinates are
+    /// the only space both ends agree on.
+    private var reporter: some View {
+        GeometryReader { proxy in
+            let frame = proxy.frame(in: .global)
+            Color.clear
+                .onAppear { report(frame) }
+                .onChange(of: frame) { report($0) }
+                // A scope switched off mid-session has to take its
+                // measurements with it.
+                .onChange(of: isEnabled) { _ in report(frame) }
+        }
+    }
+
+    private func report(_ frame: CGRect) {
+        guard isEnabled else {
+            MeasurementStore.shared.forget(id)
+            return
+        }
+        MeasurementStore.shared.report(
+            GlobalMeasurement(
+                group: group,
+                role: role,
+                metadata: metadata,
+                callSite: callSite,
+                globalFrame: frame
+            )
+        )
     }
 
     private var sizeOverride: SizeOverride? {

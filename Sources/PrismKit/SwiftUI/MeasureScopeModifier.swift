@@ -119,6 +119,7 @@ private struct MeasureScopeModifier: ViewModifier {
 
     @ObservedObject private var streamState = MeasurementStreamClient.state
     @Environment(\.scenePhase) private var scenePhase
+    @ObservedObject private var store = MeasurementStore.shared
     @State private var accessibilityCache = AccessibilityCollectorCache()
     @State private var latestBox = LatestSnapshotBox()
 
@@ -148,18 +149,13 @@ private struct MeasureScopeModifier: ViewModifier {
     func body(content: Content) -> some View {
         content
             .environment(\.measureScopeIsEnabled, isEnabled)
-            .overlayPreferenceValue(MeasurementPreferenceKey.self) { anchors in
+            // Read from the store rather than collected as preferences: a
+            // preference cannot cross out of a `navigationDestination`, so
+            // this used to see the first screen and nothing after it.
+            .overlay {
                 if isEnabled {
                     GeometryReader { proxy in
-                        let measurements = anchors.map { anchor in
-                            ResolvedMeasurement(
-                                group: anchor.group,
-                                role: anchor.role,
-                                frame: proxy[anchor.bounds],
-                                metadata: anchor.metadata,
-                                callSite: anchor.callSite
-                            )
-                        }
+                        let measurements = resolvedMeasurements(in: proxy)
                         let snapshot = makeSnapshot(measurements: measurements, proxy: proxy)
                         ZStack(alignment: .topLeading) {
                             MeasureOverlayView(
@@ -238,6 +234,28 @@ private struct MeasureScopeModifier: ViewModifier {
         latestBox.lastSentElements = collected.elements
         latestBox.lastSentTree = collected.tree
         MeasurementStreamClient.shared.send(enriched)
+    }
+
+    /// The reported frames, expressed in this scope's coordinate space.
+    ///
+    /// Split out of the view body because the compiler could not type-check it
+    /// inline in reasonable time — a `ViewBuilder` closure is an expensive
+    /// place to do work, and this is work.
+    private func resolvedMeasurements(in proxy: GeometryProxy) -> [ResolvedMeasurement] {
+        let scopeFrame = proxy.frame(in: .global)
+        let reported: [GlobalMeasurement] = store.reported.values.sorted { $0.id < $1.id }
+        return reported.map { item in
+            // Global back into the scope's own space, which is what a
+            // measurement is expressed in and what the overlay draws with.
+            let frame = item.globalFrame.offsetBy(dx: -scopeFrame.minX, dy: -scopeFrame.minY)
+            return ResolvedMeasurement(
+                group: item.group,
+                role: item.role,
+                frame: frame,
+                metadata: item.metadata,
+                callSite: item.callSite
+            )
+        }
     }
 
     private func makeSnapshot(
