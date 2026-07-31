@@ -10,8 +10,22 @@ struct SelectionLayerView: View {
     let size: CGSize
     @Binding var selection: MeasurementSelection
 
+    /// Tap targets, largest first, so the smallest element under a finger is
+    /// the one on top and therefore the one that gets the tap.
+    ///
+    /// They used to be laid down in the order the measurements arrived, which
+    /// is alphabetical by id — so which element a tap selected depended on
+    /// what somebody had named the group, and a card whose name happened to
+    /// sort after its contents swallowed every tap meant for its icon or its
+    /// title. Ordering by area makes the answer geometric: the deepest thing
+    /// you are pointing at. A container is still reachable through any part of
+    /// it its children do not cover, which for a card is its padding.
+    private var tapTargets: [ResolvedMeasurement] {
+        measurements.sorted { $0.frame.width * $0.frame.height > $1.frame.width * $1.frame.height }
+    }
+
     var body: some View {
-        ForEach(measurements) { measurement in
+        ForEach(tapTargets) { measurement in
             Rectangle()
                 .fill(Color.clear)
                 .contentShape(Rectangle())
@@ -67,18 +81,28 @@ struct EdgeDistancesView: View {
             style: StrokeStyle(lineWidth: 1, dash: [3, 3])
         )
 
-        distanceLabel(distances.top, at: CGPoint(x: frame.midX, y: frame.minY / 2))
-        distanceLabel(distances.bottom, at: CGPoint(x: frame.midX, y: (frame.maxY + size.height) / 2))
-        distanceLabel(distances.leading, at: CGPoint(x: frame.minX / 2, y: frame.midY))
-        distanceLabel(distances.trailing, at: CGPoint(x: (frame.maxX + size.width) / 2, y: frame.midY))
+        // Through the same solver the size labels use. Four distances around a
+        // small element near an edge land on top of each other otherwise, and
+        // two numbers in the same place are worth less than one.
+        LabelLayer.placed(labels(distances, frame: frame))
     }
 
-    @ViewBuilder
-    private func distanceLabel(_ value: CGFloat, at point: CGPoint) -> some View {
-        if value > 0 {
+    private func labels(_ distances: InternalPadding, frame: CGRect) -> [OverlayLabelItem] {
+        [
+            ("top", distances.top, CGPoint(x: frame.midX, y: frame.minY / 2)),
+            ("bottom", distances.bottom, CGPoint(x: frame.midX, y: (frame.maxY + size.height) / 2)),
+            ("leading", distances.leading, CGPoint(x: frame.minX / 2, y: frame.midY)),
+            ("trailing", distances.trailing, CGPoint(x: (frame.maxX + size.width) / 2, y: frame.midY)),
+        ]
+        .filter { $0.1 > 0 }
+        .map { edge, value, point in
             let (text, color) = OverlayStyle.validated(value, configuration: configuration)
-            OverlayLabel(text: text, color: color)
-                .position(point)
+            return OverlayLabelItem(
+                id: "\(measurement.id).\(edge)",
+                text: text,
+                color: color,
+                preferredCenter: point
+            )
         }
     }
 }

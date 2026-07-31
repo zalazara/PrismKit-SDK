@@ -25,7 +25,17 @@ struct LabelLayer: View {
     let configuration: MeasureConfiguration
 
     var body: some View {
-        let items = buildItems()
+        Self.placed(buildItems())
+    }
+
+    /// Draws a set of labels with their collisions resolved.
+    ///
+    /// Shared rather than duplicated: the selection's distance readouts have
+    /// the same problem as the size labels — several numbers wanting the same
+    /// patch of screen — and solving it twice would mean solving it
+    /// differently in each place.
+    @ViewBuilder
+    static func placed(_ items: [OverlayLabelItem]) -> some View {
         let positions = LabelLayoutSolver.resolve(
             items.map { LabelCandidate(id: $0.id, rect: $0.estimatedRect) }
         )
