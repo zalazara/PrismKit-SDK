@@ -251,7 +251,7 @@
          alt="Prism Inspector — a glass cube holding three stacked, separated layers">
     <h1>Measure SwiftUI layout while it runs.</h1>
     <p class="lede">
-      Prism Inspector reads a running app in the iOS Simulator and lets you work on it
+      Prism Inspector reads a running app — in the iOS Simulator or on an iPhone plugged into your Mac — and lets you work on it
       the way you work in a design tool: click an element to inspect it, ⌥-click a second
       one to measure the space between them, and see immediately when that space is not
       on your design system's scale.
@@ -330,6 +330,51 @@
         notice: it is the one that says "Button" and nothing else. Trait words come from the
         traits SwiftUI already set, so they are what a real user would hear — in the reading
         language you pick, which is separate from the interface language.</p>
+      </div>
+    </div>
+
+    <div class="feature">
+      <div class="tile">
+        <img src="feature-alone.png" width="1470" height="923"
+             alt="A product card's image tile selected on a shop screen. The inspector's On its own section shows two pictures side by side: Alone, a plain blue gradient, and On screen, the same gradient with a white headphones glyph on it — so the glyph is a child, not part of the tile.">
+      </div>
+      <div>
+        <h3>See a component on its own</h3>
+        <p>On screen, a component covered by another, one at zero opacity and one with no height
+        all look the same: like nothing at all. They are three different bugs.</p>
+        <p><strong>Select anything and see it drawn by itself</strong>, next to the same patch of
+        the screen. A blank picture is an answer too — it means the component draws nothing and
+        everything you see in it belongs to its children.</p>
+      </div>
+    </div>
+
+    <div class="feature">
+      <div class="tile">
+        <img src="feature-hierarchy.png" width="1470" height="923"
+             alt="The shop screen exploded into stacked planes seen from an angle: the full screen at the back, then rows and cards stepping forward, with the product image tiles floating in front of their containers.">
+      </div>
+      <div>
+        <h3>Pull the screen apart</h3>
+        <p>The components stacked in depth by how deeply they are nested, and orbitable.
+        <strong>Each plane is drawn without the ones inside it</strong>, so a container that only
+        holds other views reads as empty — which is exactly what it contributes.</p>
+        <p>Crop a flat screenshot instead and every container arrives painted with its children,
+        which stacks into a pile of paper rather than a hierarchy. That is why this is built on
+        renders from the app rather than on the picture.</p>
+      </div>
+    </div>
+
+    <div class="feature">
+      <div class="tile">
+        <img src="feature-live.png" width="1470" height="923"
+             alt="The inspector's Live values section with a Screen margin slider at 34.4, a Title text field and a Shows search toggle. On the canvas the screen title and search field have moved inwards to match the new margin.">
+      </div>
+      <div>
+        <h3>Change a value and watch it re-lay-out</h3>
+        <p>Sizes can be pushed from here into any measured view. For padding, copy and flags the
+        app offers them itself — one modifier hands over the binding it already owns.</p>
+        <p><strong>The app really re-lays-out</strong>: text rewraps, everything below moves, and
+        the measurements follow. It is not a drawing on top of a screenshot.</p>
       </div>
     </div>
 
