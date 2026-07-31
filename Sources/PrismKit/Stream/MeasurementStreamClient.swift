@@ -37,6 +37,10 @@ final class MeasurementStreamClient {
     private let queue = DispatchQueue(label: "PrismKit.StreamClient")
     private let encoder = JSONEncoder()
     private var connection: NWConnection?
+    #if !targetEnvironment(simulator)
+    /// Only on a device, where this side is the one being reached.
+    private var listener: NWListener?
+    #endif
     private var isConnectionReady = false
     private var isSuspended = false
     private var lastConnectionAttempt = Date.distantPast
@@ -62,6 +66,13 @@ final class MeasurementStreamClient {
             self.isSuspended = true
             self.retryTimer?.cancel()
             self.retryTimer = nil
+            #if !targetEnvironment(simulator)
+            // A backgrounded app must stop being reachable too, not merely
+            // stop talking: leaving the port open would let a companion attach
+            // to an app that has been told to stop transmitting.
+            self.listener?.cancel()
+            self.listener = nil
+            #endif
             self.resetConnection()
         }
     }
@@ -100,7 +111,17 @@ final class MeasurementStreamClient {
         if connection == nil {
             guard Date().timeIntervalSince(lastConnectionAttempt) >= reconnectCooldown else { return }
             lastConnectionAttempt = Date()
+            #if targetEnvironment(simulator)
             openConnection()
+            #else
+            // On a device there is nothing to connect *to*: 127.0.0.1 is the
+            // phone. The Mac reaches in over the cable instead, so this side
+            // waits to be reached. Starting the listener is idempotent and
+            // cheap; the guard above keeps it from being attempted in a tight
+            // loop while nobody is plugged in.
+            startListener()
+            #endif
+            return
         }
         guard let connection, var data = try? encoder.encode(snapshot) else { return }
         data.append(0x0A)
@@ -232,6 +253,50 @@ final class MeasurementStreamClient {
         }
         #endif
     }
+
+    #if !targetEnvironment(simulator)
+    /// Waits for the Mac to reach in over the cable.
+    ///
+    /// usbmuxd — the daemon that has been forwarding ports to attached devices
+    /// since long before this tool — makes a listener on the phone reachable
+    /// from the Mac. That is the whole reason the direction flips here: over
+    /// USB the Mac is the one that can start a conversation, and on Wi-Fi the
+    /// phone has no idea which Mac to call.
+    ///
+    /// One connection at a time. A second companion attaching would otherwise
+    /// silently take over the first one's stream.
+    private func startListener() {
+        guard listener == nil else { return }
+        guard let port = NWEndpoint.Port(rawValue: MeasureStreamDefaults.resolvedPort) else { return }
+        guard let listener = try? NWListener(using: .tcp, on: port) else { return }
+
+        listener.newConnectionHandler = { [weak self] connection in
+            guard let self else { return }
+            self.queue.async {
+                // Drop the previous one rather than serving both: two
+                // companions on one app is not a case worth reasoning about.
+                self.connection?.cancel()
+                self.connection = connection
+                self.isConnectionReady = true
+                connection.start(queue: self.queue)
+                self.receiveLoop(on: connection, buffer: Data())
+                self.flushLatest()
+                DispatchQueue.main.async {
+                    MeasurementStreamClient.state.isCompanionConnected = true
+                }
+            }
+        }
+        listener.stateUpdateHandler = { [weak self] state in
+            guard case .failed = state, let self else { return }
+            self.queue.async {
+                self.listener?.cancel()
+                self.listener = nil
+            }
+        }
+        listener.start(queue: queue)
+        self.listener = listener
+    }
+    #endif
 
     private func openConnection() {
         let connection = NWConnection(
