@@ -17,6 +17,26 @@
         <description>Updates for Prism Inspector, the macOS companion for PrismKit.</description>
         <language>en</language>
         <item>
+            <title>1.5.0</title>
+            <pubDate>Fri, 31 Jul 2026 02:31:34 +0000</pubDate>
+            <sparkle:version>63</sparkle:version>
+            <sparkle:shortVersionString>1.5.0</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
+            <description><![CDATA[<h3>New</h3>
+<ul>
+  <li>The guideline warnings, the design check findings and the remaining dialogs now follow the language you picked, rather than staying in English — including the rule names, why each rule matters, and the sentence behind every finding.</li>
+  <li>Guideline warnings now say when a finding also misses EN 301 549 — the standard behind the European Accessibility Act, which an app sold to consumers in the EU has had to meet since 28 June 2025 — and link to the act. Only contrast counts towards it: tap target size is Apple's ask, not Europe's.</li>
+  <li>The App preview chip can now put the simulator into Increase Contrast and into any Dynamic Type size, up to the five accessibility sizes. The app restyles and relayouts live, and the guideline checks re-measure what it drew — so a layout that breaks at larger text shows up here rather than on someone's phone.</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+  <li>Prism Inspector now finds new versions on its own, shortly after launch and hourly while it runs, instead of only when you chose "Check for Updates…". The offer is the same one as before — install now, remind me later, or skip this version.</li>
+  <li>Fixed a crash at launch. The check for the disk image the app was installed from ran while the interface was being built and could take the app down with it; it now happens in the background. A failed move to Applications also says what went wrong instead of looking like nothing happened.</li>
+</ul>
+]]></description>
+            <enclosure url="https://github.com/zalazara/PrismKit-SDK/releases/download/app-v1.5.0/Prism-Inspector-1.5.0.zip" length="8556267" type="application/octet-stream" sparkle:edSignature="9ned1k9DIseWn9xMBEn7yAA7vCY7GmTR63DB00WCKexCCwZddeUhEWFzodAhzkLDfQUSfUTkcVRqJuZsf9DdCQ=="/>
+        </item>
+        <item>
             <title>1.4.0</title>
             <pubDate>Thu, 30 Jul 2026 23:21:51 +0000</pubDate>
             <sparkle:version>57</sparkle:version>
@@ -45,21 +65,6 @@
 </ul>
 ]]></description>
             <enclosure url="https://github.com/zalazara/PrismKit-SDK/releases/download/app-v1.3.1/Prism-Inspector-1.3.1.zip" length="8199740" type="application/octet-stream" sparkle:edSignature="XQskNVh6WGbDwV6L9ZKenZGihtqcqT0kuagkhUf/3bTvurat+IkUVTAa9d5MpK89bDi64V7ntTgxu1SJumjTDg=="/>
-        </item>
-        <item>
-            <title>1.3.0</title>
-            <pubDate>Thu, 30 Jul 2026 17:26:13 -0300</pubDate>
-            <sparkle:version>45</sparkle:version>
-            <sparkle:shortVersionString>1.3.0</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
-            <description><![CDATA[<h3>New</h3>
-<ul>
-  <li><strong>An agent with your project folder can now be told where a difference lives in the code.</strong> A design check says a button is 8 pt shorter than designed; the new <code>locate_in_source</code> tool answers with the file and line that set the height, ranked by what the check disagrees about. It works for views you have named with <code>measure</code> or <code>designNode</code>, which is one more reason to name the ones you care about.</li>
-  <li><strong>The installer window now shows you what to do.</strong> Opening the download gives you the app, the Applications folder and an arrow between them, instead of two icons and a guess.</li>
-  <li><strong>Prism Inspector now offers to install itself properly.</strong> Open it straight from the download and it will tell you that running from a disk image means it can never update itself, offer to move into Applications, and then offer to eject and bin the download. Nothing is moved or deleted without asking.</li>
-</ul>
-]]></description>
-            <enclosure url="https://github.com/zalazara/PrismKit-SDK/releases/download/app-v1.3.0/Prism-Inspector-1.3.0.zip" length="8191805" type="application/octet-stream" sparkle:edSignature="FojzVncTbkSdWraYkVXCi/26BSCKnDkNk6HZ+/quXtD1QWnWDfs+GELms9h58vzzy0ZOyavB6ubeTJHumtNvBw=="/>
         </item>
     </channel>
 </rss>
