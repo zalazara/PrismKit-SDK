@@ -16,8 +16,39 @@ struct MeasureToolbarView: View {
                 panel
                     .transition(.opacity.combined(with: .scale(scale: 0.9, anchor: .bottomTrailing)))
             }
-            toggleButton
+            HStack(spacing: 8) {
+                selectButton
+                toggleButton
+            }
         }
+    }
+
+    /// Selection, promoted out of the panel.
+    ///
+    /// It was a row among nine others, two taps inside a collapsed toolbar,
+    /// and it is the answer to the commonest problem with a busy screen: too
+    /// much drawn at once. Tapping one component and seeing only that one —
+    /// and the distances to the next one you tap — is what people reach for,
+    /// so it should not be the hardest thing to find.
+    private var selectButton: some View {
+        Button {
+            isSelectionEnabled.toggle()
+            if !isSelectionEnabled { selection.clear() }
+        } label: {
+            Image(systemName: isSelectionEnabled ? "cursorarrow.click.2" : "cursorarrow")
+                .font(.system(size: 15, weight: .semibold))
+                .foregroundColor(isSelectionEnabled ? .white : .primary)
+                .frame(width: 40, height: 40)
+                .background(
+                    isSelectionEnabled ? AnyShapeStyle(Color.accentColor) : AnyShapeStyle(.ultraThinMaterial),
+                    in: Circle()
+                )
+                .overlay(Circle().strokeBorder(Color.primary.opacity(0.15)))
+        }
+        .buttonStyle(.plain)
+        // Turning it off clears the selection, because leaving elements
+        // selected while nothing can be selected is a state with no way out.
+        .accessibilityLabel(isSelectionEnabled ? "Stop selecting" : "Select components")
     }
 
     private var toggleButton: some View {

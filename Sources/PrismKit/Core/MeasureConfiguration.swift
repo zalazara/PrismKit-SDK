@@ -37,9 +37,27 @@ public struct MeasureConfiguration: Equatable, Sendable {
         spacingTokens: [CGFloat] = [4, 8, 12, 16, 24, 32, 40, 48],
         showsGrid: Bool = false,
         showsSafeArea: Bool = false,
-        showsBounds: Bool = true,
-        showsSizeLabels: Bool = true,
-        showsInternalPadding: Bool = true,
+        // Off by default. Drawing bounds, sizes and padding for every
+        // instrumented view at once is legible on the demo screen it was
+        // designed against and unreadable on a real one: fifty measured
+        // components become a thicket of overlapping labels, and nothing can
+        // be read because everything is drawn.
+        //
+        // That is not a guess. The same decision had already been made twice
+        // by working around this default — the Mac companion starts with a
+        // clean canvas and opts layers in from its toolbar, and the example
+        // app passed these three as false with a comment reading "quiet
+        // overlay layers by default". When every caller overrides a default,
+        // the default is the thing that is wrong.
+        //
+        // Turn them on from the floating toolbar, or pass them here. On a busy
+        // screen selection mode is the better route: it draws only what you
+        // tap, which is the question you actually had.
+        showsBounds: Bool = false,
+        showsSizeLabels: Bool = false,
+        showsInternalPadding: Bool = false,
+        // Stays on: it draws only between elements you have selected, so it
+        // adds nothing to a screen nobody has touched.
         showsExternalSpacing: Bool = true,
         validatesTokens: Bool = true
     ) {

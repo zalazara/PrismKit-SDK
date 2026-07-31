@@ -32,16 +32,11 @@ struct PlaygroundScreen: View {
                     }
                 }
         }
-        // Quiet overlay layers by default. The floating toolbar is automatic:
-        // it shows when testing on device (no companion) and steps aside
-        // while the Mac companion is connected.
-        .measureScope(
-            configuration: MeasureConfiguration(
-                showsBounds: false,
-                showsSizeLabels: false,
-                showsInternalPadding: false
-            )
-        )
+        // No configuration: the defaults are already quiet, and this used to
+        // pass three of them as false to make them so. The floating toolbar is
+        // automatic — it shows when testing on device (no companion) and steps
+        // aside while the Mac companion is connected.
+        .measureScope()
     }
 
     /// Resolves `-autopush <slug>` into the stack the app opens with. A screen
