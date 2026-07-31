@@ -56,6 +56,17 @@ public struct MeasurementSnapshot: Codable, Equatable, Sendable {
     /// saved sessions written then — still decode.
     public var tweaks: [Tweak]?
 
+    /// The simulator this app is running in, when it is running in one.
+    ///
+    /// Without it the companion has to guess which booted simulator to work
+    /// with, and it guessed the first one by name. With two booted, every
+    /// `simctl` command — appearance, Increase Contrast, Dynamic Type,
+    /// relaunch — could land on a simulator that is not running the app being
+    /// inspected, and nothing appeared to happen.
+    ///
+    /// Nil on a real device, and on macOS.
+    public var simulatorUDID: String?
+
     public init(
         appName: String,
         bundleID: String = "",
@@ -66,7 +77,8 @@ public struct MeasurementSnapshot: Codable, Equatable, Sendable {
         measurements: [ResolvedMeasurement],
         accessibilityElements: [AccessibilityElementInfo] = [],
         accessibilityTree: [AccessibilityTreeNode]? = nil,
-        tweaks: [Tweak]? = nil
+        tweaks: [Tweak]? = nil,
+        simulatorUDID: String? = nil
     ) {
         self.appName = appName
         self.bundleID = bundleID
@@ -78,6 +90,7 @@ public struct MeasurementSnapshot: Codable, Equatable, Sendable {
         self.accessibilityElements = accessibilityElements
         self.accessibilityTree = accessibilityTree
         self.tweaks = tweaks
+        self.simulatorUDID = simulatorUDID
     }
 
     /// The frame of a measurement converted to screen (global) coordinates.

@@ -168,4 +168,25 @@ final class MeasurementSnapshotTests: XCTestCase {
         let decoded = try JSONDecoder().decode(MeasurementSnapshot.self, from: data)
         XCTAssertNil(decoded.accessibilityTree)
     }
+
+    func testSimulatorUDIDSurvivesTheRoundTrip() throws {
+        // The companion picks which simulator to drive from this. Losing it on
+        // the wire puts every `simctl` command back on a guess.
+        var snapshot = makeSnapshot()
+        snapshot.simulatorUDID = "7632226C-2B95-4B62-B94A-07EA5874A6F1"
+        let data = try JSONEncoder().encode(snapshot)
+        let decoded = try JSONDecoder().decode(MeasurementSnapshot.self, from: data)
+
+        XCTAssertEqual(decoded.simulatorUDID, "7632226C-2B95-4B62-B94A-07EA5874A6F1")
+    }
+
+    func testDecodingSnapshotWithoutSimulatorUDIDSucceeds() throws {
+        // A device reports none, and so does an app built against an older SDK.
+        var snapshot = makeSnapshot()
+        snapshot.simulatorUDID = nil
+        let data = try JSONEncoder().encode(snapshot)
+        XCTAssertFalse(String(data: data, encoding: .utf8)!.contains("simulatorUDID"))
+
+        XCTAssertNil(try JSONDecoder().decode(MeasurementSnapshot.self, from: data).simulatorUDID)
+    }
 }

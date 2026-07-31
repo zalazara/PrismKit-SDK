@@ -258,6 +258,10 @@ private struct MeasureScopeModifier: ViewModifier {
         }
     }
 
+    /// Set by the simulator for every process it runs, so the app can say
+    /// which one it is in without asking anybody.
+    private static let simulatorUDID = ProcessInfo.processInfo.environment["SIMULATOR_UDID"]
+
     private func makeSnapshot(
         measurements: [ResolvedMeasurement],
         proxy: GeometryProxy
@@ -280,7 +284,8 @@ private struct MeasureScopeModifier: ViewModifier {
             // Read as the snapshot is assembled, so the values are the ones
             // the app is showing rather than the ones it was showing when a
             // tweak first registered.
-            tweaks: TweakRegistry.shared.current
+            tweaks: TweakRegistry.shared.current,
+            simulatorUDID: Self.simulatorUDID
         )
     }
 
