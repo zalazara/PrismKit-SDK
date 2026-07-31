@@ -155,7 +155,16 @@ private struct MeasureModifier: ViewModifier {
             // cannot leave a `navigationDestination`, so a scope above the
             // navigation stack never heard from any screen but the first —
             // see `MeasurementStore`.
-            .background(reporter)
+            //
+            // Installed only while a scope is switched on. Watching a frame
+            // costs a layout container per measured view, and an app whose
+            // scope is off — or that has none at all — should not be paying
+            // for an answer nobody is going to read. With no scope the
+            // environment default is false, so a stray `measure()` left in a
+            // screen is free.
+            .background {
+                if isEnabled { reporter }
+            }
             .onAppear { isVisible = true }
             .onDisappear {
                 isVisible = false
@@ -180,9 +189,9 @@ private struct MeasureModifier: ViewModifier {
             Color.clear
                 .onAppear { report(frame) }
                 .onChange(of: frame) { report($0) }
-                // A scope switched off mid-session has to take its
-                // measurements with it.
-                .onChange(of: isEnabled) { _ in report(frame) }
+                // Leaving the hierarchy when a scope switches off does not
+                // fire onDisappear, so the entry has to be withdrawn here.
+                .onDisappear { MeasurementStore.shared.forget(id) }
         }
     }
 
