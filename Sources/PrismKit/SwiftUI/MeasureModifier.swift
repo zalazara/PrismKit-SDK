@@ -31,7 +31,7 @@ extension View {
     /// ## Wrapping this
     ///
     /// A helper that calls `measure` for you is the normal thing to write, and
-    /// it silently ruins the call site unless it forwards one:
+    /// it silently ruins the call site unless it forwards both parameters:
     ///
     /// ```swift
     /// func designNode(
@@ -43,10 +43,10 @@ extension View {
     /// }
     /// ```
     ///
-    /// Without those two parameters the compiler fills them in at the helper,
-    /// so every view wrapped by it reports the helper's own line — one answer,
-    /// the same wrong one, for the whole app. This example's `designNode` got
-    /// it wrong first and reported seventy components as living on one line.
+    /// Without them the compiler fills them in at the helper, so every view
+    /// wrapped by it reports the helper's own line — the same wrong answer for
+    /// the whole app. This example's `designNode` did exactly that, and put
+    /// seventy components on one line.
     public func measure(
         _ group: String,
         role: MeasurementRole = .container,
@@ -56,10 +56,9 @@ extension View {
     ) -> some View {
         #if DEBUG
         // Registered from here, where `self` is the view itself. Inside the
-        // modifier the equivalent is `Content`, which is a placeholder that
-        // stands for "whatever this modifier was applied to" and resolves only
-        // as the modifier is applied — handing it to ImageRenderer produces
-        // nothing at all, which is exactly what it did.
+        // modifier the equivalent is `Content`, a placeholder that resolves
+        // only as the modifier is applied. ImageRenderer draws nothing from
+        // it, which is exactly what happened.
         registerSoloRenderer(id: "\(group)#\(role.label)", view: self)
         return modifier(
             MeasureModifier(
@@ -70,18 +69,18 @@ extension View {
             )
         )
         #else
-        // The arguments are declared in release and ignored, rather than not
-        // declared at all. Not declaring them is airtight against literals
-        // reaching a shipping binary, and it was the first design — but it
-        // makes the wrapper above fail to compile in release, which pushes
-        // `#if DEBUG` into every consumer's helper. That trade is not worth
-        // it, for two reasons. The optimizer strips an ignored argument
-        // anyway: measured across a module boundary in a release build, the
-        // file name is in the binary when the callee reads it and absent when
-        // it does not. And a wrapper captures `#fileID` in the consumer's own
-        // code regardless, so the SDK refusing the parameter moves the
-        // question rather than answering it. `#filePath` is the one that would
-        // genuinely matter if it leaked, so it is not captured at all.
+        // Declared and ignored in release, not omitted. Omitting them is
+        // airtight against literals reaching a shipping binary and was the
+        // first design, but it breaks the wrapper above in release builds,
+        // pushing `#if DEBUG` into every consumer's helper.
+        //
+        // Two things make that trade a bad one. The optimizer strips an
+        // ignored argument anyway — measured across a module boundary in a
+        // release build, the file name is present when the callee reads it and
+        // absent when it does not. And a wrapper captures `#fileID` in the
+        // consumer's own code either way, so refusing the parameter moves the
+        // question instead of answering it. `#filePath` is the one that would
+        // matter, and it is never captured.
         self
         #endif
     }
@@ -91,11 +90,10 @@ extension View {
     /// with `prismHidesNestedMeasurements` set so every measured view inside
     /// it takes up its space without drawing.
     ///
-    /// The view is drawn out of its context, so it gets the size the
-    /// measurement recorded and the default environment rather than the ones
-    /// its ancestors would have given it. A component that reads
-    /// `\.colorScheme` therefore draws light here even on a dark screen. That
-    /// is a known limit of drawing something on its own, not a bug to chase.
+    /// Drawn out of context, so it gets the recorded size and the default
+    /// environment instead of whatever its ancestors would have supplied. A
+    /// component reading `\.colorScheme` draws light here even on a dark
+    /// screen — a limit of drawing something alone, not a bug to chase.
     fileprivate func registerSoloRenderer(id: String, view: some View) {
         #if canImport(UIKit)
         guard #available(iOS 16.0, *) else { return }

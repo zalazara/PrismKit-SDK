@@ -9,9 +9,8 @@ import UIKit
 /// this one — being nested inside it — must take up its space without drawing
 /// anything.
 ///
-/// Environment rather than a flag on a store because the question is exactly
-/// "am I inside the view being drawn", and that is what the environment
-/// already answers: only descendants of the target ever see it set.
+/// The environment and not a flag on a store: the question is "am I inside the
+/// view being drawn", and only descendants of the target ever see it set.
 struct HidesNestedMeasurementsKey: EnvironmentKey {
     static let defaultValue = false
 }
@@ -25,11 +24,10 @@ extension EnvironmentValues {
 
 /// Draws one instrumented component on its own, off screen.
 ///
-/// Off screen matters. The obvious implementation hides the nested measured
-/// views in the live hierarchy, takes a picture and puts them back — and the
-/// app being measured visibly flickers while a debugging tool rearranges it.
-/// `ImageRenderer` draws a view without touching what is on screen, so nobody
-/// watching the simulator sees anything happen at all.
+/// Off screen matters. Hiding the nested measured views in the live hierarchy,
+/// taking a picture and putting them back makes the app visibly flicker while
+/// a debugging tool rearranges it. `ImageRenderer` draws without touching what
+/// is on screen.
 ///
 /// The cost is that the view is drawn out of its context: it gets the size the
 /// measurement recorded rather than the one its parent would have given it.

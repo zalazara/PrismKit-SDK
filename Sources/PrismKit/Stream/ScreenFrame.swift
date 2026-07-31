@@ -3,16 +3,14 @@ import Foundation
 
 /// A rendered picture of the app's screen, sent app → companion.
 ///
-/// The companion has always had a picture: it asks `simctl` for one. That
-/// works precisely as long as the thing being measured is a simulator, which
-/// is the assumption this exists to remove — there is no `simctl` for a phone
-/// on the end of a cable. Having the app render its own screen makes the
-/// canvas independent of how the app is being run.
+/// The companion normally asks `simctl` for a picture, which works exactly as
+/// long as the thing being measured is a simulator. There is no `simctl` for a
+/// phone on a cable, so the app rendering its own screen is what makes the
+/// canvas independent of how the app is run.
 ///
-/// Lossless on purpose. The contrast rule reads the colours of the pixels that
-/// were actually drawn, so a lossy frame would not merely look worse, it would
-/// change the reported contrast ratio and with it whether a finding exists.
-/// A frame is large and rare; a wrong accessibility verdict is neither.
+/// Lossless on purpose: the contrast rule reads the colours actually drawn, so
+/// a lossy frame would change the reported ratio and with it whether a finding
+/// exists. A frame is large and rare; a wrong accessibility verdict is not.
 public struct ScreenFrame: Codable, Equatable, Sendable {
     /// Size in points.
     public let width: CGFloat
@@ -21,9 +19,8 @@ public struct ScreenFrame: Codable, Equatable, Sendable {
     /// The device's scale, so the companion can map the pixels back to points.
     public let scale: CGFloat
 
-    /// PNG data. `Data` travels as base64 in the JSON line, which costs a
-    /// third more bytes than the file on disk — worth it to keep one framing
-    /// rule for every message on this socket.
+    /// PNG data, base64 in the JSON line. A third more bytes than the file on
+    /// disk, in exchange for one framing rule on the whole socket.
     public let png: Data
 
     public init(width: CGFloat, height: CGFloat, scale: CGFloat, png: Data) {

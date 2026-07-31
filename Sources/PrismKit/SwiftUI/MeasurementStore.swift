@@ -7,22 +7,19 @@ import SwiftUI
 /// Where measured views report themselves, instead of handing their frames up
 /// the view tree as preferences.
 ///
-/// Preferences travel from a child to an ancestor, and they do not travel out
-/// of a `navigationDestination`: a screen pushed onto a `NavigationStack`
-/// cannot hand anything to a scope placed above the stack. The consequence was
-/// not subtle — navigate anywhere and every measurement vanished, so the
-/// overlay drew nothing, nothing could be selected, and the companion, the
-/// design check and the accessibility rules all saw an empty screen. Only the
-/// first screen ever worked.
+/// Preferences travel from a child to an ancestor, but not out of a
+/// `navigationDestination`: a screen pushed onto a `NavigationStack` cannot
+/// hand anything to a scope above the stack. Navigate anywhere and every
+/// measurement vanished — no overlay, nothing selectable, and an empty screen
+/// for the companion, the design check and the accessibility rules alike. Only
+/// the first screen ever worked.
 ///
-/// It survived because the test that was meant to catch it launched straight
-/// into the pushed screen with `-autopush`, where the screen is present from
-/// the start and never has to cross the boundary. Arriving somewhere and
-/// navigating there are not the same thing, and only one of them was tried.
+/// It survived because the test meant to catch it launched straight into the
+/// pushed screen with `-autopush`, so the screen never crossed the boundary.
+/// Arriving somewhere and navigating there are not the same thing.
 ///
-/// A store is not subject to that rule. A measured view reports where it is
-/// and the scope reads it, however deep in a navigation stack either of them
-/// happens to be.
+/// A store has no such rule: a measured view reports where it is and the scope
+/// reads it, however deep either sits in a navigation stack.
 @MainActor
 final class MeasurementStore: ObservableObject {
     static let shared = MeasurementStore()

@@ -4,17 +4,15 @@ import Foundation
 /// One component drawn on its own, without the instrumented views nested
 /// inside it.
 ///
-/// The reason this exists rather than cropping the screen: a crop of a
-/// container contains everything drawn on top of it, so a stack of cropped
-/// containers reads as a pile of paper rather than a hierarchy. Lookin and
-/// Reveal both landed on the same answer — two pictures per view, one with its
+/// Why not crop the screen: a crop of a container carries everything drawn on
+/// top of it, so a stack of cropped containers is a pile of paper. Lookin and
+/// Reveal both arrived at the same answer — two pictures per view, one with
 /// children and one without — after finding that stacking single images by
-/// z-order does not reproduce the screen either, because clipping and masking
-/// are not "layers piled up".
+/// z-order does not reproduce the screen either, since clipping and masking
+/// are not layers piled up.
 ///
-/// Only the "without" half travels. The "with children" half is a crop of the
-/// screen frame the companion already has, and sending it again would be
-/// paying twice for the same pixels.
+/// Only the "without" half travels. The other half is a crop of a screen frame
+/// the companion already holds.
 public struct ComponentRender: Codable, Equatable, Sendable {
     /// The measurement id ("group#role") this is a picture of.
     public let id: String

@@ -37,11 +37,9 @@ public struct MeasureConfiguration: Equatable, Sendable {
         spacingTokens: [CGFloat] = [4, 8, 12, 16, 24, 32, 40, 48],
         showsGrid: Bool = false,
         showsSafeArea: Bool = false,
-        // Off by default. Drawing bounds, sizes and padding for every
-        // instrumented view at once is legible on the demo screen it was
-        // designed against and unreadable on a real one: fifty measured
-        // components become a thicket of overlapping labels, and nothing can
-        // be read because everything is drawn.
+        // Off by default. Bounds, sizes and padding for every instrumented
+        // view at once is legible on a demo screen and unreadable on a real
+        // one: fifty components become a thicket of overlapping labels.
         //
         // That is not a guess. The same decision had already been made twice
         // by working around this default — the Mac companion starts with a

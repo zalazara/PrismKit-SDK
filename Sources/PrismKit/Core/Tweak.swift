@@ -3,18 +3,16 @@ import Foundation
 
 /// A value the app has offered to let the companion change while it runs.
 ///
-/// Size overrides work from outside because `measure` wraps the view and can
-/// impose a frame on it. Nothing else can be reached that way: padding,
-/// spacing, a colour and a piece of copy are arguments a component was
-/// constructed with, and from outside the process there is no object left to
-/// ask. An earlier attempt to fake it — drawing replacement text over the
-/// screenshot in the companion — was removed for being a lie about what the
-/// app was doing.
+/// A size override works from outside because `measure` wraps the view and can
+/// impose a frame. Padding, spacing, colour and copy cannot be reached that
+/// way — they are arguments a component was constructed with, and from outside
+/// the process there is nothing left to ask. Faking it by drawing replacement
+/// text over the companion's screenshot was tried and removed: it lied about
+/// what the app was doing.
 ///
-/// So the component says. It hands over a binding, which is already a getter
-/// and a setter, and the companion drives that. What can be changed is then a
-/// decision in the app's own code rather than a guess made from outside, and
-/// nothing is ever shown as editable that is not.
+/// So the component hands over a binding, which is already a getter and a
+/// setter, and the companion drives that. What is editable becomes a decision
+/// in the app's own code.
 public struct Tweak: Codable, Equatable, Sendable, Identifiable {
     /// What the app called it — "Card padding", "Row spacing". Also the key
     /// the companion sends changes back under, so it has to be unique within
@@ -35,9 +33,8 @@ public struct Tweak: Codable, Equatable, Sendable, Identifiable {
     /// What the value was when the app first offered it — the number written
     /// in the source, before anybody dragged anything.
     ///
-    /// Carried so a change can be undone. Without it the only way back to the
-    /// original is to remember it yourself and type it in, which is not an
-    /// undo, and every other editable thing here has a way back.
+    /// Carried so a change can be undone. Without it the only way back is to
+    /// remember the number and retype it, which is not an undo.
     ///
     /// Optional because an app built against an earlier PrismKit does not send
     /// one; the companion simply offers no reset for those.
